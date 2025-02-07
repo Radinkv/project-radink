@@ -1,6 +1,7 @@
 package model.equipment.cardio;
 
-import model.equipment.BaseEquipment;
+import model.association.ExerciseAssociator;
+import model.equipment.Equipment;
 
 /*
  * Represents the abstraction of exercise equipments that revolve around CARDIO.
@@ -9,7 +10,7 @@ import model.equipment.BaseEquipment;
  * 1. Weight based.
  * 2. Are of 'Cardio Equipment' type.  
  */
-public abstract class CardioEquipment extends BaseEquipment {
+public abstract class CardioEquipment extends ExerciseAssociator implements Equipment {
 
     // EFFECTS: Return 'Cardio' as the equipment type of this equipment.
     @Override

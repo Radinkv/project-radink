@@ -4,6 +4,7 @@ import java.util.Map;
 import java.time.Duration;
 
 import model.equipment.Equipment;
+import model.muscle.MuscleGroup;
 
 /**
  * Represents the abstraction of a general exercise. This interface is implemented by different classes; 
@@ -26,6 +27,8 @@ public interface Exercise {
     String exerciseType();
 
     Equipment getRequiredEquipment();
+
+    MuscleGroup getMusclesTargeted();
 
     Map<String, Double> getInfo(); 
 }

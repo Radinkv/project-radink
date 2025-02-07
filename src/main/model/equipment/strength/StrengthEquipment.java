@@ -1,6 +1,7 @@
 package model.equipment.strength;
 
-import model.equipment.BaseEquipment;
+import model.association.ExerciseAssociator;
+import model.equipment.Equipment;
 
 /*
  * Represents the abstraction of exercise equipments that revolve around STRENGTH.
@@ -9,7 +10,7 @@ import model.equipment.BaseEquipment;
  * 1. Weight based.
  * 2. Are of 'Strength Equipment' type.  
  */
-public abstract class StrengthEquipment extends BaseEquipment {
+public abstract class StrengthEquipment extends ExerciseAssociator implements Equipment {
 
     // EFFECTS: Return 'Strength' as the equipment type of this equipment.
     @Override

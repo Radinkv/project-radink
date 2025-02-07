@@ -1,11 +1,6 @@
 package model.equipment;
 
-import java.time.Duration;
-import java.util.*;
-
-import model.exercise.Exercise;
-
-/*
+/**
  * Represents the basic abstraction of a piece of exercise equipment.
  * All instantiated instances of exercise equipments MUST be able to:
  * 
@@ -21,19 +16,9 @@ import model.exercise.Exercise;
  * See abstract classes for detailed method specification clauses.
 */
 public interface Equipment {
-
-    void associateExercise(Exercise exercise);
-
-    void dissociateExercise(Exercise exercise);
-
-    List<Exercise> getAssociatedExercises();
-
-    Duration getAssociatedExercisesTotalDuration();
-
     String getEquipmentType();
 
     String getEquipmentName();
     
     boolean isWeightBased();
-    
 }
