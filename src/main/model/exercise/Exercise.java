@@ -15,20 +15,34 @@ import model.muscle.MuscleGroup;
  * sets, or perhaps cardio exercises (20 minute continuous run).
  * 
  * The intent of this separation is to organise different ways of exercising for the program, allowing for the most/best
- * user-customization.
+ * user-customization and analytical insight.
  * 
  * See Exercise subclasses for method specifications & clauses.
  */
-public interface Exercise {
-    String getName();
+public abstract class Exercise {
 
-    Duration getDuration();
+    // MODIFIES: this
+    // EFFECTS: Dissociate the previous Muscle objects in this strength exercise's muscle group from this exercise.
+    //          Then, change the previous muscle group of this strength exercise to this muscle group, associate with 
+    //          the new muscles with this exercise, and then return true. However, if the muscles in muscleGroup are 
+    //          the same as this current exercise's muscle group, return false and make no changes.
+    public boolean modifyMuscleGroup(MuscleGroup muscleGroup) {
+        return false;
+    }
 
-    String exerciseType();
+    public String getName() {
+        return "";
+    }
 
-    Equipment getRequiredEquipment();
+    abstract Duration getDuration();
 
-    MuscleGroup getMusclesTargeted();
+    abstract String exerciseType();
 
-    Map<String, Double> getInfo(); 
+    abstract Equipment getRequiredEquipment();
+
+    public MuscleGroup getMusclesTargeted() {
+        return new MuscleGroup();
+    }
+
+    abstract Map<String, Double> getInfo(); 
 }

@@ -8,7 +8,7 @@ import model.equipment.Equipment;
 import model.equipment.cardio.Treadmill;
 import model.muscle.MuscleGroup;
 
-public class EnduranceExercise implements Exercise {
+public class EnduranceExercise extends Exercise {
 
     // REQUIRES: totalDuration > 0
     /* EFFECTS: Create an instance of this endurance exercise, initializing:
@@ -52,8 +52,8 @@ public class EnduranceExercise implements Exercise {
     }
 
     /* EFFECTS: Return three key-value pairs for this endurance exercise: 
-             1. 'Time On' and 'Time Off' (interval durations in seconds) 
-             2. 'Repetitions' (number of repetitions) */
+             1, 2. 'Time On' and 'Time Off' (interval durations in seconds) 
+             3. 'Repetitions' (number of repetitions) */
     @Override
     public Map<String, Double> getInfo() {
         return new HashMap<String, Double>(); // stub

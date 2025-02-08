@@ -8,27 +8,43 @@ import model.equipment.Equipment;
 import model.equipment.cardio.Treadmill;
 import model.muscle.MuscleGroup;
 
-public class StrengthExercise implements Exercise {
+public class StrengthExercise extends Exercise {
 
-    // REQUIRES: sets, reps, numSecondsPerRep > 0
+    // REQUIRES: 
     /* EFFECTS: Create an instance of a strength/hypertrophy exercise, initializing:
-             1. This exercise's name
-             2. Number of sets and reps
-             3. Time per rep (seconds) and rest time (minutes)
-             4. The equipment used for this exercise
-             5. Targeted muscle group(s) */
+                1. This exercise's name
+                2. Number of sets and reps
+                3, 4. Time per rep (seconds) and rest time (minutes)
+                5. The equipment used for this exercise
+                6. Targeted muscle group(s) 
+                IF ANY OF sets, reps, numSecondsPerRep < 0, they are set to 0, respectively. */
     public StrengthExercise(String name, int sets, int reps, double numSecondsPerRep, 
                             double restTime, Equipment equipmentUsed, MuscleGroup musclesTargeted) {
 
     }
 
-    // EFFECTS: Return this exercise's name
-    @Override
-    public String getName() {
-        return "";
+    // MODIFIES: this
+    // EFFECTS: Change the sets of this strength exercise by sets and return true. However, if sets < 0,
+    //          return false and make no changes. 
+    public boolean modifySets(int sets) {
+        return false;
     }
 
-    // EFFECTS: Return this exercise's total duration, in minutes
+    // MODIFIES: this
+    // EFFECTS: Change the reps of this strength exercise by sets and return true. However, if reps < 0,
+    //          return false and make no changes. 
+    public boolean modifyReps(int reps) {
+        return false;
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Change the rest time of this strength exercise by sets and return true. However, if seconds < 0,
+    //          return false and make no changes. 
+    public boolean modifyRestTime(int seconds) {
+        return false;
+    }
+
+    // EFFECTS: Calculate and return this exercise's total duration, rounded to the nearest minute.
     @Override
     public Duration getDuration() {
         return Duration.ofMinutes(0);
@@ -53,9 +69,9 @@ public class StrengthExercise implements Exercise {
     }
 
     /* EFFECTS: Return four key-value pairs for information about this exercise: 
-             1. 'Sets' and 'Reps' (number of repetitions) 
-             2. 'Rest time' (duration in seconds)
-             3. 'Time per rep' (duration in seconds) */
+             1, 2. 'Sets' and 'Reps' (number of repetitions) 
+             3. 'Rest time' (duration in seconds)
+             4. 'Time per rep' (duration in seconds) */
     @Override
     public Map<String, Double> getInfo() {
         return new HashMap<String, Double>();

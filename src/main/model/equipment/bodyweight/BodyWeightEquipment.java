@@ -7,12 +7,12 @@ import model.equipment.Equipment;
  * Represents the abstraction of exercise equipments that revolve around BODYWEIGHT.
  * These type of equipments have different behaviours within the program. 
  * In particular, exercise equipments which implement BodyWeightEquipment are:
- * 1. Not weight based.
+ * 1. Not weight-based.
  * 2. Are of 'Bodyweight Equipment' type.  
  */
 public abstract class BodyWeightEquipment extends ExerciseAssociator implements Equipment {
 
-    // EFFECTS: Return 'Bodyweightzi' as the equipment type of this equipment.
+    // EFFECTS: Return 'Bodyweight' as the equipment type of this equipment.
     @Override
     public String getEquipmentType() {
         return ""; // stub

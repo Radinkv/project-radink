@@ -8,7 +8,7 @@ import model.equipment.Equipment;
 import model.equipment.cardio.Treadmill;
 import model.muscle.MuscleGroup;
 
-public class IntervalExercise implements Exercise {
+public class IntervalExercise extends Exercise {
 
     // REQUIRES: timeOn, timeOff, numRepetitions > 0
     /* EFFECTS: Creates an instance of a interval-based exercise, initializing this exercise's:
@@ -20,12 +20,6 @@ public class IntervalExercise implements Exercise {
     public IntervalExercise(String name, double timeOn, double timeOff, 
                             int numRepititions, Equipment equipmentUsed, MuscleGroup musclesTargeted) {
 
-    }
-
-    // EFFECTS: Return this exercise's name
-    @Override
-    public String getName() {
-        return "";
     }
 
     // EFFECTS: Return this exercise's total duration, in minutes

@@ -7,7 +7,7 @@ import model.equipment.Equipment;
  * Represents the abstraction of exercise equipments that revolve around CARDIO.
  * These type of equipments have different behaviours within the program. 
  * In particular, exercise equipments which implement CardioEquipment are:
- * 1. Weight based.
+ * 1. Not weight-based.
  * 2. Are of 'Cardio Equipment' type.  
  */
 public abstract class CardioEquipment extends ExerciseAssociator implements Equipment {
