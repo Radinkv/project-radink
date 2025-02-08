@@ -5,9 +5,21 @@ import java.util.HashMap;
 import java.util.Map;
 
 import model.equipment.Equipment;
-import model.equipment.cardio.Treadmill;
 import model.muscle.MuscleGroup;
 
+/**
+ * REPRESENTS: an interval-based exercise performed for a set duration
+ * 
+ * USED BY:
+ *      1. Workouts that include interval exercises
+ *      2. MuscleGroups that track interval-based exercise impacts
+ *      3. Equipment that categorizes exercises based on usage
+ * 
+ * PURPOSE: Models an interval exercise where the primary variable is time spent performing it
+ *          Tracks exercise name, duration, equipment used, and targeted muscles
+ * 
+ * MUTABILITY: Immutable 
+ */
 public class IntervalExercise extends Exercise {
 
     // REQUIRES: timeOn, timeOff, numRepetitions > 0
@@ -22,33 +34,15 @@ public class IntervalExercise extends Exercise {
 
     }
 
-    // EFFECTS: Return this exercise's total duration, in minutes
+    // EFFECTS: Return this interval exercise's total duration, in minutes
     @Override
     public Duration getDuration() {
         return Duration.ofMinutes(0);
     }
     
-    // EFFECTS: Return 'Interval' as this exercise's type
-    @Override
-    public String exerciseType() {
-        return "";
-    }
-
-    // EFFECTS: Return the equipment this endurance exercise targets
-    @Override
-    public Equipment getRequiredEquipment() {
-        return new Treadmill(); // stub
-    }
-
-    // EFFECTS: Return the group of muscles this endurance exercise targets
-    @Override
-    public MuscleGroup getMusclesTargeted() {
-        return new MuscleGroup(); // stub
-    }
-
-    /* EFFECTS: Return three key-value pairs for this exercise: 
-             1. 'Time On' and 'Time Off' (interval durations in seconds) 
-             2. 'Repetitions' (number of repetitions) */
+    // EFFECTS: Return key-value pairs of information about this exercise: 
+    //        1, 2. 'timeOn' and 'timeOff' (interval durations in seconds) 
+    //        3. 'repititions' (number of timeOn -> timeOff repetitions)
     @Override
     public Map<String, Double> getInfo() {
         return new HashMap<String, Double>();

@@ -1,15 +1,17 @@
 package model.equipment.strength;
 
 /**
- * Represents a type of cardio training equipment: the Barbell.
+ * REPRESENTS: a type of cardio training equipment: Barbell. A categorical label for 
+ * exercises performed using a barbell.
  * 
- * This class is mutable. It serves as a categorical label for exercises that the user specifies are barbell-based.
- * It stores a list of exercises that the user specifies are performed with a barbell when building their exercise and
- * workout library.
+ * USED BY:
+ *      1. Exercises classified as barbell-based
+ *      2. Workouts that include barbell exercises
  * 
- * If this class/object is instantiated (the user specifies one or more of their workouts with this equipment), only one
- * instance of this object is constructed to remain in the program. ALL associated exercises will refer to this same
- * equipment object.
+ * PURPOSE: This class ensures all barbell exercises refer to a single instance of this equipment,
+ *          which allows for cumulating exercise metrics unique to this euipment.
+ * 
+ * MUTABILITY: Immutable
  */
 public class Barbell extends StrengthEquipment {
 

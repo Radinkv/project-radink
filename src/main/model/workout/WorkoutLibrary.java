@@ -1,38 +1,48 @@
 package model.workout;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+/**
+ * REPRESENTS: a collection of workout plans (both workouts and rest days)
+ * 
+ * USED BY:
+ *      1. WeeklySchedule to assign workouts to specific days
+ *      2. UI components that display stored workouts
+ * 
+ * PURPOSE: Stores and manages a set of named workout plans
+ *          Ensures each workout has a unique name
+ *          Allows retrieval and removal of stored workouts
+ * 
+ * MUTABILITY: Mutable
+ */
 public class WorkoutLibrary {
 
-    // EFFECTS: Initialize this WorkoutLibrary beginning with an initial list of workouts to store.  
-    public WorkoutLibrary(List<Workout> workouts) {
-        
-    }
-
-    // EFFECTS: Initialize this WorkoutLibrary without a list of initial workouts to store.  
-    public WorkoutLibrary() {
-        
-    }
-
-    // REQUIRES: workout is not null
     // MODIFIES: this
-    // EFFECTS: Add workout to this workout library to store
-    public void addWorkoutToLibrary(Workout workout) {
-
+    // EFFECTS: Add the given workout plan to the library if no workout with the same name exists
+    //          Throw IllegalArgumentException if workoutPlan is null 
+    //          Throw IllegalArgumentException if a workout with the same name already exists
+    public void addWorkout(WorkoutPlan workoutPlan) throws IllegalArgumentException {
+        return; // stub
     }
-    
-    // REQUIRES: workoutName points to (is the name of) a workout in this workout library.
+
     // MODIFIES: this
-    // EFFECTS: Remove the given workout, by name, from this workout library.
-    public void removeWorkoutFromLibrary(String workoutName) {
-
+    // EFFECTS: Remove the workout with the given name if present
+    //          Throw IllegalArgumentException if workoutName is null 
+    //          Throw IllegalArgumentException if no workout with this name exists
+    public void removeWorkout(String workoutName) throws IllegalArgumentException {
+        return; // stub
     }
 
-    public void getWorkoutByNameFromLibrary(String name) {
-
+    // EFFECTS: Return the workout plan with the given name
+    //          Throw IllegalArgumentException if workoutName is null or does not exist
+    public WorkoutPlan getWorkout(String workoutName) throws IllegalArgumentException {
+        return new RestDay(""); // stub
     }
 
-    public void getWorkouts() {
-
+    // EFFECTS: Return a list of all created and stored workout plans
+    public List<WorkoutPlan> getAllWorkouts() {
+        return new ArrayList<>(); // stub
     }
 }

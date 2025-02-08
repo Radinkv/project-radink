@@ -1,15 +1,17 @@
 package model.equipment.cardio;
 
 /**
- * Represents a type of cardio training equipment: the Treadmill.
+ * REPRESENTS: a type of cardio training equipment: Treadmill. A categorical label for 
+ * exercises performed using treadmill.
  * 
- * This class is mutable. It serves as a categorical label for exercises that the user specifies are treadmill-based.
- * It stores a list of exercises that the user specifies are performed with a treadmill when building their exercise and
- * workout library.
+ * USED BY:
+ *      1. Exercises classified as treadmill-based
+ *      2. Workouts that include treadmill exercises
  * 
- * If this class/object is instantiated (the user specifies one or more of their workouts with this equipment), only one
- * instance of this object is constructed to remain in the program. ALL associated exercises will refer to this same
- * equipment object.
+ * PURPOSE: This class ensures all treadmill exercises refer to a single instance of this equipment,
+ *          which allows for cumulating exercise metrics unique to this euipment.
+ * 
+ * MUTABILITY: Immutable
  */
 public class Treadmill extends CardioEquipment {
     
@@ -18,7 +20,7 @@ public class Treadmill extends CardioEquipment {
 
     }
 
-    // Return 'Treadmill' as the equipment name of this equipment.
+    // EFFECTS: Return 'Treadmill' as the equipment name of this equipment.
     @Override
     public String getEquipmentName() {
         return ""; // stub

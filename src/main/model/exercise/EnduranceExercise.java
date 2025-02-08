@@ -5,57 +5,43 @@ import java.util.HashMap;
 import java.util.Map;
 
 import model.equipment.Equipment;
-import model.equipment.cardio.Treadmill;
 import model.muscle.MuscleGroup;
 
+/**
+ * REPRESENTS: an endurance-based exercise performed for a set duration
+ * 
+ * USED BY:
+ *      1. Workouts that include endurance exercises
+ *      2. MuscleGroups that track endurance-based exercise impacts
+ *      3. Equipment that categorizes exercises based on usage
+ * 
+ * PURPOSE: Models an endurance exercise where the primary variable is time spent performing it
+ *          Tracks exercise name, duration, equipment used, and targeted muscles
+ * 
+ * MUTABILITY: Immutable
+ */
 public class EnduranceExercise extends Exercise {
 
     // REQUIRES: totalDuration > 0
-    /* EFFECTS: Create an instance of this endurance exercise, initializing:
-             1. The name of this exercise
-             2. The total duration of this endurance exercise, in minutes
-             3. The equipment used in performing this endurance exercise
-             4. The muscle group (muscle(s)) targeted by this endurance-based exercise */
+    // EFFECTS: Create an instance of this endurance exercise, initializing:
+    //          1. Name of this exercise
+    //          2. Total duration of this endurance exercise, in minutes
+    //          3. Equipment used in performing this endurance exercise
+    //          4. Muscle group (muscles) targeted by this endurance-based exercise
     public EnduranceExercise(String name, double totalDuration, 
                             Equipment equipmentUsed, MuscleGroup musclesTargeted) {
         // stub
     }
 
-    // EFFECTS: Return this exercise's name
-    @Override
-    public String getName() {
-        return ""; // stub
-    }
-
-    // EFFECTS: Return this endurance exercise's total duration, in minutes
+    // EFFECTS: Return total duration of this endurance exercise, in minutes
     @Override
     public Duration getDuration() {
         return Duration.ofMinutes(0); // stub
     }
-    
-    // EFFECTS: Return 'Interval' as this exercise's type
-    @Override
-    public String exerciseType() {
-        return ""; // stub
-    }
 
-    // EFFECTS: Return the equipment this endurance exercise targets
-    @Override
-    public Equipment getRequiredEquipment() {
-        return new Treadmill(); // stub
-    }
-
-    // EFFECTS: Return the group of muscles this endurance exercise targets
-    @Override
-    public MuscleGroup getMusclesTargeted() {
-        return new MuscleGroup(); // stub
-    }
-
-    /* EFFECTS: Return three key-value pairs for this endurance exercise: 
-             1, 2. 'Time On' and 'Time Off' (interval durations in seconds) 
-             3. 'Repetitions' (number of repetitions) */
+    // EFFECTS: Return key-value pair with 'duration' representing this endurance exercise's total duration
     @Override
     public Map<String, Double> getInfo() {
-        return new HashMap<String, Double>(); // stub
+        return new HashMap<>(); // stub
     }
 }

@@ -3,12 +3,16 @@ package model.equipment.strength;
 import model.association.ExerciseAssociator;
 import model.equipment.Equipment;
 
-/*
- * Represents the abstraction of exercise equipments that revolve around STRENGTH.
- * These type of equipments have different behaviours within the program. 
- * In particular, exercise equipments which implement StrengthEquipment are:
- * 1. Weight based.
- * 2. Are of 'Strength Equipment' type.  
+
+/**
+ * REPRESENTS: the abstraction of exercise equipment used for strength training.
+ * 
+ * USED BY:
+ *      1. Exercises that involve resistance or weightlifting
+ *      2. Equipment categories classified as 'Strength Equipment'
+ * 
+ * PURPOSE: Define common behavior for all strength-based exercise equipment.
+ *          These types of equipment are weight-based and are in the "Strength Equipment" category.
  */
 public abstract class StrengthEquipment extends ExerciseAssociator implements Equipment {
 

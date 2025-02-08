@@ -3,12 +3,15 @@ package model.equipment.bodyweight;
 import model.association.ExerciseAssociator;
 import model.equipment.Equipment;
 
-/*
- * Represents the abstraction of exercise equipments that revolve around BODYWEIGHT.
- * These type of equipments have different behaviours within the program. 
- * In particular, exercise equipments which implement BodyWeightEquipment are:
- * 1. Not weight-based.
- * 2. Are of 'Bodyweight Equipment' type.  
+/**
+ * REPRESENTS: the abstraction of exercise equipment based on bodyweight.
+ * 
+ * USED BY:
+ *      1. Exercises that do not require external weights
+ *      2. Equipment categories classified as 'Bodyweight Equipment'
+ * 
+ * PURPOSE: Defines common behavior for all bodyweight-based exercise equipment.
+ *          These types of equipment are not weight-based and belong to the "Bodyweight Equipment" category.
  */
 public abstract class BodyWeightEquipment extends ExerciseAssociator implements Equipment {
 

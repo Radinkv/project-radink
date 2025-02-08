@@ -1,24 +1,26 @@
 package model.equipment.bodyweight;
 
 /**
- * Represents a type of cardio training equipment: Bodyweight.
+ * REPRESENTS: a type of cardio training equipment: Bodyweight. A categorical label for 
+ * exercises performed using bodyweight.
  * 
- * This class is mutable. It serves as a categorical label for exercises that the user specifies are bodyweight-based.
- * It stores a list of exercises that the user specifies are performed with bodyweight when building their exercise and
- * workout library.
+ * USED BY:
+ *      1. Exercises classified as bodyweight-based
+ *      2. Workouts that include bodyweight exercises
  * 
- * If this class/object is instantiated (the user specifies one or more of their workouts with this equipment), only one
- * instance of this object is constructed to remain in the program. ALL associated exercises will refer to this same
- * equipment object.
+ * PURPOSE: This class ensures all bodyweight exercises refer to a single instance of this equipment,
+ *          which allows for cumulating exercise metrics unique to this euipment.
+ * 
+ * MUTABILITY: Immutable
  */
 public class BodyWeight extends BodyWeightEquipment {
     
-    // EFFECTS: Create an instance of this bodyweight 'equipment'.
+    // EFFECTS: Constructs an instance of BodyWeight equipment.
     public BodyWeight() {
 
     }
 
-    // Return 'Bodyweight' as the equipment name of this equipment.
+    // EFFECTS: Return 'Bodyweight' as the equipment name of this equipment.
     @Override
     public String getEquipmentName() {
         return ""; // stub

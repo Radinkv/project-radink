@@ -1,37 +1,46 @@
 package model.workout;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import model.exercise.Exercise;
 
-public class Workout {
-    
-    // EFFECTS: Instantiate this workout with a list of exercises, given in their order of completion.
-    public Workout(List<Exercise> exercises) {
+/**
+ * REPRESENTS: a structured sequence of exercises performed in a specific order
+ * 
+ * USED BY:
+ *      1. WeeklySchedule to assign workouts to specific days
+ *      2. WorkoutLibrary to store predefined workouts
+ * 
+ * PURPOSE: Defines a workout routine with a fixed order of exercises
+ *          Ensures workout immutability once created
+ * 
+ * MUTABILITY: Immutable
+ */
+public class Workout extends WorkoutPlan {
+
+    // EFFECTS: Create a rest day with the given recovery note
+    public Workout(String workoutName, List<Exercise> exercises) {
 
     }
-    
-    // REQUIRES: 0 <= insertionIndex < workoutExerciseList.size()
-    // MODIFIES: this
-    // EFFECTS: Add the given exercise to this workout's exercise list at the given insertionIndex, allowing duplicates
-    public void addExercise(Exercise exercise, int insertionIndex) {
-        return; // stub
+
+    // EFFECTS: Return the total duration of this workout in seconds
+    @Override
+    public double getDuration() {
+        return 0.0; // stub
     }
 
-    // REQUIRES: 0 <= index < workoutExerciseList.size()
-    // MODIFIES: this
-    // EFFECTS: Remove the exercise at the given index from this workout's exercise list.
-    public void removeExercise(int index) {
-        return; // stub
+    // EFFECTS: Return list of exercises this workout includes
+    @Override
+    public List<Exercise> getExercises() {
+        return new ArrayList<Exercise>(); // stub
     }
 
+    // EFFECTS: Return key-value pairs summarizing this workout
+    @Override
     public Map<String, Double> getWorkoutSummary() {
-        return new HashMap<String,Double>();
-    }
-
-    public String getWorkoutName() {
-        return ""; // stub
+        return new HashMap<String, Double>(); // stub
     }
 }

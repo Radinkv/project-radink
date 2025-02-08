@@ -4,44 +4,45 @@ import java.util.Map;
 import java.time.Duration;
 
 import model.equipment.Equipment;
+import model.equipment.bodyweight.BodyWeight;
 import model.muscle.MuscleGroup;
 
 /**
- * Represents the abstraction of a general exercise. This interface is implemented by different classes; 
- * types of exercises.
+ * REPRESENTS: an abstract base class for different types of exercises
  * 
- * These different implementations represent real instances such as differentiating between strength training
- * exercises (sets and reps), resistance training exercises (time exercising and time resting) for a limited number of 
- * sets, or perhaps cardio exercises (20 minute continuous run).
+ * USED BY:
+ *      1. Strength exercises that track sets, reps, and time per rep
+ *      2. Endurance exercises that track total duration
+ *      3. Interval-based exercises that track time spent exercising and resting
  * 
- * The intent of this separation is to organise different ways of exercising for the program, allowing for the most/best
- * user-customization and analytical insight.
+ * PURPOSE: Defines a standard interface for different styles of exercises
+ *          Allow structured user exercise customization and analytical tracking
+ *          Enforce separation of exercise types based on training style
  * 
- * See Exercise subclasses for method specifications & clauses.
+ * See Exercise subclasses for detailed method specifications
  */
 public abstract class Exercise {
 
-    // MODIFIES: this
-    // EFFECTS: Dissociate the previous Muscle objects in this strength exercise's muscle group from this exercise.
-    //          Then, change the previous muscle group of this strength exercise to this muscle group, associate with 
-    //          the new muscles with this exercise, and then return true. However, if the muscles in muscleGroup are 
-    //          the same as this current exercise's muscle group, return false and make no changes.
-    public boolean modifyMuscleGroup(MuscleGroup muscleGroup) {
-        return false;
-    }
-
+    // EFFECTS: Return name of this endurance exercise
     public String getName() {
-        return "";
+        return ""; // stub
     }
-
+    
     abstract Duration getDuration();
 
-    abstract String exerciseType();
+    // EFFECTS: Return this exercise's training style
+    public String exerciseType() {
+        return ""; // stub
+    }
 
-    abstract Equipment getRequiredEquipment();
+    // EFFECTS: Return equipment used for this endurance exercise
+    public Equipment getRequiredEquipment() {
+        return new BodyWeight(); // stub
+    }
 
+    // EFFECTS: Return muscle group targeted by this exercise
     public MuscleGroup getMusclesTargeted() {
-        return new MuscleGroup();
+        return new MuscleGroup(); // stub
     }
 
     abstract Map<String, Double> getInfo(); 

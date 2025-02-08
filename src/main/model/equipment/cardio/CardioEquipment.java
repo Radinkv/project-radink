@@ -3,12 +3,15 @@ package model.equipment.cardio;
 import model.association.ExerciseAssociator;
 import model.equipment.Equipment;
 
-/*
- * Represents the abstraction of exercise equipments that revolve around CARDIO.
- * These type of equipments have different behaviours within the program. 
- * In particular, exercise equipments which implement CardioEquipment are:
- * 1. Not weight-based.
- * 2. Are of 'Cardio Equipment' type.  
+/**
+ * REPRESENTS: the abstraction of exercise equipment used for cardio training.
+ * 
+ * USED BY:
+ *      1. Exercises that involve sustained cardiovascular activity
+ *      2. Equipment categories classified as 'Cardio Equipment'
+ * 
+ * PURPOSE: Defines common behavior for all cardio-based exercise equipment.
+ *          These types of equipment are not weight-based and belong to the "Cardio Equipment" category.
  */
 public abstract class CardioEquipment extends ExerciseAssociator implements Equipment {
 
