@@ -1,8 +1,9 @@
 package model.muscle;
 
-import model.association.ExerciseAssociator;
-
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -17,10 +18,30 @@ import java.util.Set;
  * 
  * MUTABILITY: Immutable
  */
-public class MuscleGroup extends ExerciseAssociator {
+public class MuscleGroup {
 
-    // EFFECTS: Returns the set of muscles contained within this group
+
+    public MuscleGroup() {
+
+    }
+
+    public MuscleGroup(String name, ArrayList<Muscle> muscles) {
+
+    }
+
+    // EFFECTS: Return the set of muscles contained within this group
     public Set<Muscle> getMuscles() {
         return new HashSet<Muscle>(); // stub
+    }
+
+    // EFFECTS: Return the name of this MuscleGroup
+    public String getName() {
+        return ""; // stub
+    }
+
+    // EFFECTS: Return a map of cumulative metrics by cumulating individual muscle metrics data 
+    //          from each Muscle in this MuscleGroup. If this group has no muscles, return an empty map
+    public Map<String, Double> getGroupMetrics() {
+        return new HashMap<String, Double>(); // stub
     }
 }

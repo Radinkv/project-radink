@@ -2,7 +2,6 @@ package model.workout;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * REPRESENTS: a collection of workout plans (both workouts and rest days)

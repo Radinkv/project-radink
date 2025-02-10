@@ -22,7 +22,7 @@ public class Muscle extends ExerciseAssociator {
     }
 
     // EFFECTS: Get this muscle's name
-    public String getMuscleName() {
+    public String getName() {
         return ""; // stub
     }
 }
