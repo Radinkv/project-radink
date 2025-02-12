@@ -39,7 +39,8 @@ public class EnduranceExercise extends Exercise {
         return Duration.ofMinutes(0); // stub
     }
 
-    // EFFECTS: Return key-value pair with 'duration' representing this endurance exercise's total duration
+    // EFFECTS: Return key-value pair with 'duration' representing this endurance exercise's total duration:
+    //          1. 'totalDuration' (duration in seconds)
     @Override
     public Map<String, Double> getInfo() {
         return new HashMap<>(); // stub

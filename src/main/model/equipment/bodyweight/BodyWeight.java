@@ -20,7 +20,7 @@ public class BodyWeight extends BodyWeightEquipment {
 
     }
 
-    // EFFECTS: Return 'Bodyweight' as the equipment name of this equipment.
+    // EFFECTS: Return 'Body Weight' as the equipment name of this equipment.
     @Override
     public String getEquipmentName() {
         return ""; // stub

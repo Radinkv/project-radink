@@ -48,6 +48,6 @@ public class StrengthExercise extends Exercise {
     //          4. 'timePerRep' (duration in seconds)
     @Override
     public Map<String, Double> getInfo() {
-        return new HashMap<String, Double>();
+        return new HashMap<String, Double>(); // stub
     }
 }

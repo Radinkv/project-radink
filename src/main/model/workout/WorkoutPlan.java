@@ -5,6 +5,20 @@ import java.util.Map;
 
 import model.exercise.Exercise;
 
+
+/**
+ * REPRESENTS: A workout plan abstraction (either a workout or a rest day)
+ * 
+ * USED BY:
+ *      1. WeeklySchedule to track intentional workout or non-workout days
+ *      2. UI components to display the rest day or workout
+ * 
+ * PURPOSE: Provides an explicit abstraction of a workout plan 
+ *          that both Workout and RestDay instances follow
+ *          Easier for UI to distinguish
+ * 
+ * MUTABILITY: Immutable
+ */
 public abstract class WorkoutPlan {
 
     // EFFECTS: Return name of this workout plan
