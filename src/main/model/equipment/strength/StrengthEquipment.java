@@ -15,16 +15,24 @@ import model.equipment.Equipment;
  *          These types of equipment are weight-based and are in the "Strength Equipment" category.
  */
 public abstract class StrengthEquipment extends ExerciseAssociator implements Equipment {
+    protected String equipmentType;
+    protected boolean isWeightBased;
+    protected String name;
+
+    protected StrengthEquipment() {
+        equipmentType = "Strength Equipment";
+        isWeightBased = true;
+    }
 
     // EFFECTS: Return 'Strength' as the equipment type of this equipment.
     @Override
     public String getEquipmentType() {
-        return ""; // stub
+        return equipmentType;
     }  
 
     // EFFECTS: Return true to specify that this equipment is not weight-based.
     @Override
     public boolean isWeightBased() {
-        return false; // stub
+        return isWeightBased;
     }
 }

@@ -17,12 +17,13 @@ public class Machine extends StrengthEquipment {
 
     // EFFECTS: Create an instance of this Machine exercise equipment.
     public Machine() {
-
+        super();
+        name = "Machine";
     }
 
     // EFFECTS: Return 'Machine' as the equipment name of this equipment.
     @Override
     public String getEquipmentName() {
-        return ""; // stub
+        return name;
     }
 }

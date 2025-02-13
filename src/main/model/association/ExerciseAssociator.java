@@ -1,7 +1,10 @@
 package model.association;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * REPRESENTS: an entity that tracks associated exercises.
@@ -13,26 +16,71 @@ import java.util.Map;
  * PURPOSE: This abstraction allows tracking exercise volume and duration across different types of workouts.
  */
 public abstract class ExerciseAssociator {
+    protected Map<String, Map<String, Double>> exerciseMetrics;
+    private static final Set<String> VALID_METRICS = new HashSet<String>(Arrays.asList(
+            "totalSets", 
+            "totalReps", 
+            "totalIntervalDuration",
+            "totalEnduranceDuration", 
+            "totalStrengthDuration",
+            "totalDuration", 
+            "totalRestTimeBetween"
+    ));
 
-    // MODIFIES: this
-    // EFFECTS: Add the given exercise's data if it is not already stored and return true.
-    //          Otherwise (including if exerciseName is null), return false and makes no changes. 
-    public boolean registerExercise(String exerciseName, Map<String, Double> exerciseInfo) {
-        return false; // stub
+    public ExerciseAssociator() {
+        exerciseMetrics = new HashMap<String, Map<String, Double>>();
     }
 
     // MODIFIES: this
-    // EFFECTS: Remove the given exercise by name if it is present and return true.
-    //          Otherwise (including if exerciseName is null): return false and make no changes.
-    public boolean unregisterExercise(String exerciseName) {
-        return true; // stub
+    // EFFECTS: Add the given exercise's data if the combination of exerciseName and context is not 
+    //          already stored and return true
+    //          Filters exerciseInfo keys/fields and only keeps expected metrics
+    //          Returns false and makes no changes if one of:
+    //                  - exerciseName is null
+    //                  - context is null
+    //                  - exerciseInfo is null
+    //                  - the combination of exerciseName and context already exists
+    public boolean registerExercise(String exerciseName, String context, Map<String, Double> exerciseInfo) {
+        String key = exerciseName + "-" + context;
+        if (exerciseName == null || context == null || exerciseInfo == null 
+                || exerciseMetrics.containsKey(key)) {
+            return false;
+        }
+        Map<String, Double> filteredMetrics = new HashMap<>();
+        for (Map.Entry<String, Double> entry : exerciseInfo.entrySet()) {
+            if (VALID_METRICS.contains(entry.getKey())) {
+                filteredMetrics.put(entry.getKey(), entry.getValue());
+            }
+        }
+        exerciseMetrics.put(key, filteredMetrics);
+        return true;
     }
 
-    // EFFECTS: Return true if the exercise with the given name is contributing to metric(s) 
-    //          for this exercise association
-    //          Return false if exerciseName is null or no such exercise is found
-    public boolean containsExercise(String exerciseName) {
-        return true; // stub
+    // MODIFIES: this
+    // EFFECTS: Remove the given exercise's metrics for the specified context if present and return true.
+    //          Returns false and makes no changes if:
+    //                  - exerciseName is null
+    //                  - context is null
+    //                  - no exercise exists for the given exerciseName and context combination
+    public boolean unregisterExercise(String exerciseName, String context) {
+        if (exerciseName == null || context == null) {
+            return false;
+        }
+        String key = exerciseName + "-" + context;
+        return exerciseMetrics.remove(key) != null;
+    }
+
+    // EFFECTS: Return true if an exercise with the given name exists for the specified context
+    //          Returns false if:
+    //              - exerciseName is null
+    //              - context is null
+    //              - no exercise exists for the given exerciseName and context combination
+    public boolean containsExercise(String exerciseName, String context) {
+        String key = exerciseName + "-" + context;
+        if (exerciseName == null || context == null) {
+            return false;
+        }
+        return exerciseMetrics.containsKey(key);
     }
 
     // EFFECTS: Returns aggregated metrics across all associated exercises.
@@ -45,11 +93,35 @@ public abstract class ExerciseAssociator {
     //          7. "totalRestTimeBetween": total rest time in between active portions exercises
     //          Key values are 0 if this entity does not have any exercise(s) that contribute to that metric.
     public Map<String, Double> getAggregatedExerciseMetrics() {
-        return new HashMap<String, Double>();
+        Map<String, Double> totalMetrics = createZeroValueMetricsMap();
+        
+        for (Map<String, Double> metrics : exerciseMetrics.values()) {
+            for (Map.Entry<String, Double> entry : metrics.entrySet()) {
+                String metric = entry.getKey();
+                Double value = entry.getValue();
+                totalMetrics.merge(metric, value, Double::sum);
+            }
+        }
+        
+        return totalMetrics;
     }
-    
+
     // EFFECTS: Returns the number of associated exercises.
     public int getNumAssociatedExercises() {
-        return 0; // stub
+        return exerciseMetrics.size();
     }
+
+    // Helper method to create a map with all valid metrics initialized to zero
+    private Map<String, Double> createZeroValueMetricsMap() {
+        Map<String, Double> metrics = new HashMap<>();
+        for (String metricName : VALID_METRICS) {
+            metrics.put(metricName, 0.0);
+        }
+        return metrics;
+    }
+
+    // FOR TESTING PURPOSES.
+    public void clearExercises() {
+        exerciseMetrics.clear();
+    }    
 }

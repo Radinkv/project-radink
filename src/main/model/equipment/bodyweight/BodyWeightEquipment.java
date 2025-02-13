@@ -8,22 +8,30 @@ import model.equipment.Equipment;
  * 
  * USED BY:
  *      1. Exercises that do not require external weights
- *      2. Equipment categories classified as 'Bodyweight Equipment'
+ *      2. Equipment categories classified as 'Bodyweight'
  * 
  * PURPOSE: Defines common behavior for all bodyweight-based exercise equipment.
  *          These types of equipment are not weight-based and belong to the "Bodyweight Equipment" category.
  */
 public abstract class BodyWeightEquipment extends ExerciseAssociator implements Equipment {
+    protected String equipmentType;
+    protected boolean isWeightBased;
+    protected String name;
+
+    protected BodyWeightEquipment() {
+        equipmentType = "Body Weight Equipment";
+        isWeightBased = false;
+    }
 
     // EFFECTS: Return 'Bodyweight' as the equipment type of this equipment.
     @Override
     public String getEquipmentType() {
-        return ""; // stub
+        return equipmentType;
     }  
 
     // EFFECTS: Return false to specify that this equipment is not weight-based.
     @Override
     public boolean isWeightBased() {
-        return false; // stub
+        return isWeightBased;
     }
 }

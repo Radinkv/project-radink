@@ -14,15 +14,16 @@ package model.equipment.cardio;
  * MUTABILITY: Immutable
  */
 public class Treadmill extends CardioEquipment {
-    
+
     // EFFECTS: Create an instance of this treadmill exercise equipment.
     public Treadmill() {
-
+        super();
+        name = "Treadmill";
     }
 
     // EFFECTS: Return 'Treadmill' as the equipment name of this equipment.
     @Override
     public String getEquipmentName() {
-        return ""; // stub
+        return name;
     }
 }

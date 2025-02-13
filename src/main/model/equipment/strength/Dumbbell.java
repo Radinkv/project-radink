@@ -17,12 +17,13 @@ public class Dumbbell extends StrengthEquipment {
 
     // EFFECTS: Create an instance of this Dumbbell exercise equipment.
     public Dumbbell() {
-
+        super();
+        name = "Dumbbell";
     }
 
     // EFFECTS: Return 'Dumbbell' as the equipment name of this equipment.
     @Override
     public String getEquipmentName() {
-        return ""; // stub
+        return name;
     }
 }

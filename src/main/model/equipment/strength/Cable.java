@@ -14,15 +14,16 @@ package model.equipment.strength;
  * MUTABILITY: Immutable
  */
 public class Cable extends StrengthEquipment {
-
+    
     // EFFECTS: Create an instance of this Cable exercise equipment.
     public Cable() {
-
+        super();
+        name = "Cable";
     }
 
     // EFFECTS: Return 'Cable' as the equipment name of this equipment.
     @Override
     public String getEquipmentName() {
-        return ""; // stub
+        return name;
     }
 }
