@@ -1,6 +1,7 @@
 package model;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static utility.Utility.TEST_PRECISION;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,6 +15,10 @@ import model.equipment.cardio.Treadmill;
 import model.equipment.bodyweight.BodyWeight;
 import model.muscle.Muscle;
 
+/** ExerciseAssociator Tests for each subclass/implementation of ExerciseAssociator
+    If one implementation overrides ExerciseAssociator, this test suite formation detects that
+    Equipments/muscles are split to directly see which subclass potenttially (should they override
+    ExerciseAssociator's methods) has an incorrect implementation  */
 public class TestExerciseAssociator {
     // Equipment implementations
     private ExerciseAssociator barbell;
@@ -23,10 +28,9 @@ public class TestExerciseAssociator {
     private ExerciseAssociator treadmill;
     private ExerciseAssociator bodyweight;
     
-    // Muscle implementations
     private ExerciseAssociator bicep;
-    private ExerciseAssociator quad;
-    // Mock exercise data maps
+    private ExerciseAssociator quad; 
+
     private Map<String, Double> strengthInfo1;
     private Map<String, Double> strengthInfo2;
     private Map<String, Double> enduranceInfo1;
@@ -52,12 +56,6 @@ public class TestExerciseAssociator {
         initializeMockData();
     }
 
-    /* ExerciseAssociator Tests for each subclass/implementation of ExerciseAssociator
-       If one implementation overrides ExerciseAssociator, this test suite formation detects that
-       Equipments/muscles are split to directly see which subclass potenttially (should they override
-       ExerciseAssociator's methods) has an incorrect implementation  */
-
-
     // STRENGTH EQUIPMENT
     @Test
     void testBarbellAssociator() {
@@ -65,6 +63,7 @@ public class TestExerciseAssociator {
         testUnregistrationHelper(barbell);
         testMetricAggregationHelper(barbell);
         testEdgeCasesHelper(barbell);
+        testContextSpecificBehavior(barbell);
     }
 
     @Test
@@ -73,6 +72,7 @@ public class TestExerciseAssociator {
         testUnregistrationHelper(dumbbell);
         testMetricAggregationHelper(dumbbell);
         testEdgeCasesHelper(dumbbell);
+        testContextSpecificBehavior(dumbbell);
     }
 
     @Test
@@ -81,6 +81,7 @@ public class TestExerciseAssociator {
         testUnregistrationHelper(cable);
         testMetricAggregationHelper(cable);
         testEdgeCasesHelper(cable);
+        testContextSpecificBehavior(cable);
     }
 
     @Test
@@ -89,6 +90,7 @@ public class TestExerciseAssociator {
         testUnregistrationHelper(machine);
         testMetricAggregationHelper(machine);
         testEdgeCasesHelper(machine);
+        testContextSpecificBehavior(machine);
     }
 
 
@@ -99,6 +101,7 @@ public class TestExerciseAssociator {
         testUnregistrationHelper(treadmill);
         testMetricAggregationHelper(treadmill);
         testEdgeCasesHelper(treadmill);
+        testContextSpecificBehavior(treadmill);
     }
 
     // BODY WEIGHT
@@ -108,6 +111,7 @@ public class TestExerciseAssociator {
         testUnregistrationHelper(bodyweight);
         testMetricAggregationHelper(bodyweight);
         testEdgeCasesHelper(bodyweight);
+        testContextSpecificBehavior(bodyweight);
     }
 
 
@@ -118,6 +122,7 @@ public class TestExerciseAssociator {
         testUnregistrationHelper(bicep);
         testMetricAggregationHelper(bicep);
         testEdgeCasesHelper(bicep);
+        testContextSpecificBehavior(bicep);
     }
 
     @Test
@@ -126,6 +131,7 @@ public class TestExerciseAssociator {
         testUnregistrationHelper(quad);
         testMetricAggregationHelper(quad);
         testEdgeCasesHelper(quad);
+        testContextSpecificBehavior(quad);
     }
 
 
@@ -191,195 +197,243 @@ public class TestExerciseAssociator {
         mixedInfo.put("invalidKey", 156.7);
         mixedInfo.put("totalReps", 10.2);
         mixedInfo.put("wrongMetric", 267.8);
+
+        System.out.println("mixedInfo after initialization:");
+        mixedInfo.forEach((k, v) -> System.out.println(k + ": " + v));
     }
 
     private void testRegistrationHelper(ExerciseAssociator associator) {
-        // Valid registration
-        assertTrue(associator.registerExercise("Exercise1", strengthInfo1));
+        associator.clearExercises();
+        
+        // Valid registration with different contexts
+        assertTrue(associator.registerExercise("Exercise1", "Monday", strengthInfo1));
         assertEquals(1, associator.getNumAssociatedExercises());
-        assertTrue(associator.containsExercise("Exercise1"));
-
-        // Duplicate registration
-        assertFalse(associator.registerExercise("Exercise1", strengthInfo2));
-        assertEquals(1, associator.getNumAssociatedExercises());
-
+        assertTrue(associator.containsExercise("Exercise1", "Monday"));
+    
+        // Same exercise, different context (should work)
+        assertTrue(associator.registerExercise("Exercise1", "Tuesday", strengthInfo1));
+        assertEquals(2, associator.getNumAssociatedExercises());
+        assertTrue(associator.containsExercise("Exercise1", "Tuesday"));
+    
+        // Duplicate registration (same exercise and context)
+        assertFalse(associator.registerExercise("Exercise1", "Monday", strengthInfo2));
+        assertEquals(2, associator.getNumAssociatedExercises());
+    
         // Null exercise name
-        assertFalse(associator.registerExercise(null, strengthInfo1));
-        assertEquals(1, associator.getNumAssociatedExercises());
-
+        assertFalse(associator.registerExercise(null, "Monday", strengthInfo1));
+        assertEquals(2, associator.getNumAssociatedExercises());
+    
+        // Null context
+        assertFalse(associator.registerExercise("Exercise2", null, strengthInfo1));
+        assertEquals(2, associator.getNumAssociatedExercises());
+    
         // Null exercise info
-        assertFalse(associator.registerExercise("Exercise2", null));
-        assertEquals(1, associator.getNumAssociatedExercises());
-
+        assertFalse(associator.registerExercise("Exercise2", "Monday", null));
+        assertEquals(2, associator.getNumAssociatedExercises());
+    
         // Registration with invalid data
-        assertTrue(associator.registerExercise("Exercise3", invalidInfo));
-        assertEquals(2, associator.getNumAssociatedExercises());
-
-        // Registration with empty data
-        assertTrue(associator.registerExercise("Exercise4", emptyInfo));
+        assertTrue(associator.registerExercise("Exercise3", "Monday", invalidInfo));
         assertEquals(3, associator.getNumAssociatedExercises());
-
-        // Registration with partial data (should work: implements 'familiar' metrics)
-        assertTrue(associator.registerExercise("Exercise5", partialInfo));
+    
+        // Registration with empty data
+        assertTrue(associator.registerExercise("Exercise4", "Monday", emptyInfo));
         assertEquals(4, associator.getNumAssociatedExercises());
-
-        // Registration with mixed valid/invalid data (should work: implements 'familiar' metrics)
-        assertTrue(associator.registerExercise("Exercise6", mixedInfo));
+    
+        // Registration with partial data
+        assertTrue(associator.registerExercise("Exercise5", "Monday", partialInfo));
         assertEquals(5, associator.getNumAssociatedExercises());
+    
+        // Registration with mixed valid/invalid data
+        assertTrue(associator.registerExercise("Exercise6", "Monday", mixedInfo));
+        assertEquals(6, associator.getNumAssociatedExercises());
     }
-
+    
     private void testUnregistrationHelper(ExerciseAssociator associator) {
-        // Setup initial exercises
-        associator.registerExercise("Exercise1", strengthInfo1);
-        associator.registerExercise("Exercise2", enduranceInfo1);
-        associator.registerExercise("Exercise3", intervalInfo1);
-
+        associator.clearExercises();
+        
+        // Setup initial exercises with different contexts
+        associator.registerExercise("Exercise1", "Monday", strengthInfo1);
+        associator.registerExercise("Exercise1", "Tuesday", strengthInfo1);
+        associator.registerExercise("Exercise2", "Monday", enduranceInfo1);
+        associator.registerExercise("Exercise3", "Monday", intervalInfo1);
+    
         // Valid unregistration
-        assertTrue(associator.unregisterExercise("Exercise1"));
-        assertEquals(2, associator.getNumAssociatedExercises());
-        assertFalse(associator.containsExercise("Exercise1"));
-
+        assertTrue(associator.unregisterExercise("Exercise1", "Monday"));
+        assertEquals(3, associator.getNumAssociatedExercises());
+        assertFalse(associator.containsExercise("Exercise1", "Monday"));
+        assertTrue(associator.containsExercise("Exercise1", "Tuesday")); // Other context still exists
+    
         // Unregistering non-existent exercise
-        assertFalse(associator.unregisterExercise("NonExistentExercise"));
-        assertEquals(2, associator.getNumAssociatedExercises());
-
-        // Unregistering with null
-        assertFalse(associator.unregisterExercise(null));
-        assertEquals(2, associator.getNumAssociatedExercises());
-
-        // Unregistering all exercises
-        assertTrue(associator.unregisterExercise("Exercise2"));
-        assertTrue(associator.unregisterExercise("Exercise3"));
+        assertFalse(associator.unregisterExercise("NonExistentExercise", "Monday"));
+        assertEquals(3, associator.getNumAssociatedExercises());
+    
+        // Unregistering with null exercise name
+        assertFalse(associator.unregisterExercise(null, "Monday"));
+        assertEquals(3, associator.getNumAssociatedExercises());
+    
+        // Unregistering with null context
+        assertFalse(associator.unregisterExercise("Exercise2", null));
+        assertEquals(3, associator.getNumAssociatedExercises());
+    
+        // Unregistering existing exercise with wrong context
+        assertFalse(associator.unregisterExercise("Exercise2", "Tuesday"));
+        assertEquals(3, associator.getNumAssociatedExercises());
+    
+        // Unregistering all remaining exercises
+        assertTrue(associator.unregisterExercise("Exercise1", "Tuesday"));
+        assertTrue(associator.unregisterExercise("Exercise2", "Monday"));
+        assertTrue(associator.unregisterExercise("Exercise3", "Monday"));
         assertEquals(0, associator.getNumAssociatedExercises());
     }
 
-    // @SuppressWarnings("methodLength")
     private void testMetricAggregationHelper(ExerciseAssociator associator) {
-        // Register different types of exercises
-        associator.registerExercise("StrengthEx1", strengthInfo1);
-        associator.registerExercise("StrengthEx2", strengthInfo2);
-        associator.registerExercise("EnduranceEx1", enduranceInfo1);
-        associator.registerExercise("IntervalEx1", intervalInfo1);
-
+        associator.clearExercises();
+        
+        // Register exercises with different contexts
+        associator.registerExercise("StrengthEx1", "Monday", strengthInfo1);
+        associator.registerExercise("StrengthEx1", "Tuesday", strengthInfo2); // Same exercise, different day
+        associator.registerExercise("EnduranceEx1", "Monday", enduranceInfo1);
+        associator.registerExercise("IntervalEx1", "Wednesday", intervalInfo1);
+    
         Map<String, Double> metrics = associator.getAggregatedExerciseMetrics();
-
-        // Calculate expected metrics explicitly for comparison
-        Double expectedSets = strengthInfo1.get("totalSets")
-                + strengthInfo2.get("totalSets");
-
-        Double expectedReps = strengthInfo1.get("totalReps")
-                + strengthInfo2.get("totalReps");
-
-        Double expectedStrengthDuration = strengthInfo1.get("totalStrengthDuration")
+    
+        // Calculate expected metrics considering both contexts
+        Double expectedSets = strengthInfo1.get("totalSets") + strengthInfo2.get("totalSets");
+        Double expectedReps = strengthInfo1.get("totalReps") + strengthInfo2.get("totalReps");
+        Double expectedStrengthDuration = strengthInfo1.get("totalStrengthDuration") 
                 + strengthInfo2.get("totalStrengthDuration");
-
         Double expectedEnduranceDuration = enduranceInfo1.get("totalEnduranceDuration");
-
         Double expectedIntervalDuration = intervalInfo1.get("totalIntervalDuration");
-
         Double expectedRestTime = strengthInfo1.get("totalRestTimeBetween")
                 + strengthInfo2.get("totalRestTimeBetween")
                 + intervalInfo1.get("totalRestTimeBetween");
-                
         Double expectedTotalDuration = strengthInfo1.get("totalDuration")
                 + strengthInfo2.get("totalDuration")
                 + enduranceInfo1.get("totalDuration")
                 + intervalInfo1.get("totalDuration");
-
-        // Strength metrics
-        assertEquals(expectedSets, metrics.get("totalSets"), 0.1);
-        assertEquals(expectedReps, metrics.get("totalReps"), 0.1);
-        assertEquals(expectedStrengthDuration, metrics.get("totalStrengthDuration"), 0.1);
+    
+        // all metrics
+        assertEquals(expectedSets, metrics.get("totalSets"), TEST_PRECISION);
+        assertEquals(expectedReps, metrics.get("totalReps"), TEST_PRECISION);
+        assertEquals(expectedStrengthDuration, metrics.get("totalStrengthDuration"), TEST_PRECISION);
+        assertEquals(expectedEnduranceDuration, metrics.get("totalEnduranceDuration"), TEST_PRECISION);
+        assertEquals(expectedIntervalDuration, metrics.get("totalIntervalDuration"), TEST_PRECISION);
+        assertEquals(expectedRestTime, metrics.get("totalRestTimeBetween"), TEST_PRECISION);
+        assertEquals(expectedTotalDuration, metrics.get("totalDuration"), TEST_PRECISION);
+    
+        // partial unregistration
+        associator.unregisterExercise("StrengthEx1", "Monday");
+        metrics = associator.getAggregatedExerciseMetrics();
         
-        // Endurance metrics
-        assertEquals(expectedEnduranceDuration, metrics.get("totalEnduranceDuration"), 0.1);
-
-        // Interval metrics
-        assertEquals(expectedIntervalDuration, metrics.get("totalIntervalDuration"), 0.1);
-        
-        // Combined metrics
-        assertEquals(expectedRestTime, metrics.get("totalRestTimeBetween"), 0.1);
-        assertEquals(expectedTotalDuration, metrics.get("totalDuration"), 0.1);
-
-        // Empty metrics
-        associator.unregisterExercise("StrengthEx1");
-        associator.unregisterExercise("StrengthEx2");
-        associator.unregisterExercise("EnduranceEx1");
-        associator.unregisterExercise("IntervalEx1");
-        
+        // metrics after partial unregistration
+        assertEquals(strengthInfo2.get("totalSets"), metrics.get("totalSets"), TEST_PRECISION);
+        assertEquals(strengthInfo2.get("totalReps"), metrics.get("totalReps"), TEST_PRECISION);
+    
+        // Clear all and verify zero metrics
+        associator.clearExercises();
         Map<String, Double> emptyMetrics = associator.getAggregatedExerciseMetrics();
-        assertEquals(0.0, emptyMetrics.get("totalSets"), 0.1);
-        assertEquals(0.0, emptyMetrics.get("totalReps"), 0.1);
-        assertEquals(0.0, emptyMetrics.get("totalStrengthDuration"), 0.1);
-        assertEquals(0.0, emptyMetrics.get("totalEnduranceDuration"), 0.1);
-        assertEquals(0.0, emptyMetrics.get("totalIntervalDuration"), 0.1);
-        assertEquals(0.0, emptyMetrics.get("totalRestTimeBetween"), 0.1);
-        assertEquals(0.0, emptyMetrics.get("totalDuration"), 0.1);
+        assertEquals(0.0, emptyMetrics.get("totalSets"), TEST_PRECISION);
+        assertEquals(0.0, emptyMetrics.get("totalReps"), TEST_PRECISION);
+        assertEquals(0.0, emptyMetrics.get("totalStrengthDuration"), TEST_PRECISION);
+        assertEquals(0.0, emptyMetrics.get("totalEnduranceDuration"), TEST_PRECISION);
+        assertEquals(0.0, emptyMetrics.get("totalIntervalDuration"), TEST_PRECISION);
+        assertEquals(0.0, emptyMetrics.get("totalRestTimeBetween"), TEST_PRECISION);
+        assertEquals(0.0, emptyMetrics.get("totalDuration"), TEST_PRECISION);
     }
-
-    // @SuppressWarnings("methodLength")
+    
     private void testEdgeCasesHelper(ExerciseAssociator associator) {
-        // Registration with mixed valid/invalid data
-        associator.registerExercise("MixedEx", mixedInfo);
+        associator.clearExercises();
+    
+        // various null combinations
+        assertFalse(associator.registerExercise(null, null, mixedInfo));
+        assertFalse(associator.registerExercise("Exercise", null, mixedInfo));
+        assertFalse(associator.registerExercise(null, "Monday", mixedInfo));
+        assertFalse(associator.containsExercise(null, null));
+        assertFalse(associator.containsExercise("Exercise", null));
+        assertFalse(associator.containsExercise(null, "Monday"));
+    
+        // same exercise with multiple contexts
+        String[] contexts = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday"};
+        for (String context : contexts) {
+            assertTrue(associator.registerExercise("MultiContext", context, strengthInfo1));
+            assertTrue(associator.containsExercise("MultiContext", context));
+        }
+        assertEquals(contexts.length, associator.getNumAssociatedExercises());
+    
+        // exercise with mixed valid/invalid data across contexts
+        associator.clearExercises();
+        assertTrue(associator.registerExercise("Mixed", "Monday", mixedInfo));
         Map<String, Double> metrics = associator.getAggregatedExerciseMetrics();
         
-        // Should only count valid metrics
-        // Recall that mixedInfo has totalSets and totalReps which are metrics that ExerciseAssociator
-        // looks for. It ignores the other 'unfamiliar' metrics
-        assertEquals(4.3, metrics.get("totalSets"), 0.1);
-        assertEquals(10.2, metrics.get("totalReps"), 0.1);
-        
-        // Extreme values
+        // only valid metrics are counted
+        assertEquals(10.2, metrics.get("totalReps"), TEST_PRECISION);
+        assertEquals(4.3, metrics.get("totalSets"), TEST_PRECISION);
+
+        associator.clearExercises();
+    
+        // extreme values across different contexts
         Map<String, Double> extremeValues = new HashMap<>();
         extremeValues.put("totalSets", Double.MAX_VALUE);
         extremeValues.put("totalReps", Double.MIN_VALUE);
-        extremeValues.put("totalDuration", 1e-20);  // EXTREMELY small decimal
-        assertTrue(associator.registerExercise("Extreme", extremeValues));
+        extremeValues.put("totalDuration", 1e-20);
+    
+        assertTrue(associator.registerExercise("Extreme", "Monday", extremeValues));
+        assertTrue(associator.registerExercise("Extreme", "Tuesday", extremeValues));
         
         metrics = associator.getAggregatedExerciseMetrics();
-        assertEquals(Double.MAX_VALUE, metrics.get("totalSets"), 0.1);
-        assertEquals(Double.MIN_VALUE, metrics.get("totalReps"), 0.1);
-        assertEquals(1e-10, metrics.get("totalDuration"), 1e-11);
+        assertEquals(Double.MAX_VALUE + Double.MAX_VALUE, metrics.get("totalSets"), TEST_PRECISION);
+        assertEquals(Double.MIN_VALUE + Double.MIN_VALUE, metrics.get("totalReps"), TEST_PRECISION);
+        assertEquals(2e-20, metrics.get("totalDuration"), 1e-21);
 
-        // Multiple register/unregister cycles
-        for (int i = 0; i < 100; i++) {
-            String exerciseName = "CycleEx" + i;
-            assertTrue(associator.registerExercise(exerciseName, strengthInfo1));
-            assertTrue(associator.containsExercise(exerciseName));
-            if (i % 2 == 0) {
-                assertTrue(associator.unregisterExercise(exerciseName));
-                assertFalse(associator.containsExercise(exerciseName));
-            }
+        associator.clearExercises();
+    
+        // For simplicity of implementation, these cases are ALLOWED. 
+        // Different styles of 
+        associator.clearExercises();
+        assertTrue(associator.registerExercise("Collision", "Monday", strengthInfo1));
+        assertFalse(associator.registerExercise("Collision", "Monday", strengthInfo2));
+        assertTrue(associator.registerExercise("Collision", "Tuesday", strengthInfo2));
+    
+        // empty string context
+        associator.clearExercises();
+        assertTrue(associator.registerExercise("Exercise", "", mixedInfo));
+        assertTrue(associator.containsExercise("Exercise", ""));
+    
+        // whitespace context
+        associator.clearExercises();
+        assertTrue(associator.registerExercise("Exercise", "   ", mixedInfo));
+        assertTrue(associator.containsExercise("Exercise", "   "));
+    
+        associator.clearExercises();
+        // special character contexts
+        String[] specialContexts = {"Monday!", "Tuesday@", "Wednesday#", "Thursday$", "Friday%"};
+        for (String context : specialContexts) {
+            assertTrue(associator.registerExercise("SpecialContext", context, strengthInfo1));
+            assertTrue(associator.containsExercise("SpecialContext", context));
         }
-        
-        // Verify metrics consistency after cycles
-        metrics = associator.getAggregatedExerciseMetrics();
-        Double expectedSets = strengthInfo1.get("totalSets") * 50;  // 50 exercises remain from loop
-        assertEquals(expectedSets, metrics.get("totalSets"), 0.1);
-        
-        // Test handling of empty exercise data
-        Map<String, Double> emptyMap = new HashMap<>();
-        // Store current metrics before adding empty exercise
-        Map<String, Double> metricsBeforeEmpty = associator.getAggregatedExerciseMetrics();
-        
-        // Register empty exercise
-        assertTrue(associator.registerExercise("EmptyEx", emptyMap));
-        
-        // Get metrics after adding empty exercise
-        Map<String, Double> metricsAfterEmpty = associator.getAggregatedExerciseMetrics();
-        
-        // Verify all metrics remain unchanged when adding empty exercise data
-        assertEquals(metricsBeforeEmpty.get("totalSets"), metricsAfterEmpty.get("totalSets"), 0.1);
-        assertEquals(metricsBeforeEmpty.get("totalReps"), metricsAfterEmpty.get("totalReps"), 0.1);
-        assertEquals(metricsBeforeEmpty.get("totalStrengthDuration"), 
-                metricsAfterEmpty.get("totalStrengthDuration"), 0.1);
-        assertEquals(metricsBeforeEmpty.get("totalEnduranceDuration"), 
-                metricsAfterEmpty.get("totalEnduranceDuration"), 0.1);
-        assertEquals(metricsBeforeEmpty.get("totalIntervalDuration"), 
-                metricsAfterEmpty.get("totalIntervalDuration"), 0.1);
-        assertEquals(metricsBeforeEmpty.get("totalRestTimeBetween"), 
-                metricsAfterEmpty.get("totalRestTimeBetween"), 0.1);
-        assertEquals(metricsBeforeEmpty.get("totalDuration"), 
-                metricsAfterEmpty.get("totalDuration"), 0.1);
-    }    
+    }
+    
+    // Specifically for context based functionality
+    private void testContextSpecificBehavior(ExerciseAssociator associator) {
+        associator.clearExercises();
+        // same exercise in different contexts
+        assertTrue(associator.registerExercise("BenchPress", "Monday", strengthInfo1));
+        assertTrue(associator.registerExercise("BenchPress", "Wednesday", strengthInfo2));
+        assertEquals(2, associator.getNumAssociatedExercises());
+    
+        // context-specific containment
+        assertTrue(associator.containsExercise("BenchPress", "Monday"));
+        assertTrue(associator.containsExercise("BenchPress", "Wednesday"));
+        assertFalse(associator.containsExercise("BenchPress", "Friday"));
+    
+        // context-specific unregistration
+        assertTrue(associator.unregisterExercise("BenchPress", "Monday"));
+        assertFalse(associator.containsExercise("BenchPress", "Monday"));
+        assertTrue(associator.containsExercise("BenchPress", "Wednesday"));
+    
+        // metric isolation between contexts
+        Map<String, Double> metrics = associator.getAggregatedExerciseMetrics();
+        assertEquals(strengthInfo2.get("totalSets"), metrics.get("totalSets"), TEST_PRECISION);
+        assertEquals(strengthInfo2.get("totalReps"), metrics.get("totalReps"), TEST_PRECISION);
+    }
 }

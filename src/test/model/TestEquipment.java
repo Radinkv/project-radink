@@ -43,12 +43,12 @@ public class TestEquipment {
 
     @Test
     void testEquipmentType() {
-        assertEquals(bodyweight.getEquipmentType(), "Body Weight");
-        assertEquals(treadmill.getEquipmentType(), "Cardio");
-        assertEquals(barbell.getEquipmentType(), "Strength");
-        assertEquals(cable.getEquipmentType(), "Strength");
-        assertEquals(dumbbell.getEquipmentType(), "Strength");
-        assertEquals(machine.getEquipmentType(), "Strength");
+        assertEquals(bodyweight.getEquipmentType(), "Body Weight Equipment");
+        assertEquals(treadmill.getEquipmentType(), "Cardio Equipment");
+        assertEquals(barbell.getEquipmentType(), "Strength Equipment");
+        assertEquals(cable.getEquipmentType(), "Strength Equipment");
+        assertEquals(dumbbell.getEquipmentType(), "Strength Equipment");
+        assertEquals(machine.getEquipmentType(), "Strength Equipment");
     }
 
     @Test
