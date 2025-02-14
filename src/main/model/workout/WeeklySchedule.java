@@ -40,6 +40,7 @@ public class WeeklySchedule {
             throw new IllegalArgumentException();
         }
 
+        // Bug for WorkoutPlan being re-assigned to a specific date; metrics should NOT cumulate
         schedule[dayIndex].deactivateMetrics(DAYS[dayIndex]);
 
         schedule[dayIndex] = workoutPlan;

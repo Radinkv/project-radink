@@ -76,7 +76,7 @@ public class WorkoutLibrary {
         return workouts;
     }
 
-    // EFFECTS: Returns true if an exercise with the given name exists in the library, false otherwise.
+    // EFFECTS: Return true if an exercise with the given name exists in the library, false otherwise
     private boolean containsWorkout(String exerciseName) {
         return library.containsKey(exerciseName);
     }

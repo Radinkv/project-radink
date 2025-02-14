@@ -28,10 +28,10 @@ public class Workout extends WorkoutPlan {
     //          throw IllegalArgumentException
     public Workout(String workoutName, List<Exercise> exercises) {
         if (workoutName == null || exercises == null) {
-            throw new IllegalArgumentException("Workout name and exercises list cannot be null");
+            throw new IllegalArgumentException("Workout name and exercises list cannot be null.");
         }
         if (exercises.contains(null)) {
-            throw new IllegalArgumentException("Exercise list cannot contain null elements");
+            throw new IllegalArgumentException("Exercise list cannot contain null elements.");
         }
         this.workoutName = workoutName;
         this.exercises = new ArrayList<Exercise>(exercises); // Defensive copy

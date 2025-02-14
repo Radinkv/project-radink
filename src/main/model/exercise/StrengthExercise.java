@@ -51,12 +51,14 @@ public class StrengthExercise extends Exercise {
 
     // MODIFIES: MuscleGroup, Equipment
     // EFFECTS: Send a copy of this Exercise's getInfo, along with this exercise's name
-    //          to Equipment and MuscleGroup. If already present, make no changes
-    //          Do nothing if this exercise has null Equipment or MuscleGroup, respectively
+    //          to Equipment and MuscleGroup; If already present, make no changes
+    //          Do nothing if this exercise has null Equipment or MuscleGroup
     @Override
     public void activateMetrics(String context) {
         Map<String, Double> metrics = convertInfoToAssociatorFormat();
-        if (requiredEquipment instanceof ExerciseAssociator) {
+        // Safety; Equipment does not HAVE to be ExerciseAssociator
+        // However, this program currently does design each instance of Equipment as an instance of ExerciseAssociator
+        if (requiredEquipment instanceof ExerciseAssociator) { 
             ((ExerciseAssociator) requiredEquipment).registerExercise(getName(), context, 
                 new HashMap<String, Double>(metrics));
         }
