@@ -20,16 +20,38 @@ import model.exercise.Exercise;
  * MUTABILITY: Immutable
  */
 public class RestDay extends WorkoutPlan {
+    private String recoveryNote;
 
     // EFFECTS: Create a rest day with the given recovery note
     public RestDay(String recoveryNote) {
+        if (recoveryNote == null) {
+            throw new IllegalArgumentException("Recovery note cannot be null");
+        }
+        this.recoveryNote = recoveryNote;
+    }
 
+    // EFFECTS: Do nothing
+    @Override
+    public void activateMetrics(String context) {
+        return;
+    }
+
+    // EFFECTS: Do nothing
+    @Override
+    public void deactivateMetrics(String context) {
+        return; 
     }
 
     // EFFECTS: Return 0 as the total duration of this rest day
     @Override
     public double getDuration() {
         return 0.0; // stub
+    }
+
+    // EFFECTS: Return this rest day's recovery note
+    @Override
+    public String getName() {
+        return recoveryNote;
     }
 
     // EFFECTS: Return empty list of exercises for this rest day

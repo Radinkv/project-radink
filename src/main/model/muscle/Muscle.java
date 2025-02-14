@@ -15,14 +15,15 @@ import model.association.ExerciseAssociator;
  * MUTABILITY: Immutable 
  */
 public class Muscle extends ExerciseAssociator {
+    private String muscleName;
 
     // EFFECTS: Create an instance of this Muscle
     public Muscle(String muscleName) {
-        // stub
+        this.muscleName = muscleName;
     }
 
     // EFFECTS: Get this muscle's name
     public String getName() {
-        return ""; // stub
+        return muscleName;
     }
 }

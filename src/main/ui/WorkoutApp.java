@@ -1,70 +1,75 @@
 package ui;
 
-import model.PredefinedData;
-import model.association.ExerciseAssociator;
-import model.equipment.Equipment;
 import model.exercise.*;
-import model.muscle.Muscle;
-import model.muscle.MuscleGroup;
 import model.workout.*;
 import ui.components.*;
-
+import utility.PredefinedData;
 import java.util.*;
 
 /**
- * Console-based user interface for the workout planning system.
- * Provides functionality for managing exercises, workouts, schedules, and viewing metrics.
+ * This interface is a console-based implementation for a workout planning program.
+ * This program provides functionality for creating and managing exercises, workouts, schedules, and viewing metrics.
  * 
- * Core Features:
- * - Exercise creation and management
- * - Workout planning and organization
- * - Weekly schedule management
- * - Comprehensive metric analysis
+ * The Core Features Summarized:
+ * 
+ * Exercise creation and management - 
+ * Workout planning and organization -
+ * Weekly schedule management - 
+ * Equipment usage metric analysis -
+ * Muscle group usage metric analysis -
+ * Muscle usage metric analysis -
+ * Exercise training split metric analysis 
  */
 public class WorkoutApp {
-    
+
     private final Scanner input;
     private final ExerciseLibrary exerciseLibrary;
     private final WorkoutLibrary workoutLibrary;
     private final PredefinedData predefinedData;
     private final WeeklySchedule weeklySchedule;
     
-    // UI Components
-    private final ExerciseViewUI exerciseViewUI;
     private final ExerciseCreationUI exerciseCreationUI;
     private final ExerciseManagementUI exerciseManagementUI;
     private final WorkoutCreationUI workoutCreationUI;
     private final WorkoutManagementUI workoutManagementUI;
     private final ScheduleUI scheduleUI;
     private final MetricsUI metricsUI;
+    private final EquipmentMetricsUI equipmentMetricsUI;
+    private final MuscleMetricsUI muscleMetricsUI;
 
+    public static void main(String[] args) {
+        new WorkoutApp();
+    }
+
+    // EFFECTS: Initialize the WorkoutApp by setting up input, libraries, predefined data, schedule,
+    //          and all UI components, then run the application
     public WorkoutApp() {
         this.input = new Scanner(System.in);
         this.exerciseLibrary = new ExerciseLibrary();
         this.workoutLibrary = new WorkoutLibrary();
         this.predefinedData = new PredefinedData();
         this.weeklySchedule = new WeeklySchedule();
-        
-        // Initialize UI components
-        this.exerciseViewUI = new ExerciseViewUI(input, exerciseLibrary);
-        this.exerciseCreationUI = new ExerciseCreationUI(input, exerciseLibrary, predefinedData);
-        this.exerciseManagementUI = new ExerciseManagementUI(input, exerciseLibrary);
-        this.workoutCreationUI = new WorkoutCreationUI(input, exerciseLibrary, workoutLibrary);
-        this.workoutManagementUI = new WorkoutManagementUI(input, workoutLibrary);
-        this.scheduleUI = new ScheduleUI(input, workoutLibrary, weeklySchedule);
-        this.metricsUI = new MetricsUI(input, predefinedData);
-        
+        this.equipmentMetricsUI = new EquipmentMetricsUI();
+        this.muscleMetricsUI = new MuscleMetricsUI();
+        SharedUI.initializeItems(input, exerciseLibrary, workoutLibrary, weeklySchedule, predefinedData,
+                                  equipmentMetricsUI, muscleMetricsUI);
+        this.exerciseCreationUI = new ExerciseCreationUI();
+        this.exerciseManagementUI = new ExerciseManagementUI();
+        this.workoutCreationUI = new WorkoutCreationUI();
+        this.workoutManagementUI = new WorkoutManagementUI();
+        this.scheduleUI = new ScheduleUI();
+        this.metricsUI = new MetricsUI();
         runWorkoutApp();
     }
 
+    // EFFECTS: Continuously display the main menu and process user commands
+    //          The application terminates should the user select the exit option
     private void runWorkoutApp() {
         boolean keepGoing = true;
-
         while (keepGoing) {
             displayMenu();
             String command = input.nextLine().trim();
-
-            if (command.equals("8")) {
+            if (command.equals("7")) {
                 System.out.println("Thank you for using Workout Planner!");
                 keepGoing = false;
             } else {
@@ -73,45 +78,44 @@ public class WorkoutApp {
         }
     }
 
+    // EFFECTS: Display the main menu for the workout planning system
     private void displayMenu() {
         System.out.println("\n=== Workout Planning System ===");
-        System.out.println("[1] View Exercises");
-        System.out.println("[2] Create Exercise");
-        System.out.println("[3] Manage Exercises");
-        System.out.println("[4] Create Workout");
-        System.out.println("[5] Manage Workouts");
-        System.out.println("[6] Edit Weekly Schedule");
-        System.out.println("[7] View Metrics");
-        System.out.println("[8] Exit");
+        System.out.println("[1] Create Exercise");
+        System.out.println("[2] Manage Exercises");
+        System.out.println("[3] Create Workout");
+        System.out.println("[4] Manage Workouts");
+        System.out.println("[5] Edit Weekly Schedule");
+        System.out.println("[6] View Metrics");
+        System.out.println("[7] Exit");
         System.out.print("\nSelect an option: ");
     }
 
+    // REQUIRES: command is not null
+    // EFFECTS: Process the user's command by invoking the corresponding UI component
     private void processCommand(String command) {
         switch (command) {
             case "1":
-                exerciseViewUI.viewExercises();
-                break;
-            case "2":
                 exerciseCreationUI.createExercise();
                 break;
-            case "3":
+            case "2":
                 exerciseManagementUI.manageExercises();
                 break;
-            case "4":
+            case "3":
                 workoutCreationUI.createWorkout();
                 break;
-            case "5":
+            case "4":
                 workoutManagementUI.manageWorkouts();
                 break;
-            case "6":
+            case "5":
                 scheduleUI.editWeeklySchedule();
                 break;
-            case "7":
+            case "6":
                 metricsUI.viewMetrics();
                 break;
             default:
-                System.out.println("Invalid selection. Please choose between 1-8.");
-                SharedUI.waitForEnter(input);
+                System.out.println("Invalid selection. Please choose between 1-7.");
+                SharedUI.waitForEnter();
         }
     }
 }

@@ -11,7 +11,7 @@ The application overall targets a broad range of users, from beginners to advanc
 ### Why is this project of interest to me?
 I have been weightlifting for a few months and have been looking for a systematic way to consistently remember, keep track of, and employ progressive overload. With this app allowing me to better monitor gains or trends in both weightlifting reps and weight, I can ensure I appropriately introduce progressive load and balance growth across muscle groups. I'm also a visual learner, so having perhaps visual diagrams, charts, and numerical data helps me see at a glance how I'm progressing from a different, tangible perspective. Most importantly, rather than having to store all workout details in my head, this project will let me organize every aspect of my gym routine and both see and access my areas for improvement more clearly and effectively.
 
-## User Stories
+## User Stories (PHASE 0)
 ### As a user, I want to:
 - **Create** exercises by specifying their name, equipment, target muscle groups, along with their default sets, reps, weights *(for strength training)* or duration and intervals *(for cardio)*, **so that** I can build a personalized exercise library.
 - **Add** exercises from my library to a workout, **so that** I can swiftly assemble customized workouts that match and represent my current fitness level.
@@ -23,3 +23,15 @@ I have been weightlifting for a few months and have been looking for a systemati
 - **See** time and volume spent per workout type *(dumbbells, cardio, etc.)*, **so that** I can balance my routine between strength and conditioning.
 - **Visualize** training volume *(sets, reps)* per muscle group/region **so that** I can correct training imbalances and avoid overtraining.
 
+
+## User Stories SIMPLIFIED (PHASE 1)
+### As a user, I want to:
+- **Add** multiple exercises (specifying name, type, volume info, equipment, and targeted muscle groups) to my exercise library, **so that** I can build a personalized list of exercises for future workouts.
+- **List** all exercises currently in my exercise library, **so that** I can quickly view which exercises I have or don't have available in my library to add to a workout.
+- **Create** multiple workouts, each containing a selection of one or more exercises from my library, **so that** I can organize various training routines and easily choose which one to perform.
+- **List** all the workouts currently stored in my workout library, **so that** I can keep track of all my different routines and pick one based on my goals.   
+
+#### Extra choices for buffers:
+- **Schedule** multiple workouts on different days of a 7-day week, **so that** I can plan out and organize my entire week of training in advance and make quick changes if needed.
+- **View** my schedule **so that** I can swiftly review which workout or rest day is assigned to each day and plan my day accordingly.
+- **Analyze** the usage of different equipment and muscle groups across all my scheduled workouts, **so that** I can quickly identify undertrained or overtrained areas and balance my fitness routine accordingly.  

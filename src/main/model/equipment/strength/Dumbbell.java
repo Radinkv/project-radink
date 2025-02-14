@@ -11,7 +11,7 @@ package model.equipment.strength;
  * PURPOSE: This class ensures all dumbbell exercises refer to a single instance of this equipment,
  *          which allows for cumulating exercise metrics unique to this euipment.
  * 
- * MUTABILITY: Immutable
+ * MUTABILITY: Immutable (Except ExerciseAssociator)
  */
 public class Dumbbell extends StrengthEquipment {
 

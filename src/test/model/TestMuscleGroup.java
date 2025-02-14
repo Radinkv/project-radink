@@ -101,10 +101,10 @@ public class TestMuscleGroup {
     void testRegisterExerciseWithContext() {
         assertTrue(multiMuscleGroup.registerMusclesForMetrics("BenchPress", MONDAY_CONTEXT, strengthInfo));
         
-        // Verify same exercise can be registered with different context
+        // Check same exercise can be registered with different context
         assertTrue(multiMuscleGroup.registerMusclesForMetrics("BenchPress", WEDNESDAY_CONTEXT, strengthInfo));
         
-        // Verify metrics are properly accumulated across contexts
+        // Check metrics are properly accumulated across contexts
         Map<String, Double> metrics = multiMuscleGroup.getGroupMetrics();
         assertEquals(8.0, metrics.get("totalSets"), TEST_PRECISION);
         assertEquals(16.0, metrics.get("totalReps"), TEST_PRECISION);
@@ -119,7 +119,7 @@ public class TestMuscleGroup {
         // Attempt to register same exercise with same context should fail
         assertFalse(multiMuscleGroup.registerMusclesForMetrics("BenchPress", MONDAY_CONTEXT, strengthInfo));
         
-        // Verify metrics weren't duplicated
+        // Check metrics weren't duplicated
         Map<String, Double> metrics = multiMuscleGroup.getGroupMetrics();
         assertEquals(4.0, metrics.get("totalSets"), TEST_PRECISION);
         assertEquals(8.0, metrics.get("totalReps"), TEST_PRECISION);
@@ -127,19 +127,19 @@ public class TestMuscleGroup {
 
     @Test
     void testInvalidRegistration() {
-        // Test null exercise name
+        // null exercise name
         assertFalse(multiMuscleGroup.registerMusclesForMetrics(null, MONDAY_CONTEXT, strengthInfo));
         
-        // Test null context
+        // null context
         assertFalse(multiMuscleGroup.registerMusclesForMetrics("BenchPress", null, strengthInfo));
         
-        // Test null metrics
+        // null metrics
         assertFalse(multiMuscleGroup.registerMusclesForMetrics("BenchPress", MONDAY_CONTEXT, null));
         
-        // Test empty group
+        // empty group
         assertFalse(emptyGroup.registerMusclesForMetrics("BenchPress", MONDAY_CONTEXT, strengthInfo));
         
-        // Verify no metrics were registered
+        // Check no metrics were registered
         assertTrue(multiMuscleGroup.getGroupMetrics().get("totalSets") == 0);
     }
 
@@ -152,7 +152,7 @@ public class TestMuscleGroup {
         // Unregister exercise from one context
         assertTrue(multiMuscleGroup.unregisterMusclesFromMetrics("BenchPress", MONDAY_CONTEXT));
         
-        // Verify metrics from other context remain
+        // Check metrics from other context remain
         Map<String, Double> metrics = multiMuscleGroup.getGroupMetrics();
         assertEquals(4.0, metrics.get("totalSets"), TEST_PRECISION);
         assertEquals(8.0, metrics.get("totalReps"), TEST_PRECISION);
@@ -165,13 +165,13 @@ public class TestMuscleGroup {
     void testInvalidUnregistration() {
         multiMuscleGroup.registerMusclesForMetrics("BenchPress", MONDAY_CONTEXT, strengthInfo);
         
-        // Test null exercise name
+        // null exercise name
         assertFalse(multiMuscleGroup.unregisterMusclesFromMetrics(null, MONDAY_CONTEXT));
         
-        // Test null context
+        // null context
         assertFalse(multiMuscleGroup.unregisterMusclesFromMetrics("BenchPress", null));
         
-        // Verify original metrics remain unchanged
+        // Check original metrics remain unchanged
         Map<String, Double> metrics = multiMuscleGroup.getGroupMetrics();
         assertEquals(4.0, metrics.get("totalSets"), TEST_PRECISION);
     }
@@ -186,7 +186,7 @@ public class TestMuscleGroup {
         
         Map<String, Double> metrics = multiMuscleGroup.getGroupMetrics();
         
-        // Verify combined metrics across contexts
+        // Check combined metrics across contexts
         assertEquals(8.0, metrics.get("totalSets"), TEST_PRECISION);
         assertEquals(16.0, metrics.get("totalReps"), TEST_PRECISION);
         assertEquals(480.0, metrics.get("totalStrengthDuration"), TEST_PRECISION);
@@ -195,7 +195,7 @@ public class TestMuscleGroup {
         assertEquals(180.0 + 300.0, metrics.get("totalRestTimeBetween"), TEST_PRECISION);
         assertEquals(3660.0, metrics.get("totalDuration"), TEST_PRECISION);
         
-        // Unregister one context and verify remaining metrics
+        // Unregister one context and Check remaining metrics
         multiMuscleGroup.unregisterMusclesFromMetrics("BenchPress", MONDAY_CONTEXT);
         metrics = multiMuscleGroup.getGroupMetrics();
         assertEquals(4.0, metrics.get("totalSets"), TEST_PRECISION);

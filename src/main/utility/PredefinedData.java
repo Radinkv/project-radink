@@ -10,6 +10,7 @@ import model.equipment.strength.Machine;
 import model.muscle.Muscle;
 import model.muscle.MuscleGroup;
 
+import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -31,7 +32,7 @@ import java.util.Map;
  */
 public class PredefinedData {
 
-    // Equipment instances
+    // The Equipment instances
     private static Treadmill TREADMILL = new Treadmill();
     private static BodyWeight BODYWEIGHT = new BodyWeight();
     private static Dumbbell DUMBBELL = new Dumbbell();
@@ -39,7 +40,7 @@ public class PredefinedData {
     private static Cable CABLE = new Cable();
     private static Machine MACHINE = new Machine();
 
-    // Muscle instances
+    // The Muscle instances
     private static Muscle BICEP = new Muscle("Biceps");
     private static Muscle BRACHIALIS = new Muscle("Brachialis");
     private static Muscle TRICEP = new Muscle("Triceps");
@@ -56,36 +57,23 @@ public class PredefinedData {
     private static Muscle ABS = new Muscle("Abs");
     private static Muscle OBLIQUES = new Muscle("Obliques");
     
-    // MuscleGroup instances
-    private static MuscleGroup UPPER_BODY;
-    private static MuscleGroup LOWER_BODY;
-    private static MuscleGroup BACK;
-    private static MuscleGroup CHEST_SHOULDERS;
-    private static MuscleGroup ARMS;
-    private static MuscleGroup LEGS;
-    private static MuscleGroup CORE;
+    // The MuscleGroup instances built from Muscle instances
+    private static MuscleGroup UPPER_BODY = 
+            new MuscleGroup("Upper Body", new ArrayList<Muscle>(List.of(CHEST, DELTOID, BICEP, TRICEP, FOREARM)));
+    private static MuscleGroup LOWER_BODY = 
+            new MuscleGroup("Lower Body", new ArrayList<Muscle>(List.of(QUAD, HAMSTRING, GLUTE, CALF)));
+    private static MuscleGroup BACK = 
+            new MuscleGroup("Back", new ArrayList<Muscle>(List.of(LATS, TRAPS, LOWER_BACK)));
+    private static MuscleGroup CHEST_SHOULDERS = 
+            new MuscleGroup("Chest & Shoulders", new ArrayList<Muscle>(List.of(CHEST, DELTOID)));
+    private static MuscleGroup ARMS = 
+            new MuscleGroup("Arms", new ArrayList<Muscle>(List.of(BICEP, BRACHIALIS, TRICEP, FOREARM)));
+    private static MuscleGroup LEGS = 
+            new MuscleGroup("Legs", new ArrayList<Muscle>(List.of(QUAD, HAMSTRING, GLUTE, CALF)));
+    private static MuscleGroup CORE = 
+            new MuscleGroup("Core", new ArrayList<Muscle>(List.of(LOWER_BACK, ABS, OBLIQUES)));
 
-    // static initialization block
-    static {
-        UPPER_BODY = new MuscleGroup("Upper Body", new ArrayList<>(
-                java.util.List.of(CHEST, DELTOID, BICEP, TRICEP, FOREARM)));
-        LOWER_BODY = new MuscleGroup("Lower Body", new ArrayList<>(
-                java.util.List.of(QUAD, HAMSTRING, GLUTE, CALF)));
-        BACK = new MuscleGroup("Back", new ArrayList<>(
-                java.util.List.of(LATS, TRAPS, LOWER_BACK)));
-        CHEST_SHOULDERS = new MuscleGroup("Chest & Shoulders", new ArrayList<>(
-                java.util.List.of(CHEST, DELTOID)));
-        ARMS = new MuscleGroup("Arms", new ArrayList<>(
-                java.util.List.of(BICEP, BRACHIALIS, TRICEP, FOREARM)));
-        LEGS = new MuscleGroup("Legs", new ArrayList<>(
-                java.util.List.of(QUAD, HAMSTRING, GLUTE, CALF)));
-        CORE = new MuscleGroup("Core", new ArrayList<>(
-                java.util.List.of(LOWER_BACK, ABS, OBLIQUES)));
-    }
-
-    /**
-     * EFFECTS: Returns an unmodifiable map containing all predefined muscles mapped by name.
-     */
+    // EFFECTS: Return an unmodifiable map containing all predefined Muscle instances mapped by name
     public Map<String, Muscle> getAllMuscles() {
         Map<String, Muscle> muscles = new HashMap<String, Muscle>();
         muscles.put("Biceps", BICEP);
@@ -106,9 +94,7 @@ public class PredefinedData {
         return Collections.unmodifiableMap(muscles);
     }
 
-    /**
-     * EFFECTS: Returns an unmodifiable map containing all predefined muscle groups mapped by name.
-     */
+    // EFFECTS: Returns an unmodifiable map containing all predefined MuscleGroup instances mapped by name
     public Map<String, MuscleGroup> getAllMuscleGroups() {
         Map<String, MuscleGroup> groups = new HashMap<String, MuscleGroup>();
         groups.put("Upper Body", UPPER_BODY);
@@ -121,9 +107,7 @@ public class PredefinedData {
         return Collections.unmodifiableMap(groups);
     }
 
-    /**
-     * EFFECTS: Returns an unmodifiable map containing all predefined equipment mapped by name.
-     */
+    // EFFECTS: Returns an unmodifiable map containing all predefined Equipment instances mapped by name
     public Map<String, Equipment> getAllEquipment() {
         Map<String, Equipment> equipment = new HashMap<String, Equipment>();
         equipment.put("Treadmill", TREADMILL);
@@ -135,16 +119,12 @@ public class PredefinedData {
         return Collections.unmodifiableMap(equipment);
     }
 
-    /**
-     * EFFECTS: Returns the Muscle instance corresponding to the given name, or null if not found.
-     */
+    // EFFECTS: Returns the Muscle instance corresponding to the given name, or null if not found
     public Muscle findMuscle(String name) {
         return getAllMuscles().get(name);
     }
 
-    /**
-     * EFFECTS: Returns the Equipment instance corresponding to the given name, or null if not found.
-     */
+    // EFFECTS: Returns the Equipment instance corresponding to the given name, or null if not found
     public Equipment findEquipment(String name) {
         return getAllEquipment().get(name);
     }

@@ -1,9 +1,9 @@
 package model.exercise;
 
-import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 
+import model.association.ExerciseAssociator;
 import model.equipment.Equipment;
 import model.muscle.MuscleGroup;
 
@@ -15,34 +15,91 @@ import model.muscle.MuscleGroup;
  *      2. MuscleGroups that track endurance-based exercise impacts
  *      3. Equipment that categorizes exercises based on usage
  * 
- * PURPOSE: Models an endurance exercise where the primary variable is time spent performing it
- *          Tracks exercise name, duration, equipment used, and targeted muscles
+ * PURPOSE: Models an endurance exercise where the primary variable is the total duration
+ *          spent performing it. Tracks exercise name, duration, equipment used, and targeted muscles.
  * 
  * MUTABILITY: Immutable
  */
 public class EnduranceExercise extends Exercise {
 
-    // REQUIRES: totalDuration > 0
     // EFFECTS: Create an instance of this endurance exercise, initializing:
     //          1. Name of this exercise
     //          2. Total duration of this endurance exercise, in minutes
     //          3. Equipment used in performing this endurance exercise
     //          4. Muscle group (muscles) targeted by this endurance-based exercise
+    //          Limit totalDuration to avoid overflow and keep it above 0 if totalDuration < 0
     public EnduranceExercise(String name, double totalDuration, 
-                            Equipment equipmentUsed, MuscleGroup musclesTargeted) {
-        // stub
+            Equipment equipmentUsed, MuscleGroup musclesTargeted) {
+        super(name, "Endurance", equipmentUsed, musclesTargeted);
+
+        // Ensure totalDuration is within safe limits
+        // Use a safe maximum that will not overflow when multiplied by 60 (for seconds conversion)
+        double maxSafeDuration = Double.MAX_VALUE / 120; // Division by 120 provides double the extra safety margin
+        double safeDuration = Math.max(Double.MIN_NORMAL, 
+                Math.min(totalDuration, maxSafeDuration));
+
+        exerciseInfo.put("duration", safeDuration);
     }
 
-    // EFFECTS: Return total duration of this endurance exercise, in minutes
+    // FOR TESTING PURPOSES
+    public EnduranceExercise() {
+        super("Test", null, null, null);
+    }
+
+    // MODIFIES: MuscleGroup, Equipment
+    // EFFECTS: Send a copy of this Exercise's getInfo, along with this exercise's name
+    //          to Equipment and MuscleGroup. If already present, make no changes
+    //          Do nothing if this exercise has null Equipment or MuscleGroup, respectively
     @Override
-    public Duration getDuration() {
-        return Duration.ofMinutes(0); // stub
+    public void activateMetrics(String context) {
+        Map<String, Double> metrics = convertInfoToAssociatorFormat();
+        
+        if (requiredEquipment instanceof ExerciseAssociator) {
+            ((ExerciseAssociator) requiredEquipment).registerExercise(getName(), context, new HashMap<>(metrics));
+        }
+        if (musclesTargeted != null) {
+            musclesTargeted.registerMusclesForMetrics(getName(), context, new HashMap<>(metrics));
+        }
     }
 
-    // EFFECTS: Return key-value pair with 'duration' representing this endurance exercise's total duration:
-    //          1. 'totalDuration' (duration in seconds)
+    // MODIFIES: MuscleGroup, Equipment
+    // EFFECTS: Remove copy of this Exercise's getInfo from Equipment
+    //          and MuscleGroup. If not present, make no changes
+    //          Do nothing if this exercise has null Equipment or MuscleGroup, respectively
+    @Override
+    public void deactivateMetrics(String context) {
+        if (requiredEquipment instanceof ExerciseAssociator) {
+            ((ExerciseAssociator) requiredEquipment).unregisterExercise(getName(), context);
+        }
+        if (musclesTargeted != null) {
+            musclesTargeted.unregisterMusclesFromMetrics(getName(), context);
+        }
+    }
+
+    // EFFECTS: Return the endurance exercise's duration in seconds
+    @Override
+    public double getDuration() {
+        return exerciseInfo.get("duration") * 60;
+    }
+
+    // EFFECTS: Return key-value pairs of the raw endurance exercise information
+    //          (In this case, just the "duration" value as provided.)
     @Override
     public Map<String, Double> getInfo() {
-        return new HashMap<>(); // stub
+        Map<String, Double> info = new HashMap<>(exerciseInfo);
+        double durationSeconds = info.get("duration") * 60;
+        info.put("totalDuration", durationSeconds);
+        return info;
+    }
+
+    // EFFECTS: Converts the raw endurance exercise info into the aggregated metrics expected by ExerciseAssociator
+    //          Includes:
+    //              1. "totalEnduranceDuration"
+    //              2. "totalDuration"
+    public Map<String, Double> convertInfoToAssociatorFormat() {
+        Map<String, Double> associatorMetrics = new HashMap<>();
+        associatorMetrics.put("totalEnduranceDuration", getDuration());
+        associatorMetrics.put("totalDuration", getDuration());
+        return associatorMetrics;
     }
 }

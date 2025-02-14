@@ -1,10 +1,9 @@
 package model.exercise;
 
+import java.util.HashMap;
 import java.util.Map;
-import java.time.Duration;
 
 import model.equipment.Equipment;
-import model.equipment.bodyweight.BodyWeight;
 import model.muscle.MuscleGroup;
 
 /**
@@ -23,45 +22,58 @@ import model.muscle.MuscleGroup;
  * See Exercise subclasses for detailed method specifications
  */
 public abstract class Exercise {
+    protected Map<String, Double> exerciseInfo;
+    protected String name;
+    protected String type;
+    protected Equipment requiredEquipment;
+    protected MuscleGroup musclesTargeted;
 
-
-    // MODIFIES: MuscleGroup, Equipment
-    // EFFECTS: Register this exercise with:
-    //          - the targeted MuscleGroup by calling muscleGroup.registerExercise(...)
-    //          - the required Equipment by calling equipment.registerExercise(...)
-    //          (No action if muscleGroup or equipment are null or invalid)
-    public void activateMetrics() {
-
-    }
-
-    // MODIFIES: MuscleGroup, Equipment
-    // EFFECTS: Activate metric contributions 
-    public void deactivateMetrics() {
-
-    }
-
-    // EFFECTS: Return name of this endurance exercise
-    public String getName() {
-        return ""; // stub
+    protected Exercise(String name, String type, Equipment equipmentUsed, MuscleGroup musclesTargeted) {
+        exerciseInfo = new HashMap<>();
+        this.name = (name != null && !name.trim().isEmpty()) ? name : "Unnamed Exercise";
+        this.type = type;
+        this.requiredEquipment = equipmentUsed;
+        this.musclesTargeted = musclesTargeted;
     }
     
-    abstract Duration getDuration();
+    // MODIFIES: MuscleGroup, Equipment
+    // EFFECTS: Send a copy of this Exercise's getInfo, along with this exercise's name
+    //          to Equipment and MuscleGroup. If already present, make no changes
+    public abstract void activateMetrics(String context);
+
+    // MODIFIES: MuscleGroup, Equipment
+    // EFFECTS: Remove copy of this Exercise's getInfo from Equipment
+    //           and MuscleGroup. If not present, make no changes
+    public abstract void deactivateMetrics(String context);
+
+    // EFFECTS: Return name of this exercise
+    public String getName() {
+        return name;
+    }
+    
+    public abstract double getDuration();
 
     // EFFECTS: Return this exercise's training style
     public String exerciseType() {
-        return ""; // stub
+        if (type == null) {
+            return "Unknown";
+        } else {
+            return type;
+        }
     }
 
-    // EFFECTS: Return equipment used for this endurance exercise
+    // EFFECTS: Return equipment used for this exercise
     public Equipment getRequiredEquipment() {
-        return new BodyWeight(); // stub
+        return requiredEquipment;
     }
 
     // EFFECTS: Return muscle group targeted by this exercise
     public MuscleGroup getMusclesTargeted() {
-        return new MuscleGroup(); // stub
+        return musclesTargeted;
     }
     
 
-    public abstract Map<String, Double> getInfo(); 
+    public abstract Map<String, Double> getInfo();
+
+    public abstract Map<String, Double> convertInfoToAssociatorFormat();
 }

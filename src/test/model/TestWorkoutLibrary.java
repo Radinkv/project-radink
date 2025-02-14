@@ -67,27 +67,29 @@ public class TestWorkoutLibrary {
     @Test
     void testEmptyLibrary() {
         assertTrue(library.getAllWorkouts().isEmpty());
-        
-        // Adopted from: https://junit.org/junit5/docs/current/user-guide/#writing-tests-assertions 
         assertThrows(IllegalArgumentException.class, () -> library.getWorkout("Any Workout"));
         assertThrows(IllegalArgumentException.class, () -> library.removeWorkout("Any Workout"));
     }
 
     @Test
-    void testAddOneWorkout() {
+    void testAddOneWorkoutAndGetNullWorkout() {
         library.addWorkout(strengthWorkout);
         
-        // Verify complete strengthWorkout state within the library
+        // complete strengthWorkout state within the library
         assertEquals(strengthWorkout, library.getWorkout("Arm Day"));
         assertEquals(1, library.getAllWorkouts().size());
         assertTrue(library.getAllWorkouts().contains(strengthWorkout));
+
+        assertThrows(IllegalArgumentException.class, () -> library.getWorkout(null));
     }
+
+    
 
     @Test
     void testAddOneRestDay() {
         library.addWorkout(restDay);
         
-        // Verify complete restDay state within the library
+        // complete restDay state within the library
         assertEquals(restDay, library.getWorkout("Recovery"));
         assertEquals(1, library.getAllWorkouts().size());
         assertTrue(library.getAllWorkouts().contains(restDay));
@@ -139,7 +141,7 @@ public class TestWorkoutLibrary {
         library.removeWorkout("Arm Day");
         assertEquals(1, library.getAllWorkouts().size());
         
-        // Verify remaining state
+        // remaining state
         assertEquals(cardioWorkout, library.getWorkout("Cardio Day"));
         assertThrows(IllegalArgumentException.class, () -> library.getWorkout("Arm Day"));
         
@@ -160,7 +162,7 @@ public class TestWorkoutLibrary {
 
     @Test
     void testCompleteWorkoutAddRemoveCycle() {
-        // Verify initial empty state
+        // initial empty state
         assertTrue(library.getAllWorkouts().isEmpty());
         assertThrows(IllegalArgumentException.class, () -> library.getWorkout("Arm Day"));
         
@@ -168,7 +170,7 @@ public class TestWorkoutLibrary {
         library.addWorkout(strengthWorkout);
         assertEquals(1, library.getAllWorkouts().size());
         
-        // Verify retrieved workout properties
+        // retrieved workout properties
         WorkoutPlan retrieved = library.getWorkout("Arm Day");
         assertEquals(strengthWorkout, retrieved);
         assertEquals("Arm Day", retrieved.getName());

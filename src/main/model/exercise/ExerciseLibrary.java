@@ -61,6 +61,6 @@ public class ExerciseLibrary {
 
     // EFFECTS: Return all stored exercises and their names.
     public Map<String, Exercise> getAllExercises() {
-        return library;
+        return new HashMap<String, Exercise>(library); // Defensive copy
     }
 }

@@ -83,12 +83,10 @@ class TestExercise {
     void testExerciseAbstractGetters() {
         // Can use any Exercise subclass (StrengthExercise in this case)
         Exercise exercise = new StrengthExercise(
-            "TestExercise", 1, 1, 1.0, 1.0, dumbbell, chest);
+                "TestExercise", 1, 1, 1.0, 1.0, dumbbell, chest);
         
-        // Test getRequiredEquipment()
+        // Testing getters
         assertEquals(dumbbell, exercise.getRequiredEquipment());
-        
-        // Test getMusclesTargeted()
         assertEquals(chest, exercise.getMusclesTargeted());
 
         exercise = new StrengthExercise(
@@ -96,7 +94,7 @@ class TestExercise {
         
         assertEquals("Unnamed Exercise", exercise.getName());
 
-        // Verifying Absraction null behaviour
+        // Execise Absraction null behaviour
         exercise = new EnduranceExercise();
         assertEquals("Unknown", exercise.exerciseType());
     }
@@ -105,13 +103,13 @@ class TestExercise {
     void testConstructorEdgeCases() {
         // extremely large values
         StrengthExercise maxStrength = new StrengthExercise(
-            "Max", Integer.MAX_VALUE, Integer.MAX_VALUE, 
-            Double.MAX_VALUE, Double.MAX_VALUE, dumbbell, chest);
+                "Max", Integer.MAX_VALUE, Integer.MAX_VALUE, 
+                Double.MAX_VALUE, Double.MAX_VALUE, dumbbell, chest);
         EnduranceExercise maxEndurance = new EnduranceExercise(
-            "Max", Double.MAX_VALUE, treadmill, legs);
+                "Max", Double.MAX_VALUE, treadmill, legs);
         IntervalExercise maxInterval = new IntervalExercise(
-            "Max", Double.MAX_VALUE, Double.MAX_VALUE, 
-            Integer.MAX_VALUE, bodyweight, legs);
+                "Max", Double.MAX_VALUE, Double.MAX_VALUE, 
+                    Integer.MAX_VALUE, bodyweight, legs);
         
         assertTrue(maxStrength.getDuration() < Double.POSITIVE_INFINITY);
         assertTrue(maxEndurance.getDuration() < Double.POSITIVE_INFINITY);
@@ -119,11 +117,11 @@ class TestExercise {
         
         // negative values
         StrengthExercise negStrength = new StrengthExercise(
-            "Neg", -1, -1, -1.0, -1.0, dumbbell, chest);
+                "Neg", -1, -1, -1.0, -1.0, dumbbell, chest);
         EnduranceExercise negEndurance = new EnduranceExercise(
-            "Neg", -1.0, treadmill, legs);
+                "Neg", -1.0, treadmill, legs);
         IntervalExercise negInterval = new IntervalExercise(
-            "Neg", -1.0, -1.0, -1, bodyweight, legs);
+                "Neg", -1.0, -1.0, -1, bodyweight, legs);
         
         assertTrue(negStrength.getDuration() >= 0);
         assertTrue(negEndurance.getDuration() >= 0);
@@ -134,11 +132,11 @@ class TestExercise {
     void testNullAndEmptyConstructors() {
         // null names
         StrengthExercise nullNameStrength = new StrengthExercise(
-            null, 1, 1, 1.0, 1.0, dumbbell, chest);
+                null, 1, 1, 1.0, 1.0, dumbbell, chest);
         EnduranceExercise nullNameEndurance = new EnduranceExercise(
-            null, 1.0, treadmill, legs);
+                null, 1.0, treadmill, legs);
         IntervalExercise nullNameInterval = new IntervalExercise(
-            null, 1.0, 1.0, 1, bodyweight, legs);
+                null, 1.0, 1.0, 1, bodyweight, legs);
         
         assertNotNull(nullNameStrength.getName());
         assertNotNull(nullNameEndurance.getName());
@@ -146,11 +144,11 @@ class TestExercise {
         
         // empty names
         StrengthExercise emptyNameStrength = new StrengthExercise(
-            "", 1, 1, 1.0, 1.0, dumbbell, chest);
+                "", 1, 1, 1.0, 1.0, dumbbell, chest);
         EnduranceExercise emptyNameEndurance = new EnduranceExercise(
-            "", 1.0, treadmill, legs);
+                "", 1.0, treadmill, legs);
         IntervalExercise emptyNameInterval = new IntervalExercise(
-            "", 1.0, 1.0, 1, bodyweight, legs);
+                "", 1.0, 1.0, 1, bodyweight, legs);
         
         assertFalse(emptyNameStrength.getName().isEmpty());
         assertFalse(emptyNameEndurance.getName().isEmpty());
@@ -212,7 +210,7 @@ class TestExercise {
         running.activateMetrics("   ");
         hiit.activateMetrics("   ");
         
-        // Verify no metrics were registered
+        // no metrics should have been registered
         // REMEMBER: this behaviour is ALLOWED: null-string contexts
         assertTrue(((ExerciseAssociator) dumbbell).containsExercise("Bench Press", ""));
         assertTrue(((ExerciseAssociator) treadmill).containsExercise("Running", ""));
@@ -223,7 +221,7 @@ class TestExercise {
     void testDurationCalculations() {
         // strength exercise duration
         double strengthDuration = benchPress.getDuration();
-        double expectedStrengthDuration = (4 * 12 * 2.5) + (3 * 2.0 * 60);
+        double expectedStrengthDuration = 4 * (12 * 2.5 + 2.0 * 60); // sets * (reps * secsPerRep + restTime (seconds)) 
         assertEquals(expectedStrengthDuration, strengthDuration, TEST_PRECISION);
         
         // endurance exercise duration
@@ -250,7 +248,7 @@ class TestExercise {
         hiit.activateMetrics(context1);
         hiit.activateMetrics(context2);
         
-        // Verify metrics are tracked separately
+        // metrics are tracked respectively
         assertTrue(((ExerciseAssociator) dumbbell).containsExercise("Bench Press", context1));
         assertTrue(((ExerciseAssociator) dumbbell).containsExercise("Bench Press", context2));
         assertTrue(((ExerciseAssociator) treadmill).containsExercise("Running", context1));
@@ -262,15 +260,15 @@ class TestExercise {
     @Test
     void testNullEquipmentAndMuscleGroup() {
         StrengthExercise nullCompStrength = new StrengthExercise(
-            "Null", 1, 1, 1.0, 1.0, null, null);
+                "Null", 1, 1, 1.0, 1.0, null, null);
         EnduranceExercise nullCompEndurance = new EnduranceExercise(
-            "Null", 1.0, null, null);
+                "Null", 1.0, null, null);
         IntervalExercise nullCompInterval = new IntervalExercise(
-            "Null", 1.0, 1.0, 1, null, null);
+                "Null", 1.0, 1.0, 1, null, null);
         
         String context = "Monday";
         
-        // Verify no exceptions when activating/deactivating metrics
+        // no exceptions when activating/deactivating metrics
         nullCompStrength.activateMetrics(context);
         nullCompEndurance.activateMetrics(context);
         nullCompInterval.activateMetrics(context);
@@ -279,7 +277,7 @@ class TestExercise {
         nullCompEndurance.deactivateMetrics(context);
         nullCompInterval.deactivateMetrics(context);
         
-        // Verify getInfo still works
+        // getInfo still works
         assertNotNull(nullCompStrength.getInfo());
         assertNotNull(nullCompEndurance.getInfo());
         assertNotNull(nullCompInterval.getInfo());

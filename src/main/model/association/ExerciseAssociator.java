@@ -16,7 +16,7 @@ import java.util.Set;
  * PURPOSE: This abstraction allows tracking exercise volume and duration across different types of workouts.
  */
 public abstract class ExerciseAssociator {
-    protected Map<String, Map<String, Double>> exerciseMetrics;
+    private Map<String, Map<String, Double>> exerciseMetrics;
     private static final Set<String> VALID_METRICS = new HashSet<String>(Arrays.asList(
             "totalSets", 
             "totalReps", 
@@ -32,14 +32,8 @@ public abstract class ExerciseAssociator {
     }
 
     // MODIFIES: this
-    // EFFECTS: Add the given exercise's data if the combination of exerciseName and context is not 
-    //          already stored and return true
-    //          Filters exerciseInfo keys/fields and only keeps expected metrics
-    //          Returns false and makes no changes if one of:
-    //                  - exerciseName is null
-    //                  - context is null
-    //                  - exerciseInfo is null
-    //                  - the combination of exerciseName and context already exists
+    // EFFECTS: Create new exercise registration with filtered metrics if exerciseName-context metrics are not in this
+    //          Return true only if exerciseName, context, exerciseInfo are non-null and registration is successful
     public boolean registerExercise(String exerciseName, String context, Map<String, Double> exerciseInfo) {
         String key = exerciseName + "-" + context;
         if (exerciseName == null || context == null || exerciseInfo == null 
@@ -57,11 +51,8 @@ public abstract class ExerciseAssociator {
     }
 
     // MODIFIES: this
-    // EFFECTS: Remove the given exercise's metrics for the specified context if present and return true.
-    //          Returns false and makes no changes if:
-    //                  - exerciseName is null
-    //                  - context is null
-    //                  - no exercise exists for the given exerciseName and context combination
+    // EFFECTS: Remove exercise metrics for the given exerciseName-context's metrics if it exists in this
+    //          Return true only if exerciseName and context are non-null and removal is successful
     public boolean unregisterExercise(String exerciseName, String context) {
         if (exerciseName == null || context == null) {
             return false;
@@ -70,11 +61,8 @@ public abstract class ExerciseAssociator {
         return exerciseMetrics.remove(key) != null;
     }
 
-    // EFFECTS: Return true if an exercise with the given name exists for the specified context
-    //          Returns false if:
-    //              - exerciseName is null
-    //              - context is null
-    //              - no exercise exists for the given exerciseName and context combination
+    // EFFECTS: Return true if exerciseName-context pair exists in exerciseMetrics
+    //          Return false if either parameter is null or a pair is not found
     public boolean containsExercise(String exerciseName, String context) {
         String key = exerciseName + "-" + context;
         if (exerciseName == null || context == null) {
@@ -83,15 +71,9 @@ public abstract class ExerciseAssociator {
         return exerciseMetrics.containsKey(key);
     }
 
-    // EFFECTS: Returns aggregated metrics across all associated exercises.
-    //          1. "totalSets": total sets across strength exercises
-    //          2. "totalReps": total reps across strength exercises
-    //          3. "totalIntervalDuration": total time in interval-based exercises
-    //          4. "totalEnduranceDuration": total time in duration-based exercises
-    //          5. "totalStrengthDuration": total time in strength-based exercises
-    //          6. "totalDuration": total duration across all exercises
-    //          7. "totalRestTimeBetween": total rest time in between active portions exercises
-    //          Key values are 0 if this entity does not have any exercise(s) that contribute to that metric.
+    // EFFECTS: Sum all metric values across registered exercises
+    //          Initialize missing metrics to 0.0
+    //          Return a map of aggregated metrics
     public Map<String, Double> getAggregatedExerciseMetrics() {
         Map<String, Double> totalMetrics = createZeroValueMetricsMap();
         
@@ -106,18 +88,22 @@ public abstract class ExerciseAssociator {
         return totalMetrics;
     }
 
-    // EFFECTS: Returns the number of associated exercises.
+    // EFFECTS: Return the number of associated exercises
     public int getNumAssociatedExercises() {
         return exerciseMetrics.size();
     }
 
     // Helper method to create a map with all valid metrics initialized to zero
-    private Map<String, Double> createZeroValueMetricsMap() {
+    public static Map<String, Double> createZeroValueMetricsMap() {
         Map<String, Double> metrics = new HashMap<>();
         for (String metricName : VALID_METRICS) {
             metrics.put(metricName, 0.0);
         }
         return metrics;
+    }
+
+    public Map<String, Map<String, Double>> getRawExerciseMetrics() {
+        return new HashMap<String, Map<String, Double>>(exerciseMetrics);
     }
 
     // FOR TESTING PURPOSES.

@@ -63,15 +63,15 @@ public class TestWorkoutPlan {
     }
 
     private void initializeExerciseLists() {
-        singleExerciseList = new ArrayList<>();
+        singleExerciseList = new ArrayList<Exercise>();
         singleExerciseList.add(benchPress);
 
-        multiExerciseList = new ArrayList<>();
+        multiExerciseList = new ArrayList<Exercise>();
         multiExerciseList.add(benchPress);
         multiExerciseList.add(running);
         multiExerciseList.add(hiit);
 
-        emptyExerciseList = new ArrayList<>();
+        emptyExerciseList = new ArrayList<Exercise>();
     }
 
     @Test
@@ -104,15 +104,12 @@ public class TestWorkoutPlan {
         Workout validWorkout = new Workout("Test", singleExerciseList);
         assertEquals("Test", validWorkout.getName());
         assertEquals(1, validWorkout.getExercises().size());
-        
         // null name
         assertThrows(IllegalArgumentException.class, () -> new Workout(null, singleExerciseList));
-        
         // null exercise list
         assertThrows(IllegalArgumentException.class, () -> new Workout("Test", null));
-        
         // list containing null exercise
-        List<Exercise> nullExerciseList = new ArrayList<>();
+        List<Exercise> nullExerciseList = new ArrayList<Exercise>();
         nullExerciseList.add(benchPress);
         nullExerciseList.add(null);
         assertThrows(IllegalArgumentException.class, () -> new Workout("Test", nullExerciseList));
@@ -121,7 +118,7 @@ public class TestWorkoutPlan {
     @Test
     void testWorkoutMetricActivationWithContext() {
         Workout workout = new Workout("Test", multiExerciseList);
-        
+
         // Activate same workout in different contexts
         workout.activateMetrics(MONDAY_CONTEXT);
         workout.activateMetrics(WEDNESDAY_CONTEXT);
@@ -217,21 +214,21 @@ public class TestWorkoutPlan {
         
         // strength metrics from benchPress
         assertEquals(4.0, summary.get("totalSets"), TEST_PRECISION);
-        assertEquals(12.0, summary.get("totalReps"), TEST_PRECISION);
-        assertEquals(120.0, summary.get("totalStrengthDuration"), TEST_PRECISION);
+        assertEquals(4.0 * 12.0, summary.get("totalReps"), TEST_PRECISION);
+        assertEquals(600.0, summary.get("totalStrengthDuration"), TEST_PRECISION);
         
         // endurance metrics from running
         assertEquals(1800.0, summary.get("totalEnduranceDuration"), TEST_PRECISION);
         
         // interval metrics from HIIT
-        assertEquals(300.0, summary.get("totalIntervalDuration"), TEST_PRECISION);
+        assertEquals(450.0, summary.get("totalIntervalDuration"), TEST_PRECISION);
         
         // combined rest time (strength rest + interval rest)
-        assertEquals(510.0, summary.get("totalRestTimeBetween"), TEST_PRECISION);
+        assertEquals(630.0, summary.get("totalRestTimeBetween"), TEST_PRECISION);
         
         // total duration
-        double expectedTotalDuration = benchPress.getDuration() + 
-                running.getDuration() + hiit.getDuration();
+        double expectedTotalDuration = benchPress.getDuration() 
+                +  running.getDuration() + hiit.getDuration();
         assertEquals(expectedTotalDuration, summary.get("totalDuration"), TEST_PRECISION);
         
         // empty workout

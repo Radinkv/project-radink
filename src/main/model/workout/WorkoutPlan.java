@@ -22,9 +22,19 @@ import model.exercise.Exercise;
 public abstract class WorkoutPlan {
 
     // EFFECTS: Return name of this workout plan
-    public String getName() {
-        return ""; // stub
-    }
+    public abstract String getName();
+
+    // MODIFIES: MuscleGroup, Equipment
+    // EFFECTS: Facilitate the addition of copies of each Exercise's getInfo from their respective Equipment
+    //          and MuscleGroup under this WorkoutPlan if this is a Workout. If already present or this is a 
+    //          RestDay, make no changes
+    public abstract void activateMetrics(String context);
+
+    // MODIFIES: MuscleGroup, Equipment
+    // EFFECTS: Facilitate the removal of copies of each Exercise's getInfo from their respective Equipment
+    //          and MuscleGroup under this WorkoutPlan if this is a Workout. If not already present or this  
+    //          is a RestDay, make no changes
+    public abstract void deactivateMetrics(String context);
 
     // EFFECTS: Return total duration of this workout plan in seconds
     public abstract double getDuration();

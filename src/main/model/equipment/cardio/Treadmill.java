@@ -11,7 +11,7 @@ package model.equipment.cardio;
  * PURPOSE: This class ensures all treadmill exercises refer to a single instance of this equipment,
  *          which allows for cumulating exercise metrics unique to this euipment.
  * 
- * MUTABILITY: Immutable
+ * MUTABILITY: Immutable (Except ExerciseAssociator)
  */
 public class Treadmill extends CardioEquipment {
 
