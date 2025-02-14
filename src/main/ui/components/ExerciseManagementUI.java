@@ -2,62 +2,165 @@ package ui.components;
 
 import static ui.components.SharedUI.*;
 import java.util.List;
+import java.util.Map;
 import model.exercise.Exercise;
 
-/** This UI component manages Exercise viewing and deletion based on what the user chooses.  */
+/** This UI component manages Exercise viewing, details display, and deletion based on user choice. */
 public class ExerciseManagementUI {
 
-    // EFFECTS: Display the exercise management UI, which ultimately allows the user to delete exercises
+    // EFFECTS: Display the exercise management UI, which allows users to view details or delete exercises
     //          If no exercises are available, inform the user and exit this UI segment
     public void manageExercises() {
         while (true) {
             clearScreen();
             List<Exercise> exercises = viewExercises();
             if (exercises.isEmpty()) {
-                System.out.println("No exercises to manage.");
                 waitForEnter();
                 return;
             }
+            displayManagementOptions();
             if (!processExerciseManagement(exercises)) {
                 break;
             }
         }
     }
 
+    // EFFECTS: Display the available management options to the user
+    private void displayManagementOptions() {
+        System.out.println("\nOptions:");
+        System.out.println("[0] View exercise details");
+        System.out.println("[1] Delete exercise");
+        System.out.println("[2] Back to Main Menu");
+    }
+
     // HELPER: for manageExercises
-    // REQUIRES: exercises is not null and contains no null elements.
+    // REQUIRES: exercises != null and contains no null elements.
     // EFFECTS: Process exercise management commands; return false if the user chooses to exit.
     private boolean processExerciseManagement(List<Exercise> exercises) {
-        System.out.print("\nSelect exercise to delete " + BACK_OPTION + ": ");
-        String command = input.nextLine().trim();
-        if (command.equalsIgnoreCase("b")) {
-            return false;
+        System.out.print("\nSelect option: ");
+        String command = input.nextLine().trim().toUpperCase();
+        
+        switch (command) {
+            case "0":
+                handleExerciseDetails(exercises);
+                break;
+            case "1":
+                handleExerciseDeletion(exercises);
+                break;
+            case "2":
+                return false;
+            default:
+                System.out.println(INVALID_INPUT);
+                waitForEnter();
         }
-        handleExerciseDeletion(exercises, command);
         return true;
     }
 
     // HELPER: for processExerciseManagement
-    // REQUIRES: exercises is not null and contains no null elements; command is not null.
-    // EFFECTS: Handle the deletion of the selected exercise.
-    private void handleExerciseDeletion(List<Exercise> exercises, String command) {
+    // REQUIRES: exercises != null and contains no null elements
+    // EFFECTS: Handle the viewing of exercise details
+    private void handleExerciseDetails(List<Exercise> exercises) {
+        System.out.print("\nSelect exercise to view details (i.e. '2')" + BACK_OPTION + ": ");
+        String command = input.nextLine().trim();
+        if (command.equalsIgnoreCase("b")) {
+            return;
+        }
+        try {
+            int index = Integer.parseInt(command);
+            if (index >= 0 && index < exercises.size()) {
+                displayExerciseDetails(exercises.get(index));
+                waitForEnter();
+            } else {
+                System.out.println(INVALID_INPUT);
+                waitForEnter();
+            }
+        } catch (NumberFormatException e) {
+            System.out.println(INVALID_INPUT);
+            waitForEnter();
+        }
+    }
+
+    // HELPER: for handleExerciseDetails
+    // REQUIRES: exercise != null
+    // EFFECTS: Display detailed information about the specified exercise
+    private void displayExerciseDetails(Exercise exercise) {
+        System.out.println("\n=== Exercise Details ===");
+        System.out.println("Name: " + exercise.getName());
+        System.out.println("Type: " + exercise.exerciseType());
+        System.out.println("---------------------------");
+        
+        Map<String, Double> info = exercise.getInfo();
+        if (info.isEmpty()) {
+            System.out.println("No additional information available.");
+            return;
+        }
+
+        // Display total duration first
+        if (info.containsKey("totalDuration")) {
+            System.out.println("Total Duration: " + 
+                formatDuration(Math.round(info.get("totalDuration")))
+            );
+        }
+
+        // Strength Exercise
+        if (info.containsKey("sets") && info.containsKey("reps")) {
+            System.out.println("\nTraining Details:");
+            System.out.println("---------------------------");
+            System.out.printf("Sets: %.0f\n", info.get("sets"));
+            System.out.printf("Reps: %.0f\n", info.get("reps"));
+            if (info.containsKey("timePerRep")) {
+                System.out.printf("Time Per Rep: %.1f seconds\n", info.get("timePerRep"));
+            }
+            if (info.containsKey("restTime")) {
+                System.out.printf("Rest Time (Between Each Set): %.1f minutes\n", info.get("restTime"));
+            }
+        }
+
+        // Interval Exercise
+        if (info.containsKey("timeOn")) {
+            System.out.println("\nInterval Details:");
+            System.out.println("---------------------------");
+            System.out.printf("Active Time: %.1f seconds\n", info.get("timeOn"));
+            System.out.printf("Rest Time (Between Each Active Portion): %.1f seconds\n", info.get("timeOff"));
+            System.out.printf("Repetitions: %.0f\n", info.get("repititions"));
+        }
+
+        // Endurance Exercise
+        if (info.containsKey("duration")) {
+            System.out.println("\nEndurance Details:");
+            System.out.println("---------------------------");
+            System.out.printf("Duration: %.1f minutes\n", info.get("duration"));
+        }
+    }
+
+    // HELPER: for processExerciseManagement
+    // REQUIRES: exercises != null and contains no null elements
+    // EFFECTS: Handle the deletion selection process
+    private void handleExerciseDeletion(List<Exercise> exercises) {
+        System.out.print("\nSelect exercise to delete (i.e. '2')" + BACK_OPTION + ": ");
+        String command = input.nextLine().trim();
+        if (command.equalsIgnoreCase("b")) {
+            return;
+        }
         try {
             int index = Integer.parseInt(command);
             if (index >= 0 && index < exercises.size()) {
                 confirmAndDeleteExercise(exercises.get(index));
+                waitForEnter();
             } else {
                 System.out.println(INVALID_INPUT);
+                waitForEnter();
             }
         } catch (NumberFormatException e) {
             System.out.println(INVALID_INPUT);
+            waitForEnter();
         }
-        waitForEnter();
     }
 
     // HELPER: for handleExerciseDeletion
-    // REQUIRES: exercise is not null.
+    // REQUIRES: exercise != null
     // MODIFIES: ExerciseLibrary
-    // EFFECTS: Confirm with the user and delete the specified exercise if confirmed.
+    // EFFECTS: Confirm with the user and delete the specified exercise if confirmed
     private void confirmAndDeleteExercise(Exercise exercise) {
         System.out.print("\nAre you sure you want to delete '" + exercise.getName() + "'? (y/n): ");
         String confirmation = input.nextLine().trim();

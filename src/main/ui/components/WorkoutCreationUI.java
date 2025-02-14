@@ -173,7 +173,7 @@ public class WorkoutCreationUI {
     // REQUIRES: availableExercises and selectedExercises are not null and contain no null elements
     // EFFECTS: Add exercises to the selection based on user input
     private void addExercisesToSelection(List<Exercise> availableExercises, List<Exercise> selectedExercises) {
-        System.out.println("\nEnter exercise numbers separated by spaces (e.g., '0 2 5')");
+        System.out.println("\nEnter exercise numbers separated by spaces (i.e. '0 2 5')");
         System.out.print("Selection: ");
         String[] selections = input.nextLine().trim().split("\\s+"); // Would've used Arraylist<String>
         processExerciseAdditions(selections, availableExercises, selectedExercises);

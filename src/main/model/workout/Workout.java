@@ -38,8 +38,7 @@ public class Workout extends WorkoutPlan {
     }
 
     // MODIFIES: MuscleGroup, Equipment
-    // EFFECTS: Facilitate the addition of of each Exercise's getInfo from their respective Equipment
-    //          and MuscleGroup under this Workout. If already present, make no changes
+    // EFFECTS: Add each exercise's metrics from its equipment and muscle groups under the given context
     @Override
     public void activateMetrics(String context) {
         for (Exercise exercise : exercises) {
