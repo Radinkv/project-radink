@@ -29,7 +29,7 @@ public abstract class Exercise {
     protected MuscleGroup musclesTargeted;
 
     protected Exercise(String name, String type, Equipment equipmentUsed, MuscleGroup musclesTargeted) {
-        exerciseInfo = new HashMap<>();
+        exerciseInfo = new HashMap<String, Double>();
         this.name = (name != null && !name.trim().isEmpty()) ? name : "Unnamed Exercise";
         this.type = type;
         this.requiredEquipment = equipmentUsed;

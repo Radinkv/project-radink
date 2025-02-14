@@ -143,14 +143,14 @@ public class TestExerciseAssociator {
     }
     
     private void initializeStrengthData() {
-        strengthInfo1 = new HashMap<>();
+        strengthInfo1 = new HashMap<String, Double>();
         strengthInfo1.put("totalSets", 3.7);
         strengthInfo1.put("totalReps", 12.3);
         strengthInfo1.put("totalStrengthDuration", 187.8);
         strengthInfo1.put("totalRestTimeBetween", 63.2);
         strengthInfo1.put("totalDuration", 251.0);
     
-        strengthInfo2 = new HashMap<>();
+        strengthInfo2 = new HashMap<String, Double>();
         strengthInfo2.put("totalSets", 4.2);
         strengthInfo2.put("totalReps", 8.7);
         strengthInfo2.put("totalStrengthDuration", 242.3);
@@ -159,40 +159,40 @@ public class TestExerciseAssociator {
     }
     
     private void initializeEnduranceData() {
-        enduranceInfo1 = new HashMap<>();
+        enduranceInfo1 = new HashMap<String, Double>();
         enduranceInfo1.put("totalEnduranceDuration", 1823.7);
         enduranceInfo1.put("totalDuration", 1823.7);
     
-        enduranceInfo2 = new HashMap<>();
+        enduranceInfo2 = new HashMap<String, Double>();
         enduranceInfo2.put("totalEnduranceDuration", 2418.4);
         enduranceInfo2.put("totalDuration", 2418.4);
     }
     
     private void initializeIntervalData() {
-        intervalInfo1 = new HashMap<>();
+        intervalInfo1 = new HashMap<String, Double>();
         intervalInfo1.put("totalIntervalDuration", 923.4);
         intervalInfo1.put("totalRestTimeBetween", 328.9);
         intervalInfo1.put("totalDuration", 1252.3);
     
-        intervalInfo2 = new HashMap<>();
+        intervalInfo2 = new HashMap<String, Double>();
         intervalInfo2.put("totalIntervalDuration", 1231.8);
         intervalInfo2.put("totalRestTimeBetween", 427.6);
         intervalInfo2.put("totalDuration", 1659.4);
     }
     
     private void initializeInvalidData() {
-        invalidInfo = new HashMap<>();
+        invalidInfo = new HashMap<String, Double>();
         invalidInfo.put("invalidKey1", 123.4);
         invalidInfo.put("invalidKey2", 234.5);
         invalidInfo.put("wrongMetric", 345.6);
     
-        emptyInfo = new HashMap<>();
+        emptyInfo = new HashMap<String, Double>();
     
-        partialInfo = new HashMap<>();
+        partialInfo = new HashMap<String, Double>();
         partialInfo.put("totalSets", 3.8);
         
         // Miss other metrics intentionally than from what is a full metric suite
-        mixedInfo = new HashMap<>();
+        mixedInfo = new HashMap<String, Double>();
         mixedInfo.put("totalSets", 4.3);
         mixedInfo.put("invalidKey", 156.7);
         mixedInfo.put("totalReps", 10.2);
@@ -372,7 +372,7 @@ public class TestExerciseAssociator {
         associator.clearExercises();
     
         // extreme values across different contexts
-        Map<String, Double> extremeValues = new HashMap<>();
+        Map<String, Double> extremeValues = new HashMap<String, Double>();
         extremeValues.put("totalSets", Double.MAX_VALUE);
         extremeValues.put("totalReps", Double.MIN_VALUE);
         extremeValues.put("totalDuration", 1e-20);

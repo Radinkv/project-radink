@@ -79,12 +79,12 @@ public class Workout extends WorkoutPlan {
     }
 
     // EFFECTS: Calculate cumulative metrics across all exercises
-    //         Initialize all possible metric types to 0.0
-    //         Sum corresponding metrics from each exercise
-    //         Return map of aggregated workout statistics
+    //          Initialize all possible metric types to 0.0
+    //          Sum corresponding metrics from each exercise
+    //          Return map of aggregated workout statistics
     @Override
     public Map<String, Double> getWorkoutSummary() {
-        Map<String, Double> cumulativeWorkoutStats = new HashMap<>();
+        Map<String, Double> cumulativeWorkoutStats = new HashMap<String, Double>();
         // All possible metrics from ExerciseAssociator
         cumulativeWorkoutStats.put("totalSets", 0.0);
         cumulativeWorkoutStats.put("totalReps", 0.0);

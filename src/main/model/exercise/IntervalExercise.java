@@ -63,10 +63,11 @@ public class IntervalExercise extends Exercise {
         Map<String, Double> metrics = convertInfoToAssociatorFormat();
         
         if (requiredEquipment instanceof ExerciseAssociator) {
-            ((ExerciseAssociator) requiredEquipment).registerExercise(getName(), context, new HashMap<>(metrics));
+            ((ExerciseAssociator) requiredEquipment).registerExercise(getName(), context, 
+                    new HashMap<String, Double>(metrics));
         }
         if (musclesTargeted != null) {
-            musclesTargeted.registerMusclesForMetrics(getName(), context, new HashMap<>(metrics));
+            musclesTargeted.registerMusclesForMetrics(getName(), context, new HashMap<String, Double>(metrics));
         }
     }
 
@@ -98,7 +99,7 @@ public class IntervalExercise extends Exercise {
     //          "timeOn", "timeOff", and "repititions".
     @Override
     public Map<String, Double> getInfo() {
-        Map<String, Double> info = new HashMap<>(exerciseInfo);
+        Map<String, Double> info = new HashMap<String, Double>(exerciseInfo);
         info.put("totalDuration", getDuration());
         return info;
     }
@@ -109,7 +110,7 @@ public class IntervalExercise extends Exercise {
     //              2. "totalRestTimeBetween"
     //              3. "totalDuration"
     public Map<String, Double> convertInfoToAssociatorFormat() {
-        Map<String, Double> metrics = new HashMap<>();
+        Map<String, Double> metrics = new HashMap<String, Double>();
         double timeOff = exerciseInfo.get("timeOff");
         double repetitions = exerciseInfo.get("repititions");
         metrics.put("totalIntervalDuration", getDuration());

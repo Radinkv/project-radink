@@ -40,7 +40,7 @@ public abstract class ExerciseAssociator {
                 || exerciseMetrics.containsKey(key)) {
             return false;
         }
-        Map<String, Double> filteredMetrics = new HashMap<>();
+        Map<String, Double> filteredMetrics = new HashMap<String, Double>();
         for (Map.Entry<String, Double> entry : exerciseInfo.entrySet()) {
             if (VALID_METRICS.contains(entry.getKey())) {
                 filteredMetrics.put(entry.getKey(), entry.getValue());
@@ -95,7 +95,7 @@ public abstract class ExerciseAssociator {
 
     // Helper method to create a map with all valid metrics initialized to zero
     public static Map<String, Double> createZeroValueMetricsMap() {
-        Map<String, Double> metrics = new HashMap<>();
+        Map<String, Double> metrics = new HashMap<String, Double>();
         for (String metricName : VALID_METRICS) {
             metrics.put(metricName, 0.0);
         }

@@ -57,17 +57,18 @@ public class StrengthExercise extends Exercise {
     public void activateMetrics(String context) {
         Map<String, Double> metrics = convertInfoToAssociatorFormat();
         if (requiredEquipment instanceof ExerciseAssociator) {
-            ((ExerciseAssociator) requiredEquipment).registerExercise(getName(), context, new HashMap<>(metrics));
+            ((ExerciseAssociator) requiredEquipment).registerExercise(getName(), context, 
+                new HashMap<String, Double>(metrics));
         }
         if (musclesTargeted != null) {
-            musclesTargeted.registerMusclesForMetrics(getName(), context, new HashMap<>(metrics));
+            musclesTargeted.registerMusclesForMetrics(getName(), context, new HashMap<String, Double>(metrics));
         }
     }
 
     // MODIFIES: MuscleGroup, Equipment
     // EFFECTS: Remove copy of this Exercise's getInfo from Equipment
-    //          and MuscleGroup. If not present, make no changes
-    //          Do nothing if this exercise has null Equipment or MuscleGroup, respectively
+    //          and MuscleGroup; If not present, make no changes
+    //          Do nothing if this exercise has null Equipment or MuscleGroup
     @Override
     public void deactivateMetrics(String context) {
         if (requiredEquipment instanceof ExerciseAssociator) {
@@ -96,7 +97,7 @@ public class StrengthExercise extends Exercise {
     //          4. 'timePerRep' (duration in seconds)
     @Override
     public Map<String, Double> getInfo() {
-        Map<String, Double> info = new HashMap<>();
+        Map<String, Double> info = new HashMap<String, Double>();
         // Include all metrics with safe defaults
         info.put("sets", exerciseInfo.get("sets"));
         info.put("reps", exerciseInfo.get("reps"));
@@ -107,14 +108,14 @@ public class StrengthExercise extends Exercise {
     }
     
     // EFFECTS: Converts the raw strength exercise info into the aggregated metrics expected by ExerciseAssociator
-    //          from a StrengthExercise. Includes:
+    //          from a StrengthExercise; Includes:
     //              1. "totalSets"
     //              2. "totalReps"
     //              3. "totalStrengthDuration"
     //              4. "totalRestTimeBetween"
     //              5. "totalDuration"
     public Map<String, Double> convertInfoToAssociatorFormat() {
-        Map<String, Double> metrics = new HashMap<>();
+        Map<String, Double> metrics = new HashMap<String, Double>();
         double sets = exerciseInfo.get("sets");
         double reps = exerciseInfo.get("reps");
         double restTime = exerciseInfo.get("restTime");

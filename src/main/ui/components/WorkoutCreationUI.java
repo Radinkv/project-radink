@@ -99,7 +99,7 @@ public class WorkoutCreationUI {
     // REQUIRES: availableExercises != null and contains no null elements
     // EFFECTS: Manage the exercise selection process for workout creation and return the selected exercises
     private List<Exercise> selectExercisesForWorkout(List<Exercise> availableExercises) {
-        List<Exercise> selectedExercises = new ArrayList<>();
+        List<Exercise> selectedExercises = new ArrayList<Exercise>();
         while (true) {
             displayCurrentSelection(selectedExercises);
             displaySelectionOptions();
@@ -228,7 +228,7 @@ public class WorkoutCreationUI {
     // EFFECTS: Process exercise removals from user input
     private void processExerciseRemovals(List<Exercise> selectedExercises) {
         String[] selections = input.nextLine().trim().split("\\s+");
-        List<Integer> indicesToRemove = new ArrayList<>();
+        List<Integer> indicesToRemove = new ArrayList<Integer>();
         for (String s : selections) {
             try {
                 int index = Integer.parseInt(s);

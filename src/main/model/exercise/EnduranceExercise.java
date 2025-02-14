@@ -55,10 +55,11 @@ public class EnduranceExercise extends Exercise {
         Map<String, Double> metrics = convertInfoToAssociatorFormat();
         
         if (requiredEquipment instanceof ExerciseAssociator) {
-            ((ExerciseAssociator) requiredEquipment).registerExercise(getName(), context, new HashMap<>(metrics));
+            ((ExerciseAssociator) requiredEquipment).registerExercise(getName(), context, 
+                new HashMap<String, Double>(metrics));
         }
         if (musclesTargeted != null) {
-            musclesTargeted.registerMusclesForMetrics(getName(), context, new HashMap<>(metrics));
+            musclesTargeted.registerMusclesForMetrics(getName(), context, new HashMap<String, Double>(metrics));
         }
     }
 
@@ -86,7 +87,7 @@ public class EnduranceExercise extends Exercise {
     //          (In this case, just the "duration" value as provided.)
     @Override
     public Map<String, Double> getInfo() {
-        Map<String, Double> info = new HashMap<>(exerciseInfo);
+        Map<String, Double> info = new HashMap<String, Double>(exerciseInfo);
         double durationSeconds = info.get("duration") * 60;
         info.put("totalDuration", durationSeconds);
         return info;
@@ -97,7 +98,7 @@ public class EnduranceExercise extends Exercise {
     //              1. "totalEnduranceDuration"
     //              2. "totalDuration"
     public Map<String, Double> convertInfoToAssociatorFormat() {
-        Map<String, Double> associatorMetrics = new HashMap<>();
+        Map<String, Double> associatorMetrics = new HashMap<String, Double>();
         associatorMetrics.put("totalEnduranceDuration", getDuration());
         associatorMetrics.put("totalDuration", getDuration());
         return associatorMetrics;

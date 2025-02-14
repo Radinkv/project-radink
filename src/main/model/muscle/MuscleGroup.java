@@ -86,7 +86,7 @@ public class MuscleGroup {
     //          Avoid double counting the same exercise instance's metrics shared between muscles
     //          Return empty map if group has no muscles
     public Map<String, Double> getGroupMetrics() {
-        Map<String, Double> groupMetrics = new HashMap<>();
+        Map<String, Double> groupMetrics = new HashMap<String, Double>();
         if (muscles.isEmpty()) {
             return groupMetrics;
         }
@@ -95,7 +95,7 @@ public class MuscleGroup {
         groupMetrics = ExerciseAssociator.createZeroValueMetricsMap();
 
         // Track which `exerciseName-context` combinations have been processed
-        Set<String> processedKeys = new HashSet<>();
+        Set<String> processedKeys = new HashSet<String>();
 
         // Process each muscle's exercise metrics
         for (Muscle muscle : muscles) {

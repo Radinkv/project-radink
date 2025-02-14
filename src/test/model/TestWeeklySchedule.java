@@ -56,9 +56,9 @@ class TestWeeklySchedule {
         
         // Initialize muscles and groups
         chest = new Muscle("Chest");
-        chestGroup = new MuscleGroup("Chest", new ArrayList<>(List.of(chest)));
+        chestGroup = new MuscleGroup("Chest", new ArrayList<Muscle>(List.of(chest)));
         quad = new Muscle("Quadriceps");
-        legsGroup = new MuscleGroup("Legs", new ArrayList<>(List.of(quad)));
+        legsGroup = new MuscleGroup("Legs", new ArrayList<Muscle>(List.of(quad)));
         
         // Initialize exercises
         benchPress = new StrengthExercise("Bench Press", 4, 12, 2.5, 2.0, dumbbell, chestGroup);
@@ -66,8 +66,8 @@ class TestWeeklySchedule {
         hiit = new IntervalExercise("HIIT", 30.0, 15.0, 10, bodyweight, legsGroup);
         
         // Initialize workouts
-        strengthWorkout = new Workout("Strength Day", new ArrayList<>(List.of(benchPress)));
-        cardioWorkout = new Workout("Cardio Day", new ArrayList<>(List.of(running, hiit)));
+        strengthWorkout = new Workout("Strength Day", new ArrayList<Exercise>(List.of(benchPress)));
+        cardioWorkout = new Workout("Cardio Day", new ArrayList<Exercise>(List.of(running, hiit)));
         restDay = new RestDay("Recovery + Stretching");
         
         // Initialize schedule

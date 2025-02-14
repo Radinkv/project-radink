@@ -37,10 +37,10 @@ public class TestMuscleGroup {
     }
 
     private void initializeMuscles() {
-        singleMuscleList = new ArrayList<>();
+        singleMuscleList = new ArrayList<Muscle>();
         singleMuscleList.add(new Muscle("Biceps"));
 
-        multiMuscleList = new ArrayList<>();
+        multiMuscleList = new ArrayList<Muscle>();
         multiMuscleList.add(new Muscle("Chest"));
         multiMuscleList.add(new Muscle("Front Deltoid"));
         multiMuscleList.add(new Muscle("Triceps"));
@@ -53,18 +53,18 @@ public class TestMuscleGroup {
     }
 
     private void initializeExerciseData() {
-        strengthInfo = new HashMap<>();
+        strengthInfo = new HashMap<String, Double>();
         strengthInfo.put("totalSets", 4.0);
         strengthInfo.put("totalReps", 8.0);
         strengthInfo.put("totalStrengthDuration", 240.0);
         strengthInfo.put("totalRestTimeBetween", 90.0);
         strengthInfo.put("totalDuration", 330.0);
 
-        enduranceInfo = new HashMap<>();
+        enduranceInfo = new HashMap<String, Double>();
         enduranceInfo.put("totalEnduranceDuration", 1800.0);
         enduranceInfo.put("totalDuration", 1800.0);
 
-        intervalInfo = new HashMap<>();
+        intervalInfo = new HashMap<String, Double>();
         intervalInfo.put("totalIntervalDuration", 900.0);
         intervalInfo.put("totalRestTimeBetween", 300.0);
         intervalInfo.put("totalDuration", 1200.0);
