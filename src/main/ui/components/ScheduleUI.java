@@ -133,6 +133,7 @@ public class ScheduleUI {
     // EFFECTS: View detailed information for a selected day
     private void viewDayDetails() {
         clearScreen();
+        displayWeeklySchedule(); // Better UI flow
         System.out.print("\nSelect day to view (1-7): ");
         int day = readDaySelection();
         
@@ -183,6 +184,7 @@ public class ScheduleUI {
     // EFFECTS: Handle editing of a specific day in the schedule
     private void editScheduleDay() {
         clearScreen();
+        displayWeeklySchedule();
         System.out.print("\nSelect day to edit (1-7): ");
         int day = readDaySelection();
         
@@ -209,7 +211,6 @@ public class ScheduleUI {
     // REQUIRES: 0 <= dayIndex <= 6
     // EFFECTS: Display modification options for a schedule day
     private void displayModificationOptions(int dayIndex) {
-        clearScreen();
         String dayName = getDayName(dayIndex);
         WorkoutPlan currentPlan = weeklySchedule.getScheduleForDay(dayIndex);
         
@@ -247,7 +248,6 @@ public class ScheduleUI {
     // MODIFIES: Workout, WeeklySchedule (should WorkoutPlan be added to WeeklySchedule)
     // EFFECTS: Add a workout to a specific day in the schedule
     private void addWorkoutToDay(int dayIndex) {
-        clearScreen();
         List<WorkoutPlan> workouts = workoutLibrary.getAllWorkouts();
         if (workouts.isEmpty()) {
             System.out.println("\nNo workouts available. Please create a workout first.");
@@ -263,7 +263,6 @@ public class ScheduleUI {
     // REQUIRES: workouts != null
     // EFFECTS: Display the workout selection menu
     private void displayWorkoutSelectionMenu(List<WorkoutPlan> workouts) {
-        clearScreen();
         System.out.println("\n=== Available Workouts ===");
         for (int i = 0; i < workouts.size(); i++) {
             WorkoutPlan workout = workouts.get(i);

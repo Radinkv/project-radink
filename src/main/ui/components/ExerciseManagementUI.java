@@ -60,7 +60,9 @@ public class ExerciseManagementUI {
     // REQUIRES: exercises != null and contains no null elements
     // EFFECTS: Handle the viewing of exercise details
     private void handleExerciseDetails(List<Exercise> exercises) {
-        System.out.print("\nSelect exercise to view details (i.e. '2')" + BACK_OPTION + ": ");
+        clearScreen();
+        viewExercises(); // Easier to follow and understand UI flow for user
+        System.out.print("\nSelect exercise to view details " + BACK_OPTION + ": ");
         String command = input.nextLine().trim();
         if (command.equalsIgnoreCase("b")) {
             return;
@@ -94,50 +96,66 @@ public class ExerciseManagementUI {
             System.out.println("No additional information available.");
             return;
         }
-
         // Display total duration first
         if (info.containsKey("totalDuration")) {
-            System.out.println("Total Duration: " + 
-                formatDuration(Math.round(info.get("totalDuration")))
+            System.out.println("Total Duration: " 
+                    + formatDuration(Math.round(info.get("totalDuration")))
             );
         }
-
-        // Strength Exercise
-        if (info.containsKey("sets") && info.containsKey("reps")) {
-            System.out.println("\nTraining Details:");
-            System.out.println("---------------------------");
-            System.out.printf("Sets: %.0f\n", info.get("sets"));
-            System.out.printf("Reps: %.0f\n", info.get("reps"));
-            if (info.containsKey("timePerRep")) {
-                System.out.printf("Time Per Rep: %.1f seconds\n", info.get("timePerRep"));
-            }
-            if (info.containsKey("restTime")) {
-                System.out.printf("Rest Time (Between Each Set): %.1f minutes\n", info.get("restTime"));
-            }
+        if (info.containsKey("sets") && info.containsKey("reps")) { // Strength Exercise
+            displayStrengthInfo(info);
+        } else if (info.containsKey("timeOn")) { // Interval Exercise
+            displayIntervalInfo(info); 
+        } else if (info.containsKey("duration")) { // Endurance Exercise
+            displayEnduranceInfo(info);
+        } else {
+            System.out.println("No exercise info available for this exercise.");
         }
+    }
 
-        // Interval Exercise
-        if (info.containsKey("timeOn")) {
-            System.out.println("\nInterval Details:");
-            System.out.println("---------------------------");
-            System.out.printf("Active Time: %.1f seconds\n", info.get("timeOn"));
-            System.out.printf("Rest Time (Between Each Active Portion): %.1f seconds\n", info.get("timeOff"));
-            System.out.printf("Repetitions: %.0f\n", info.get("repititions"));
+    // HELPER: for displayExerciseDetails
+    // REQUIRES: info != null and contains all of StrengthExercise's promised info keys & values
+    // EFFECTS: Display the details of a StrengthExercise
+    private void displayStrengthInfo(Map<String, Double> info) {
+        System.out.println("\nTraining Details:");
+        System.out.println("---------------------------");
+        System.out.printf("Sets: %.0f\n", info.get("sets"));
+        System.out.printf("Reps: %.0f\n", info.get("reps"));
+        if (info.containsKey("timePerRep")) {
+            System.out.printf("Time Per Rep: %.1f seconds\n", info.get("timePerRep"));
         }
+        if (info.containsKey("restTime")) {
+            System.out.printf("Rest Time (Between Each Set): %.1f minutes\n", info.get("restTime"));
+        }
+    }
 
-        // Endurance Exercise
-        if (info.containsKey("duration")) {
-            System.out.println("\nEndurance Details:");
-            System.out.println("---------------------------");
-            System.out.printf("Duration: %.1f minutes\n", info.get("duration"));
-        }
+    // HELPER: for displayExerciseDetails
+    // REQUIRES: info != null and contains all of IntervalExercise's promised info keys & values
+    // EFFECTS: Display the details of an IntervalExercise
+    private void displayIntervalInfo(Map<String, Double> info) {
+        System.out.println("\nInterval Details:");
+        System.out.println("---------------------------");
+        System.out.printf("Active Time: %.1f seconds\n", info.get("timeOn"));
+        System.out.printf("Rest Time (Between Each Active Portion): %.1f seconds\n", info.get("timeOff"));
+        System.out.printf("Repetitions: %.0f\n", info.get("repititions"));
+    }
+
+    // HELPER: for displayExerciseDetails
+    // REQUIRES: info != null and contains all of EnduranceExercise's promised info keys & values
+    // EFFECTS: Display the details of an EnduranceExercise
+    private void displayEnduranceInfo(Map<String, Double> info) {
+        System.out.println("\nEndurance Details:");
+        System.out.println("---------------------------");
+        System.out.printf("Duration: %.1f minutes\n", info.get("duration"));
     }
 
     // HELPER: for processExerciseManagement
     // REQUIRES: exercises != null and contains no null elements
     // EFFECTS: Handle the deletion selection process
     private void handleExerciseDeletion(List<Exercise> exercises) {
-        System.out.print("\nSelect exercise to delete (i.e. '2')" + BACK_OPTION + ": ");
+        clearScreen();
+        viewExercises(); // Easier to follow and understand UI flow for user
+        System.out.print("\nSelect exercise to delete " + BACK_OPTION + ": ");
         String command = input.nextLine().trim();
         if (command.equalsIgnoreCase("b")) {
             return;
