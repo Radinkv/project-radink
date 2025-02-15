@@ -17,11 +17,7 @@ I have been weightlifting for a few months and have been looking for a systemati
 - **Add** exercises from my library to a workout, **so that** I can swiftly assemble customized workouts that match and represent my current fitness level.
 - **Estimate** total workout times based on exercises, sets, reps, and rest periods, **so that** I can plan or adjust my gym plan around other commitments.
 - **Assign** workouts to calendar dates and view my upcoming plan, **so that** I can maintain consistency in my training regimen.
-- **Modify** exercise parameters *(i.e. weight)* or reschedule/delete sessions, **so that** my gym calendar stays accurate when my plans change.
-- **Log** and update my weights/reps for exercises, **so that** I can more objectively measure and introduce adequate progressive overload in my training.
-- **See** projected PRs for exercises over 1-6 months using current weight/reps interpolation and linear regression of historical data, **so that** I can objectively measure abstracted strength progress.
-- **See** time and volume spent per workout type *(dumbbells, cardio, etc.)*, **so that** I can balance my routine between strength and conditioning.
-- **Visualize** training volume *(sets, reps)* per muscle group/region **so that** I can correct training imbalances and avoid overtraining.
+- **See** time and volume spent per equipment and muscle type *(dumbbells, cardio, arms, etc.)*, **so that** I can balance my routine between different styles of training and volume amongst different muscle groups.
 
 
 ## User Stories SIMPLIFIED (PHASE 1)
@@ -32,6 +28,6 @@ I have been weightlifting for a few months and have been looking for a systemati
 - **List** all the workouts currently stored in my workout library, **so that** I can keep track of all my different routines and pick one based on my goals.   
 
 #### Extra choices for buffers:
-- **Schedule** multiple workouts on different days of a 7-day week, **so that** I can plan out and organize my entire week of training in advance and make quick changes if needed.
+- **Schedule** a singular workout or rest day on different days of a 7-day weekly schedule, **so that** I can plan out and organize my entire week of training in advance and make quick changes if needed.
 - **View** my schedule **so that** I can swiftly review which workout or rest day is assigned to each day and plan my day accordingly.
 - **Analyze** the usage of different equipment and muscle groups across all my scheduled workouts, **so that** I can quickly identify undertrained or overtrained areas and balance my fitness routine accordingly.  
