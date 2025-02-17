@@ -3,21 +3,26 @@ package model.exercise;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import persistence.Writable;
+
 /**
- * REPRESENTS: a centralized collection of all available exercises.
+ * REPRESENTS: A centralized collection of all available exercises.
  * 
  * USED BY:
  *      1. Workouts that reference stored exercises
  *      2. MuscleGroups that track exercise impacts
  *      3. Equipment that organizes exercises by usage
  * 
- * PURPOSE: Manages the storage, retrieval, and removal of exercises from a central hub/library. 
+ * PURPOSE: Manage the storage, retrieval, and removal of exercises from a central hub/library
  *          As exercises are immutable ExerciseLibrary tracks various exercises consistently 
  *          across the program.
  * 
  * MUTABILITY: Mutable 
  */
-public class ExerciseLibrary {
+public class ExerciseLibrary implements Writable {
 
     Map<String, Exercise> library;
     
@@ -62,5 +67,23 @@ public class ExerciseLibrary {
     // EFFECTS: Return all stored exercises and their names.
     public Map<String, Exercise> getAllExercises() {
         return new HashMap<String, Exercise>(library); // Defensive copy
+    }
+
+    // EFFECTS: Return a JSON representation of this ExerciseLibrary containing
+    //          all exercises and their complete state
+    @Override
+    public JSONObject toJson() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'toJson'");
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Reconstruct this ExerciseLibrary's state from the provided JSON data
+    //          Throw JSONException if data is invalid or incomplete
+    @Override
+    public void fromJson(JSONObject json) throws JSONException {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'fromJson'");
+        // REMINDER: Needs PredefinedData
     }
 }

@@ -31,3 +31,8 @@ I have been weightlifting for a few months and have been looking for a systemati
 - **Schedule** a singular workout or rest day on different days of a 7-day weekly schedule, **so that** I can plan out and organize my entire week of training in advance and make quick changes if needed.
 - **View** my schedule **so that** I can swiftly review which workout or rest day is assigned to each day and plan my day accordingly.
 - **Analyze** the usage of different equipment and muscle groups across all my scheduled workouts, **so that** I can quickly identify undertrained or overtrained areas and balance my fitness routine accordingly.  
+
+
+#### Data Persistence (PHASE 2)
+- **Save** my entire workout profile (including exercises, workouts, and weekly schedule) to a file when I *choose* to do so, **so that** I can preserve my training progress and customizations.
+- **Load** my previously saved workout profile from a file when I *choose* to do so, **so that** I can continue working with and building my workout program from exactly where I left off.

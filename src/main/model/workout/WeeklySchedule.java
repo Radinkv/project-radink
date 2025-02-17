@@ -3,6 +3,11 @@ package model.workout;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import persistence.Writable;
+
 /**
  * REPRESENTS: a weekly plan containing workouts and rest days
  * 
@@ -15,7 +20,7 @@ import java.util.List;
  * 
  * MUTABILITY: Mutable
  */
-public class WeeklySchedule {
+public class WeeklySchedule implements Writable {
     private WorkoutPlan[] schedule;
     private static final String[] DAYS = {
         "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"
@@ -88,5 +93,23 @@ public class WeeklySchedule {
                     .append(schedule[i].getWorkoutSummary());
         }
         return summary.toString();
+    }
+
+    // EFFECTS: Return a JSON representation of this WeeklySchedule containing
+    //          the complete state of the weekly schedule
+    @Override
+    public JSONObject toJson() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'toJson'");
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Reconstruct this WeeklySchedule's state from the provided JSON data
+    //          Reactivate all exercise metrics for assigned workouts
+    //          Throws JSONException if data is invalid or incomplete
+    @Override
+    public void fromJson(JSONObject json) throws JSONException {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'fromJson'");
     }
 }

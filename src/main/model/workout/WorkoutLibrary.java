@@ -5,6 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import persistence.Writable;
+
 /**
  * REPRESENTS: a collection of workout plans (both workouts and rest days)
  * 
@@ -18,7 +23,7 @@ import java.util.Map;
  * 
  * MUTABILITY: Mutable
  */
-public class WorkoutLibrary {
+public class WorkoutLibrary implements Writable {
     private Map<String, WorkoutPlan> library;
 
     public WorkoutLibrary() {
@@ -79,6 +84,23 @@ public class WorkoutLibrary {
     // EFFECTS: Return true if an exercise with the given name exists in the library, false otherwise
     private boolean containsWorkout(String workoutName) {
         return library.containsKey(workoutName);
+    }
+
+    // EFFECTS: Return a JSON representation of this WorkoutLibrary containing
+    //          all workouts and their complete state
+    @Override
+    public JSONObject toJson() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'toJson'");
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Reconstruct this WorkoutLibrary's state from the provided JSON data
+    //          Throws JSONException if data is invalid or incomplete
+    @Override
+    public void fromJson(JSONObject json) throws JSONException {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'fromJson'");
     }
     
 }
