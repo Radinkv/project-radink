@@ -19,7 +19,7 @@ import model.exercise.Exercise;
  * 
  * MUTABILITY: Immutable
  */
-public class Workout extends WorkoutPlan {
+public class Workout implements WorkoutPlan {
     private String workoutName;
     private List<Exercise> exercises;
 

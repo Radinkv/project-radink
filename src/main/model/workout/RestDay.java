@@ -19,7 +19,7 @@ import model.exercise.Exercise;
  * 
  * MUTABILITY: Immutable
  */
-public class RestDay extends WorkoutPlan {
+public class RestDay implements WorkoutPlan {
     private String recoveryNote;
 
     // EFFECTS: Create a rest day with the given recovery note

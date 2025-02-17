@@ -34,8 +34,6 @@ public class WorkoutApp {
     private final WorkoutManagementUI workoutManagementUI;
     private final ScheduleUI scheduleUI;
     private final MetricsUI metricsUI;
-    private final EquipmentMetricsUI equipmentMetricsUI;
-    private final MuscleMetricsUI muscleMetricsUI;
 
     public static void main(String[] args) {
         new WorkoutApp();
@@ -49,16 +47,15 @@ public class WorkoutApp {
         this.workoutLibrary = new WorkoutLibrary();
         this.predefinedData = new PredefinedData();
         this.weeklySchedule = new WeeklySchedule();
-        this.equipmentMetricsUI = new EquipmentMetricsUI();
-        this.muscleMetricsUI = new MuscleMetricsUI();
-        SharedUI.initializeItems(input, exerciseLibrary, workoutLibrary, weeklySchedule, predefinedData,
-                                  equipmentMetricsUI, muscleMetricsUI);
+        
+        // MetricsUI will work with this same instantiation of equipment and muscle metrics UI
+        SharedUI.initializeItems(input, exerciseLibrary, workoutLibrary, weeklySchedule, predefinedData);
         this.exerciseCreationUI = new ExerciseCreationUI();
         this.exerciseManagementUI = new ExerciseManagementUI();
         this.workoutCreationUI = new WorkoutCreationUI();
         this.workoutManagementUI = new WorkoutManagementUI();
         this.scheduleUI = new ScheduleUI();
-        this.metricsUI = new MetricsUI();
+        this.metricsUI = new MetricsUI(); 
         runWorkoutApp();
     }
 

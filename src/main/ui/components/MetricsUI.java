@@ -4,6 +4,13 @@ import static ui.components.SharedUI.*;
 
 /** This UI component manages metric viewing navigation based on Equipment or Muscle for the user.  */
 public class MetricsUI {
+    EquipmentMetricsUI equipmentMetricsUI;
+    MuscleMetricsUI muscleMetricsUI;
+
+    public MetricsUI() {
+        this.equipmentMetricsUI = new EquipmentMetricsUI();
+        this.muscleMetricsUI = new MuscleMetricsUI();
+    }
 
     // EFFECTS: Display the metrics analysis menu and process user commands
     //          Present options to view equipment usage analysis, muscle group analysis, 

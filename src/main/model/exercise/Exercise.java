@@ -3,6 +3,7 @@ package model.exercise;
 import java.util.HashMap;
 import java.util.Map;
 
+import model.association.ExerciseAssociator;
 import model.equipment.Equipment;
 import model.muscle.MuscleGroup;
 
@@ -30,36 +31,51 @@ public abstract class Exercise {
 
     protected Exercise(String name, String type, Equipment equipmentUsed, MuscleGroup musclesTargeted) {
         exerciseInfo = new HashMap<String, Double>();
+        this.type = (type != null && !type.trim().isEmpty()) ? type : "Unknown Type";
         this.name = (name != null && !name.trim().isEmpty()) ? name : "Unnamed Exercise";
-        this.type = type;
         this.requiredEquipment = equipmentUsed;
         this.musclesTargeted = musclesTargeted;
     }
     
     // MODIFIES: MuscleGroup, Equipment
     // EFFECTS: Send a copy of this Exercise's getInfo, along with this exercise's name
-    //          to Equipment and MuscleGroup. If already present, make no changes
-    public abstract void activateMetrics(String context);
+    //          to Equipment and MuscleGroup; If already present, make no changes
+    //          Do nothing if this exercise has null Equipment or MuscleGroup
+    public void activateMetrics(String context) {
+        Map<String, Double> metrics = convertInfoToAssociatorFormat();
+        // Safety; Equipment does not HAVE to be ExerciseAssociator
+        // However, this program currently does design each instance of Equipment as an instance of ExerciseAssociator
+        if (requiredEquipment instanceof ExerciseAssociator) { 
+            ((ExerciseAssociator) requiredEquipment).registerExercise(getName(), context, 
+                new HashMap<String, Double>(metrics));
+        }
+        if (musclesTargeted != null) {
+            musclesTargeted.registerMusclesForMetrics(getName(), context, new HashMap<String, Double>(metrics));
+        }
+    }
+
 
     // MODIFIES: MuscleGroup, Equipment
     // EFFECTS: Remove copy of this Exercise's getInfo from Equipment
-    //           and MuscleGroup. If not present, make no changes
-    public abstract void deactivateMetrics(String context);
+    //          and MuscleGroup; If not present, make no changes
+    //          Do nothing if this exercise has null Equipment or MuscleGroup
+    public void deactivateMetrics(String context) {
+        if (requiredEquipment instanceof ExerciseAssociator) {
+            ((ExerciseAssociator) requiredEquipment).unregisterExercise(getName(), context);
+        }
+        if (musclesTargeted != null) {
+            musclesTargeted.unregisterMusclesFromMetrics(getName(), context);
+        }
+    }
 
     // EFFECTS: Return name of this exercise
     public String getName() {
         return name;
     }
-    
-    public abstract double getDuration();
 
     // EFFECTS: Return this exercise's training style
     public String exerciseType() {
-        if (type == null) {
-            return "Unknown";
-        } else {
-            return type;
-        }
+        return type;
     }
 
     // EFFECTS: Return equipment used for this exercise
@@ -72,6 +88,7 @@ public abstract class Exercise {
         return musclesTargeted;
     }
     
+    public abstract double getDuration();
 
     public abstract Map<String, Double> getInfo();
 

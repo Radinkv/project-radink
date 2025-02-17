@@ -19,30 +19,30 @@ import model.exercise.Exercise;
  * 
  * MUTABILITY: Immutable
  */
-public abstract class WorkoutPlan {
+public interface WorkoutPlan {
 
     // EFFECTS: Return name of this workout plan
-    public abstract String getName();
+    public String getName();
 
     // MODIFIES: MuscleGroup, Equipment
     // EFFECTS: Facilitate the addition of copies of each Exercise's getInfo from their respective Equipment
     //          and MuscleGroup under this WorkoutPlan if this is a Workout. If already present or this is a 
     //          RestDay, make no changes
-    public abstract void activateMetrics(String context);
+    public void activateMetrics(String context);
 
     // MODIFIES: MuscleGroup, Equipment
     // EFFECTS: Facilitate the removal of copies of each Exercise's getInfo from their respective Equipment
     //          and MuscleGroup under this WorkoutPlan if this is a Workout. If not already present or this  
     //          is a RestDay, make no changes
-    public abstract void deactivateMetrics(String context);
+    public void deactivateMetrics(String context);
 
     // EFFECTS: Return total duration of this workout plan in seconds
-    public abstract double getDuration();
+    public double getDuration();
 
     // EFFECTS: Return list of exercises this workout plan includes
-    public abstract List<Exercise> getExercises();
+    public List<Exercise> getExercises();
 
     // EFFECTS: Return key-value pairs summarizing this workout plan
-    public abstract Map<String, Double> getWorkoutSummary();
+    public Map<String, Double> getWorkoutSummary();
 
 }

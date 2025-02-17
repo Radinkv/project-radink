@@ -3,10 +3,8 @@ package model.exercise;
 import java.util.HashMap;
 import java.util.Map;
 
-import model.association.ExerciseAssociator;
 import model.equipment.Equipment;
 import model.muscle.MuscleGroup;
-
 
 /**
  * REPRESENTS: an strength-based exercise performed for a set duration
@@ -47,38 +45,6 @@ public class StrengthExercise extends Exercise {
         exerciseInfo.put("reps", safeReps);
         exerciseInfo.put("timePerRep", safeSecondsPerRep);
         exerciseInfo.put("restTime", safeRestTime);
-    }
-
-    // MODIFIES: MuscleGroup, Equipment
-    // EFFECTS: Send a copy of this Exercise's getInfo, along with this exercise's name
-    //          to Equipment and MuscleGroup; If already present, make no changes
-    //          Do nothing if this exercise has null Equipment or MuscleGroup
-    @Override
-    public void activateMetrics(String context) {
-        Map<String, Double> metrics = convertInfoToAssociatorFormat();
-        // Safety; Equipment does not HAVE to be ExerciseAssociator
-        // However, this program currently does design each instance of Equipment as an instance of ExerciseAssociator
-        if (requiredEquipment instanceof ExerciseAssociator) { 
-            ((ExerciseAssociator) requiredEquipment).registerExercise(getName(), context, 
-                new HashMap<String, Double>(metrics));
-        }
-        if (musclesTargeted != null) {
-            musclesTargeted.registerMusclesForMetrics(getName(), context, new HashMap<String, Double>(metrics));
-        }
-    }
-
-    // MODIFIES: MuscleGroup, Equipment
-    // EFFECTS: Remove copy of this Exercise's getInfo from Equipment
-    //          and MuscleGroup; If not present, make no changes
-    //          Do nothing if this exercise has null Equipment or MuscleGroup
-    @Override
-    public void deactivateMetrics(String context) {
-        if (requiredEquipment instanceof ExerciseAssociator) {
-            ((ExerciseAssociator) requiredEquipment).unregisterExercise(getName(), context);
-        }
-        if (musclesTargeted != null) {
-            musclesTargeted.unregisterMusclesFromMetrics(getName(), context);
-        }
     }
 
     // EFFECTS: Calculate and return this exercise's total duration, in seconds

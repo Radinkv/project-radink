@@ -30,8 +30,6 @@ public class SharedUI {
     protected static WorkoutLibrary workoutLibrary;
     protected static WeeklySchedule weeklySchedule;
     protected static PredefinedData predefinedData;
-    protected static EquipmentMetricsUI equipmentMetricsUI;
-    protected static MuscleMetricsUI muscleMetricsUI;
 
     // Helper class for weekly schedule statistics
     protected static class WeeklyStats {
@@ -45,15 +43,12 @@ public class SharedUI {
     //          (called once from WorkoutApp constructor)
     public static void initializeItems(Scanner scanner, ExerciseLibrary exerciseLib, 
                                         WorkoutLibrary workoutLib, WeeklySchedule weeklySched,
-                                        PredefinedData predefData, EquipmentMetricsUI equipMetricsUI,
-                                        MuscleMetricsUI musclMetricsUI) {
+                                        PredefinedData predefData) {
         input = scanner;
         exerciseLibrary = exerciseLib;
         workoutLibrary = workoutLib;
         weeklySchedule = weeklySched;
         predefinedData = predefData;
-        equipmentMetricsUI = equipMetricsUI;
-        muscleMetricsUI = musclMetricsUI;
     }
 
     // EFFECTS: Wait for user to press enter

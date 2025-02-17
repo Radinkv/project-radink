@@ -85,18 +85,32 @@ class TestExercise {
         Exercise exercise = new StrengthExercise(
                 "TestExercise", 1, 1, 1.0, 1.0, dumbbell, chest);
         
-        // Testing getters
+        // Testing Getters
+        // Equipment Instances are Shared So No Potential Defensive Copy Refactorization
         assertEquals(dumbbell, exercise.getRequiredEquipment());
         assertEquals(chest, exercise.getMusclesTargeted());
+
+        // For Defensive Copy/MuscleGroup Immutability Refactorization
+        assertTrue(chest.getMuscles().equals(exercise.getMusclesTargeted().getMuscles())); 
+
+        System.out.println(chest.getMuscles());
+        System.out.println(chest.getGroupMetrics());
+
+        System.out.println(chest.getMuscles());
+        System.out.println(chest.getGroupMetrics());
 
         exercise = new StrengthExercise(
             null, 1, 1, 1.0, 1.0, dumbbell, chest);
         
         assertEquals("Unnamed Exercise", exercise.getName());
 
-        // Execise Absraction null behaviour
-        exercise = new EnduranceExercise();
-        assertEquals("Unknown", exercise.exerciseType());
+        // Exercise Absraction null behaviour
+        exercise = new EnduranceExercise(1);
+        assertEquals("Unknown Type", exercise.exerciseType());
+
+        exercise = new EnduranceExercise(2);
+        assertEquals("Unknown Type", exercise.exerciseType());
+
     }
 
     @Test

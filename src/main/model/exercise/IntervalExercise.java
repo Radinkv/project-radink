@@ -3,7 +3,6 @@ package model.exercise;
 import java.util.HashMap;
 import java.util.Map;
 
-import model.association.ExerciseAssociator;
 import model.equipment.Equipment;
 import model.muscle.MuscleGroup;
 
@@ -52,37 +51,6 @@ public class IntervalExercise extends Exercise {
         exerciseInfo.put("timeOn", safeTimeOn);
         exerciseInfo.put("timeOff", safeTimeOff);
         exerciseInfo.put("repititions", (double) safeReps);
-    }
-
-    // MODIFIES: MuscleGroup, Equipment
-    // EFFECTS: Send a copy of this Exercise's getInfo, along with this exercise's name
-    //          to Equipment and MuscleGroup. If already present, make no changes.
-    //          Do nothing if this exercise has null Equipment or MuscleGroup, respectively.
-    @Override
-    public void activateMetrics(String context) {
-        Map<String, Double> metrics = convertInfoToAssociatorFormat();
-        
-        if (requiredEquipment instanceof ExerciseAssociator) {
-            ((ExerciseAssociator) requiredEquipment).registerExercise(getName(), context, 
-                    new HashMap<String, Double>(metrics));
-        }
-        if (musclesTargeted != null) {
-            musclesTargeted.registerMusclesForMetrics(getName(), context, new HashMap<String, Double>(metrics));
-        }
-    }
-
-    // MODIFIES: MuscleGroup, Equipment
-    // EFFECTS: Remove copy of this Exercise's getInfo from Equipment
-    //          and MuscleGroup. If not present, make no changes.
-    //          Do nothing if this exercise has null Equipment or MuscleGroup, respectively.
-    @Override
-    public void deactivateMetrics(String context) {
-        if (requiredEquipment instanceof ExerciseAssociator) {
-            ((ExerciseAssociator) requiredEquipment).unregisterExercise(getName(), context);
-        }
-        if (musclesTargeted != null) {
-            musclesTargeted.unregisterMusclesFromMetrics(getName(), context);
-        }
     }
 
     // EFFECTS: Return this interval exercise's total duration in minutes.
