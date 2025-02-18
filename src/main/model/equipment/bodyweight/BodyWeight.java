@@ -18,7 +18,7 @@ public class BodyWeight extends BodyWeightEquipment {
     // EFFECTS: Constructs an instance of BodyWeight equipment.
     public BodyWeight() {
         super();
-        name = "Body Weight";
+        name = "Bodyweight";
     }
 
     // EFFECTS: Return 'Body Weight' as the equipment name of this equipment.

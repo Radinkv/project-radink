@@ -43,6 +43,7 @@ public class EnduranceExercise extends Exercise {
     // FOR EXERCISE ABSTRACTION TESTING PURPOSES
     public EnduranceExercise(int testNum) {
         super(null, (testNum == 1) ? null : "", null, null);
+        exerciseInfo.put("duration", 1.0);
     }
 
     // EFFECTS: Return the endurance exercise's duration in seconds

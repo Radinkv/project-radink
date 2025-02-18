@@ -123,11 +123,20 @@ public class WorkoutManagementUI {
     // HELPER: for processWorkoutOptions
     // REQUIRES: workout != null
     // MODIFIES: WorkoutLibrary
-    // EFFECTS: Confirm and process workout deletion; return true if deletion occurred
+    // EFFECTS: Confirm and process workout deletion; return true if deletion from WorkoutLibrary occurred
+    //          Remove Workout from WeeklySchedule if in WeeklySchedule (metrics are automatically deleted)
     private boolean confirmWorkoutDeletion(WorkoutPlan workout) {
         System.out.print("\nAre you sure you want to delete '" + workout.getName() + "'? (y/n): ");
         String answer = input.nextLine().trim();
         if (answer.equalsIgnoreCase("y")) {
+            // Remove from schedule first
+            for (int i = 0; i < 7; i++) {
+                WorkoutPlan plan = weeklySchedule.getScheduleForDay(i);
+                if (plan.getName().equals(workout.getName())) {
+                    weeklySchedule.clearScheduleForDay(i);
+                }
+            }
+            // Then remove from library
             workoutLibrary.removeWorkout(workout.getName());
             System.out.println("Workout deleted successfully!");
             waitForEnter();

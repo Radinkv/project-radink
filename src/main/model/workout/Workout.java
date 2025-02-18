@@ -17,7 +17,7 @@ import model.exercise.Exercise;
  * PURPOSE: Defines a workout routine with a fixed order of exercises
  *          Ensures workout immutability once created
  * 
- * MUTABILITY: Immutable
+ * MUTABILITY: Mutable (Immutable UNLESS an Exercise from ExerciseLibrary is deleted that is in this Workout)
  */
 public class Workout implements WorkoutPlan {
     private String workoutName;
@@ -75,6 +75,19 @@ public class Workout implements WorkoutPlan {
     @Override
     public List<Exercise> getExercises() {
         return new ArrayList<Exercise>(exercises); // Defensive copy
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Remove the given Exercise by exerciseName from this Workout
+    //          Do nothing if no such Exercise is found
+    public void removeExercise(String exerciseName) {
+        List<Exercise> updatedExercises = new ArrayList<>();
+        for (Exercise exercise : exercises) {
+            if (!exercise.getName().equals(exerciseName)) {
+                updatedExercises.add(exercise);
+            }
+        }
+        exercises = updatedExercises;
     }
 
     // EFFECTS: Calculate cumulative metrics across all exercises

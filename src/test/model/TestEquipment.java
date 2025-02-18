@@ -33,7 +33,7 @@ public class TestEquipment {
 
     @Test
     void testEquipmentName() {
-        assertEquals(bodyweight.getEquipmentName(), "Body Weight");
+        assertEquals(bodyweight.getEquipmentName(), "Bodyweight");
         assertEquals(treadmill.getEquipmentName(), "Treadmill");
         assertEquals(barbell.getEquipmentName(), "Barbell");
         assertEquals(cable.getEquipmentName(), "Cable");

@@ -4,6 +4,8 @@ import static ui.components.SharedUI.*;
 import java.util.List;
 import java.util.Map;
 import model.exercise.Exercise;
+import model.workout.Workout;
+import model.workout.WorkoutPlan;
 
 /** This UI component manages Exercise viewing, details display, and deletion based on user choice. */
 public class ExerciseManagementUI {
@@ -179,10 +181,18 @@ public class ExerciseManagementUI {
     // REQUIRES: exercise != null
     // MODIFIES: ExerciseLibrary
     // EFFECTS: Confirm with the user and delete the specified exercise if confirmed
+    //          Delete exercise from any Workout instance
     private void confirmAndDeleteExercise(Exercise exercise) {
         System.out.print("\nAre you sure you want to delete '" + exercise.getName() + "'? (y/n): ");
         String confirmation = input.nextLine().trim();
         if (confirmation.equalsIgnoreCase("y")) {
+            // Remove from all workouts first
+            for (WorkoutPlan workoutPlan : workoutLibrary.getAllWorkouts()) {
+                if (workoutPlan instanceof Workout) {
+                    ((Workout) workoutPlan).removeExercise(exercise.getName());
+                }
+            }
+            // Then remove from library
             exerciseLibrary.removeExercise(exercise.getName());
             System.out.println("Exercise deleted successfully!");
         } else {

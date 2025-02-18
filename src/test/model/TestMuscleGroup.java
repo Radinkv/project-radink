@@ -71,6 +71,15 @@ public class TestMuscleGroup {
     }
 
     @Test
+    void testNullInitiation() {
+        MuscleGroup nullMuscleGroup = new MuscleGroup(null, null);
+        assertEquals(nullMuscleGroup.getName(), "Unnamed MuscleGroup");
+
+        nullMuscleGroup = new MuscleGroup("", null);
+        assertEquals(nullMuscleGroup.getName(), "Unnamed MuscleGroup");
+    }
+
+    @Test
     void addNullMuscleToMuscleGroup() {
         ArrayList<Muscle> singleMuscleListCopy = new ArrayList<Muscle>(singleMuscleList);
         singleMuscleListCopy.add(null);

@@ -237,4 +237,29 @@ public class TestWorkoutPlan {
         assertEquals(0.0, emptySummary.get("totalSets"), TEST_PRECISION);
         assertEquals(0.0, emptySummary.get("totalDuration"), TEST_PRECISION);
     }
+
+    @Test
+    void testExerciseRemovalFromWorkouts() {
+        // Same values except name
+        Exercise exercise1 = new StrengthExercise("Exercise1", 3, 12, 2.0, 1.5, bodyweight, chest);
+        Exercise exercise2 = new StrengthExercise("Exercise2", 3, 12, 2.0, 1.5, bodyweight, chest);
+        
+        List<Exercise> exercises = new ArrayList<>();
+        exercises.add(exercise1);
+        exercises.add(exercise2);
+        
+        Workout workout = new Workout("TestWorkout", exercises);
+    
+        // Initial state
+        assertEquals(2, workout.getExercises().size());
+        assertTrue(workout.getExercises().contains(exercise1));
+        
+        // Simulate exercise deletion and cleanup
+        workout.removeExercise("Exercise1");
+        
+        // Correct exercise was removed
+        assertEquals(1, workout.getExercises().size());
+        assertFalse(workout.getExercises().contains(exercise1));
+        assertTrue(workout.getExercises().contains(exercise2));
+    }
 }

@@ -29,7 +29,7 @@ public class MuscleGroup {
     //          Add all non-null muscles from provided list to group
     //          If muscles list is null or empty, create empty group
     public MuscleGroup(String name, List<Muscle> muscles) {
-        this.name = name;
+        this.name = (name != null && !name.trim().isEmpty()) ? name : "Unnamed MuscleGroup";
         this.muscles = new HashSet<Muscle>();
 
         if (muscles != null) {

@@ -124,8 +124,23 @@ public class PredefinedData {
         return getAllMuscles().get(name);
     }
 
+    // EFFECTS: Returns the MuscleGroup instance corresponding to the given name, or null if not found
+    public MuscleGroup findMuscleGroup(String name) {
+        MuscleGroup findMuscleGroup = getAllMuscleGroups().get(name);
+        return (findMuscleGroup != null) ? findMuscleGroup : defaultMuscleGroup();
+    }
+
     // EFFECTS: Returns the Equipment instance corresponding to the given name, or null if not found
     public Equipment findEquipment(String name) {
-        return getAllEquipment().get(name);
+        Equipment findEquipment = getAllEquipment().get(name);
+        return (findEquipment != null) ? findEquipment : defaultEquipment();
+    }
+
+    private MuscleGroup defaultMuscleGroup() {
+        return new MuscleGroup(null, null);
+    }
+
+    private Equipment defaultEquipment() {
+        return getAllEquipment().get("Bodyweight");
     }
 }

@@ -21,5 +21,5 @@ public interface Writable {
     // EFFECTS: Reconstruct this object's state from the provided JSON data
     //          Implementation restores the complete state of the object
     //          Throw JSONException if data is invalid or cannot be properly loaded
-    void fromJson(JSONObject json) throws JSONException;
+    void fromJson(JSONObject json, Object collection) throws IllegalArgumentException;
 }

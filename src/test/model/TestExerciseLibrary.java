@@ -148,7 +148,7 @@ public class TestExerciseLibrary {
         assertEquals("Ab Plank", retrieved.getName());
         assertEquals("Interval", retrieved.exerciseType());
         assertEquals(bodyweight, retrieved.getRequiredEquipment());
-        assertEquals("Body Weight", retrieved.getRequiredEquipment().getEquipmentName());
+        assertEquals("Bodyweight", retrieved.getRequiredEquipment().getEquipmentName());
         
         // Verify muscle group
         MuscleGroup muscles = retrieved.getMusclesTargeted();

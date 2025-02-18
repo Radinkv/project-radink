@@ -1,9 +1,6 @@
 package model;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,7 +64,7 @@ public class TestWorkoutLibrary {
     @Test
     void testEmptyLibrary() {
         assertTrue(library.getAllWorkouts().isEmpty());
-        assertThrows(IllegalArgumentException.class, () -> library.getWorkout("Any Workout"));
+        assertNull(library.getWorkout("Any Workout"));
         assertThrows(IllegalArgumentException.class, () -> library.removeWorkout("Any Workout"));
     }
 
@@ -82,8 +79,6 @@ public class TestWorkoutLibrary {
 
         assertThrows(IllegalArgumentException.class, () -> library.getWorkout(null));
     }
-
-    
 
     @Test
     void testAddOneRestDay() {
@@ -143,7 +138,7 @@ public class TestWorkoutLibrary {
         
         // remaining state
         assertEquals(cardioWorkout, library.getWorkout("Cardio Day"));
-        assertThrows(IllegalArgumentException.class, () -> library.getWorkout("Arm Day"));
+        assertNull(library.getWorkout("Arm Day"));
         
         List<WorkoutPlan> remaining = library.getAllWorkouts();
         assertFalse(remaining.contains(strengthWorkout));
@@ -164,7 +159,7 @@ public class TestWorkoutLibrary {
     void testCompleteWorkoutAddRemoveCycle() {
         // initial empty state
         assertTrue(library.getAllWorkouts().isEmpty());
-        assertThrows(IllegalArgumentException.class, () -> library.getWorkout("Arm Day"));
+        assertNull(library.getWorkout("Arm Day"));
         
         // Add workout and verify complete state
         library.addWorkout(strengthWorkout);
@@ -179,6 +174,6 @@ public class TestWorkoutLibrary {
         // Remove workout and verify empty state
         library.removeWorkout("Arm Day");
         assertTrue(library.getAllWorkouts().isEmpty());
-        assertThrows(IllegalArgumentException.class, () -> library.getWorkout("Arm Day"));
+        assertNull(library.getWorkout("Arm Day"));
     }
 }
