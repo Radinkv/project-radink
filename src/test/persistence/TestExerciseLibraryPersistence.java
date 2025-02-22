@@ -36,7 +36,7 @@ public class TestExerciseLibraryPersistence {
                 .put("name", "Bench Press")
                 .put("type", "Strength")
                 .put("equipmentName", "Dumbbell")
-                .put("muscleGroupName", "Chest & Shoulders")
+                .put("muscleGroupName", "Chest")
                 .put("info", new JSONObject()
                         .put("sets", 3.0)
                         .put("reps", 12.0)
@@ -49,7 +49,7 @@ public class TestExerciseLibraryPersistence {
                 .put("name", "Running")
                 .put("type", "Endurance")
                 .put("equipmentName", "Treadmill")
-                .put("muscleGroupName", "Legs")
+                .put("muscleGroupName", "Quadriceps")
                 .put("info", new JSONObject()
                         .put("duration", 30.0));
     }
@@ -121,7 +121,7 @@ public class TestExerciseLibraryPersistence {
         assertEquals("Test Exercise", loaded.getName());
         assertEquals("Strength", loaded.exerciseType());
         assertEquals("Dumbbell", loaded.getRequiredEquipment().getEquipmentName());
-        assertEquals("Chest & Shoulders", loaded.getMusclesTargeted().getName());
+        assertEquals("Chest", loaded.getMusclesTargeted().getName());
         Map<String, Double> info = loaded.getInfo();
         assertEquals(3.0, info.get("sets"), TEST_PRECISION);
         assertEquals(12.0, info.get("reps"), TEST_PRECISION);
@@ -150,7 +150,7 @@ public class TestExerciseLibraryPersistence {
         assertEquals("Strength", loadedStrength.getName());
         assertEquals("Strength", loadedStrength.exerciseType());
         assertEquals("Dumbbell", loadedStrength.getRequiredEquipment().getEquipmentName());
-        assertEquals("Chest & Shoulders", loadedStrength.getMusclesTargeted().getName());
+        assertEquals("Chest", loadedStrength.getMusclesTargeted().getName());
         Map<String, Double> strengthInfo = loadedStrength.getInfo();
         assertEquals(3.0, strengthInfo.get("sets"), TEST_PRECISION);
         assertEquals(12.0, strengthInfo.get("reps"), TEST_PRECISION);
@@ -164,7 +164,7 @@ public class TestExerciseLibraryPersistence {
         assertEquals("Endurance", loadedEndurance.getName());
         assertEquals("Endurance", loadedEndurance.exerciseType());
         assertEquals("Treadmill", loadedEndurance.getRequiredEquipment().getEquipmentName());
-        assertEquals("Legs", loadedEndurance.getMusclesTargeted().getName());
+        assertEquals("Quadriceps", loadedEndurance.getMusclesTargeted().getName());
         Map<String, Double> enduranceInfo = loadedEndurance.getInfo();
         assertEquals(30.0, enduranceInfo.get("duration"), TEST_PRECISION);
         // Check that getDuration() returns 30 minutes converted to seconds
@@ -209,7 +209,7 @@ public class TestExerciseLibraryPersistence {
         assertEquals("Bench Press", strengthExercise.getName());
         assertEquals("Strength", strengthExercise.exerciseType());
         assertEquals("Dumbbell", strengthExercise.getRequiredEquipment().getEquipmentName());
-        assertEquals("Chest & Shoulders", strengthExercise.getMusclesTargeted().getName());
+        assertEquals("Chest", strengthExercise.getMusclesTargeted().getName());
         Map<String, Double> strengthInfo = strengthExercise.getInfo();
         assertEquals(3.0, strengthInfo.get("sets"), TEST_PRECISION);
         assertEquals(12.0, strengthInfo.get("reps"), TEST_PRECISION);
@@ -220,7 +220,7 @@ public class TestExerciseLibraryPersistence {
         assertEquals("Running", enduranceExercise.getName());
         assertEquals("Endurance", enduranceExercise.exerciseType());
         assertEquals("Treadmill", enduranceExercise.getRequiredEquipment().getEquipmentName());
-        assertEquals("Legs", enduranceExercise.getMusclesTargeted().getName());
+        assertEquals("Quadriceps", enduranceExercise.getMusclesTargeted().getName());
         Map<String, Double> enduranceInfo = enduranceExercise.getInfo();
         assertEquals(30.0, enduranceInfo.get("duration"), TEST_PRECISION);
         assertEquals(30.0 * 60, enduranceExercise.getDuration(), TEST_PRECISION);
@@ -279,13 +279,13 @@ public class TestExerciseLibraryPersistence {
             double timePerRep, double restTime) {
         return new StrengthExercise(name, sets, reps, timePerRep, restTime,
                 predefinedData.findEquipment("Dumbbell"),
-                predefinedData.findMuscleGroup("Chest & Shoulders"));
+                predefinedData.findMuscleGroup("Chest"));
     }
 
     private Exercise createEnduranceExercise(String name, double duration) {
         return new EnduranceExercise(name, duration,
                 predefinedData.findEquipment("Treadmill"),
-                predefinedData.findMuscleGroup("Legs"));
+                predefinedData.findMuscleGroup("Quadriceps"));
     }
 
     private Exercise createIntervalExercise(String name, double timeOn, 
@@ -324,7 +324,7 @@ public class TestExerciseLibraryPersistence {
         assertEquals(prefix + " Exercise", loaded.getName());
         assertEquals("Strength", loaded.exerciseType());
         assertEquals("Dumbbell", loaded.getRequiredEquipment().getEquipmentName());
-        assertEquals("Chest & Shoulders", loaded.getMusclesTargeted().getName());
+        assertEquals("Chest", loaded.getMusclesTargeted().getName());
         
         Map<String, Double> info = loaded.getInfo();
         assertEquals(sets, info.get("sets"), TEST_PRECISION);

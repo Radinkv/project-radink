@@ -5,6 +5,7 @@ import java.util.List;
 import static ui.components.SharedUI.*;
 import model.exercise.Exercise;
 import model.workout.Workout;
+import model.workout.WorkoutPlan;
 
 /** This UI component handles workout creation. It collects user input to build a workout with a name
  *  and a set of selected exercises from the user's self-built ExerciseLibrary
@@ -86,13 +87,9 @@ public class WorkoutCreationUI {
     // HELPER: for readWorkoutName
     // EFFECTS: Check if the workout name is valid (not already in use or not null) return false if invalid
     private boolean isWorkoutNameValid(String name) {
-        try {
-            workoutLibrary.getWorkout(name);
-            System.out.println("A workout with the same name already exists.");
-            return false;
-        } catch (IllegalArgumentException e) {
-            return true;
-        }
+        WorkoutPlan workout;
+        workout = workoutLibrary.getWorkout(name);
+        return (workout == null);
     }
 
     // HELPER: for createWorkoutFromExercises
