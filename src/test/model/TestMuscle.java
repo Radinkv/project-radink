@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import model.muscle.Muscle;
 
+/** This class tests the IMMUTABLE attributes of the Muscle class. */
 public class TestMuscle {
     Muscle muscle1;
     Muscle muscle2;

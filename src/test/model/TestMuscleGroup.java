@@ -16,6 +16,8 @@ import static utility.Utility.TEST_PRECISION;
 import model.muscle.Muscle;
 import model.muscle.MuscleGroup;
 
+/** This class tests the IMMUTABILITY of MuscleGroup and verifies its side-effects 
+ * on associated Muscle (ExerciseAssociator) objects are as expected/specified. */
 public class TestMuscleGroup {
     private MuscleGroup emptyGroup;
     private MuscleGroup singleMuscleGroup;

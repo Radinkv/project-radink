@@ -13,6 +13,7 @@ import model.equipment.strength.Cable;
 import model.equipment.strength.Dumbbell;
 import model.equipment.strength.Machine;
 
+/** This class tests the IMMUTABLE aspects of Equipment instantiations. */
 public class TestEquipment {
     private Equipment bodyweight;
     private Equipment treadmill;

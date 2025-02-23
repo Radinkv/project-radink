@@ -21,6 +21,11 @@ import model.workout.Workout;
 import model.workout.WorkoutLibrary;
 import model.workout.WorkoutPlan;
 
+/** This class tests the mutability of WorkoutLibrary in handling WorkoutPlan objects.
+ * 
+ * NOTE: WorkoutPlan objects are unmodifiable, EXCEPT their list of exercises. WorkoutLibrary
+ * should NOT modify that list under any circumstances.
+ */
 public class TestWorkoutLibrary {
     private WorkoutLibrary library;
     private WorkoutPlan strengthWorkout;
@@ -175,5 +180,42 @@ public class TestWorkoutLibrary {
         library.removeWorkout("Arm Day");
         assertTrue(library.getAllWorkouts().isEmpty());
         assertNull(library.getWorkout("Arm Day"));
+    }
+
+    // WorkoutLibrary should NOT modify Workout objects
+    @Test
+    void testNoSideEffectsOnWorkoutExerciseList() {
+        library.addWorkout(strengthWorkout);
+        List<Exercise> originalExercises = new ArrayList<Exercise>(strengthExercises);
+        
+        // Get workout and modify its exercise list
+        WorkoutPlan stored = library.getWorkout("Arm Day");
+        stored.getExercises().clear(); // Attempt to modify the list
+        
+        // Verify original workout's exercises weren't affected
+        assertEquals(originalExercises, strengthWorkout.getExercises()); // Should pass due to defensive copying
+    }
+
+    @Test
+    void testDefensiveCopyingOnRetrieval() {
+        library.addWorkout(strengthWorkout);
+        
+        List<Exercise> firstList = library.getWorkout("Arm Day").getExercises();
+        List<Exercise> secondList = library.getWorkout("Arm Day").getExercises();
+        
+        // Lists should be equal but not the same instance for defensive copying
+        assertEquals(firstList, secondList);
+        assertNotSame(firstList, secondList); 
+    }
+
+    @Test
+    void testGetAllWorkoutsDefensiveCopy() {
+        library.addWorkout(strengthWorkout);
+        library.addWorkout(cardioWorkout);
+        
+        List<WorkoutPlan> workouts = library.getAllWorkouts();
+        workouts.clear(); // Attempt to modify the returned list
+        
+        assertEquals(2, library.getAllWorkouts().size()); // Should pass due to defensive copying
     }
 }

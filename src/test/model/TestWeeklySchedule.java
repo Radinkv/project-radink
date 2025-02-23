@@ -21,56 +21,51 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/** This class tests the modification and information-obtaining operations of WeeklySchedule 
+ * and verifies that the chain of side-effects on associated objects (Workout -> Exercise -> 
+ * MuscleGroup -> Muscle AND Exercise -> Equipment) are all as specified/expected. 
+ * 
+ * NOTE: WeeklySchedule has the ability to INCORRECTLY modify these objects. Thus, verifying 
+ * the full chain is plausible (though it may be argued that it is not necessary). */
 class TestWeeklySchedule {
-    // Equipment for exercises
     private Equipment dumbbell;
     private Equipment treadmill;
     private Equipment bodyweight;
     
-    // Muscles and muscle groups
     private Muscle chest;
     private MuscleGroup chestGroup;
     private Muscle quad;
     private MuscleGroup legsGroup;
     
-    // Various exercises
     private StrengthExercise benchPress;
     private EnduranceExercise running;
     private IntervalExercise hiit;
     
-    // Workout plans
     private Workout strengthWorkout;
     private Workout cardioWorkout;
     private RestDay restDay;
     
-    // Weekly schedule
     private WeeklySchedule schedule;
-
 
     @BeforeEach
     void runBefore() {
-        // Initialize equipment
         dumbbell = new Dumbbell();
         treadmill = new Treadmill();
         bodyweight = new BodyWeight();
         
-        // Initialize muscles and groups
         chest = new Muscle("Chest");
         chestGroup = new MuscleGroup("Chest", new ArrayList<Muscle>(List.of(chest)));
         quad = new Muscle("Quadriceps");
         legsGroup = new MuscleGroup("Legs", new ArrayList<Muscle>(List.of(quad)));
         
-        // Initialize exercises
         benchPress = new StrengthExercise("Bench Press", 4, 12, 2.5, 2.0, dumbbell, chestGroup);
         running = new EnduranceExercise("Running", 30.0, treadmill, legsGroup);
         hiit = new IntervalExercise("HIIT", 30.0, 15.0, 10, bodyweight, legsGroup);
-        
-        // Initialize workouts
+
         strengthWorkout = new Workout("Strength Day", new ArrayList<Exercise>(List.of(benchPress)));
         cardioWorkout = new Workout("Cardio Day", new ArrayList<Exercise>(List.of(running, hiit)));
         restDay = new RestDay("Recovery + Stretching");
-        
-        // Initialize schedule
+
         schedule = new WeeklySchedule();
     }
 
@@ -94,9 +89,10 @@ class TestWeeklySchedule {
         schedule.setScheduleForDay(2, restDay);
         
         // Verify assignments
-        assertEquals("Strength Day", schedule.getScheduleForDay(0).getName());
-        assertEquals("Cardio Day", schedule.getScheduleForDay(1).getName());
-        assertEquals("Recovery + Stretching", schedule.getScheduleForDay(2).getName());
+        // Workouts are unmodifiable
+        assertEquals(strengthWorkout, schedule.getScheduleForDay(0));
+        assertEquals(cardioWorkout, schedule.getScheduleForDay(1));
+        assertEquals(restDay, schedule.getScheduleForDay(2));
         
         // Other days should remain as default rest days
         for (int i = 3; i < 7; i++) {
@@ -114,15 +110,17 @@ class TestWeeklySchedule {
         // Schedule strength workout on Monday
         schedule.setScheduleForDay(0, strengthWorkout);
         
-        // Verify metrics are registered with Monday context
+        // Metrics are registered with Monday context
         assertTrue(((ExerciseAssociator) dumbbell).containsExercise("Bench Press", "Monday"));
         Map<String, Double> activeChestMetrics = chest.getAggregatedExerciseMetrics();
         assertEquals(4.0, activeChestMetrics.get("totalSets"), TEST_PRECISION);
         
-        // Replace with rest day
+        // Should replace Monday (0) with rest day
         schedule.clearScheduleForDay(0);
+        assertTrue(schedule.getScheduleForDay(0) instanceof RestDay);
+        assertEquals("Rest Day", schedule.getScheduleForDay(0).getName());
         
-        // Verify metrics are deactivated
+        // Metrics must be deactivated
         assertFalse(((ExerciseAssociator) dumbbell).containsExercise("Bench Press", "Monday"));
         Map<String, Double> clearedChestMetrics = chest.getAggregatedExerciseMetrics();
         assertEquals(0.0, clearedChestMetrics.getOrDefault("totalSets", 0.0), TEST_PRECISION);
@@ -139,7 +137,7 @@ class TestWeeklySchedule {
         assertTrue(((ExerciseAssociator) dumbbell).containsExercise("Bench Press", "Thursday"));
         
         Map<String, Double> chestMetrics = chest.getAggregatedExerciseMetrics();
-        assertEquals(8.0, chestMetrics.get("totalSets"), TEST_PRECISION); // 4 sets * 2 days
+        assertEquals(8.0, chestMetrics.get("totalSets"), TEST_PRECISION); // 4 sets * 2 days with the same workout
         
         // Clear Monday's workout
         schedule.clearScheduleForDay(0);

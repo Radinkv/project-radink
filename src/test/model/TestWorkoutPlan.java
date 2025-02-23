@@ -19,6 +19,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/* This class tests the immutable (RestDay is immutable), shared, and modification aspects of 
+ * WorkoutPlan extensions, and also verifies Workout's removeExercise works as intended.
+ * 
+ * NOTE: A Workout's list of Exercise is modified IF AND ONLY IF an Exercise from ExerciseLibrary
+ * is removed and it is in a Workout object that is instantiated within the program at runtime. 
+ * This modification is done at the UI level. It prevents complex exception handling and is less 
+ * problematic for data persistence implementation. */
 public class TestWorkoutPlan {
     private Equipment dumbbell;
     private Equipment treadmill;
@@ -244,7 +251,7 @@ public class TestWorkoutPlan {
         Exercise exercise1 = new StrengthExercise("Exercise1", 3, 12, 2.0, 1.5, bodyweight, chest);
         Exercise exercise2 = new StrengthExercise("Exercise2", 3, 12, 2.0, 1.5, bodyweight, chest);
         
-        List<Exercise> exercises = new ArrayList<>();
+        List<Exercise> exercises = new ArrayList<Exercise>();
         exercises.add(exercise1);
         exercises.add(exercise2);
         

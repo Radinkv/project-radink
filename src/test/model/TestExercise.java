@@ -17,6 +17,8 @@ import model.muscle.*;
 import java.util.List;
 import java.util.Map;
 
+/** This class tests the IMMUTABLE aspects and modification operations of 
+ * Exercise subclass implementations and instantiations. */
 class TestExercise {
     private Equipment dumbbell;
     private Equipment treadmill;

@@ -15,6 +15,8 @@ import model.equipment.bodyweight.*;
 import model.exercise.*;
 import model.muscle.*;
 
+/** This class tests the mutability of ExerciseLibrary AND verifies that 
+ * it has no side effects on any Exercise objects. */
 public class TestExerciseLibrary {
     private ExerciseLibrary library;
     private Exercise strengthExercise;
@@ -160,5 +162,42 @@ public class TestExerciseLibrary {
         assertNull(library.getExercise("Ab Plank"));
         assertTrue(library.getAllExercises().isEmpty());
         assertEquals(0, library.getAllExercises().size());
+    }
+
+    @Test
+    void testNoSideEffectsOnStoredExercises() {
+        // Initial state
+        Map<String, Double> originalInfo = strengthExercise.getInfo();
+        String originalName = strengthExercise.getName();
+        Equipment originalEquipment = strengthExercise.getRequiredEquipment();
+        MuscleGroup originalMuscles = strengthExercise.getMusclesTargeted();
+        
+        // Multiple library operations
+        library.addExercise(strengthExercise);
+        library.getExercise(strengthExercise.getName());
+        library.getAllExercises();
+        library.removeExercise(strengthExercise.getName());
+        library.addExercise(strengthExercise);
+        
+        // Exercise should NOT be modified
+        assertEquals(originalName, strengthExercise.getName());
+        assertEquals(originalEquipment, strengthExercise.getRequiredEquipment());
+        assertEquals(originalMuscles, strengthExercise.getMusclesTargeted());
+        assertEquals(originalInfo, strengthExercise.getInfo());
+    }
+
+    @Test
+    void testGetExerciseConsistencyNoSideEffects() {
+        library.addExercise(strengthExercise);
+        
+        // Get the same exercise multiple times
+        Exercise first = library.getExercise(strengthExercise.getName());
+        Exercise second = library.getExercise(strengthExercise.getName());
+        Exercise third = library.getAllExercises().get(strengthExercise.getName());
+        
+        // Verify they all reference the same object
+        assertSame(first, second);
+        assertSame(first, third);
+        assertSame(first, strengthExercise);
     }
 }

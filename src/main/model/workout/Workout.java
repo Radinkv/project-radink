@@ -52,7 +52,7 @@ public class Workout implements WorkoutPlan {
     public void deactivateMetrics(String context) {
         for (Exercise exercise : exercises) {
             exercise.deactivateMetrics(context); // NOTE: ExerciseAssociator ultimately handles
-        }                                        //       all ill-advised metrics or metric values 
+        }                                       //        all ill-advised metrics or metric values 
     }
 
     // EFFECTS: Return this workout's name
@@ -81,7 +81,7 @@ public class Workout implements WorkoutPlan {
     // EFFECTS: Remove the given Exercise by exerciseName from this Workout
     //          Do nothing if no such Exercise is found
     public void removeExercise(String exerciseName) {
-        List<Exercise> updatedExercises = new ArrayList<>();
+        List<Exercise> updatedExercises = new ArrayList<Exercise>();
         for (Exercise exercise : exercises) {
             if (!exercise.getName().equals(exerciseName)) {
                 updatedExercises.add(exercise);
@@ -97,7 +97,7 @@ public class Workout implements WorkoutPlan {
     @Override
     public Map<String, Double> getWorkoutSummary() {
         Map<String, Double> cumulativeWorkoutStats = new HashMap<String, Double>();
-        // All possible metrics from ExerciseAssociator
+        // All possible metrics from ExerciseAssociator's format
         cumulativeWorkoutStats.put("totalSets", 0.0);
         cumulativeWorkoutStats.put("totalReps", 0.0);
         cumulativeWorkoutStats.put("totalIntervalDuration", 0.0);

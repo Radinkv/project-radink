@@ -15,10 +15,10 @@ import model.equipment.cardio.Treadmill;
 import model.equipment.bodyweight.BodyWeight;
 import model.muscle.Muscle;
 
-/** ExerciseAssociator Tests for each subclass/implementation of ExerciseAssociator
-    If one implementation overrides ExerciseAssociator, this test suite formation detects that
-    Equipments/muscles are split to directly see which subclass potenttially (should they override
-    ExerciseAssociator's methods) has an incorrect implementation  */
+/** ExerciseAssociator Tests for each subclass implementation of ExerciseAssociator
+    If one implementation overrides methods of ExerciseAssociator, this test suite detects 
+    whether the inheritor object correctly or incorrectly overrided those methods 
+    (detects incorrect overridden implementation) */
 public class TestExerciseAssociator {
     // Equipment implementations
     private ExerciseAssociator barbell;
