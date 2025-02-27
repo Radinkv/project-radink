@@ -4,6 +4,7 @@ import model.exercise.*;
 import model.workout.*;
 import ui.components.*;
 import utility.PredefinedData;
+
 import java.util.*;
 
 /**
@@ -34,6 +35,7 @@ public class WorkoutApp {
     private final WorkoutManagementUI workoutManagementUI;
     private final ScheduleUI scheduleUI;
     private final MetricsUI metricsUI;
+    private final PersistenceUI persistenceUI;
 
     public static void main(String[] args) {
         new WorkoutApp();
@@ -55,7 +57,8 @@ public class WorkoutApp {
         this.workoutCreationUI = new WorkoutCreationUI();
         this.workoutManagementUI = new WorkoutManagementUI();
         this.scheduleUI = new ScheduleUI();
-        this.metricsUI = new MetricsUI(); 
+        this.metricsUI = new MetricsUI();
+        this.persistenceUI = new PersistenceUI(); 
         runWorkoutApp();
     }
 
@@ -66,7 +69,7 @@ public class WorkoutApp {
         while (keepGoing) {
             displayMenu();
             String command = input.nextLine().trim();
-            if (command.equals("7")) {
+            if (command.equals("9")) {
                 System.out.println("Thank you for using Workout Planner!");
                 keepGoing = false;
             } else {
@@ -84,7 +87,9 @@ public class WorkoutApp {
         System.out.println("[4] Manage Workouts");
         System.out.println("[5] Edit Weekly Schedule");
         System.out.println("[6] View Metrics");
-        System.out.println("[7] Exit");
+        System.out.println("[7] Save Program State");
+        System.out.println("[8] Load Program State");
+        System.out.println("[9] Exit");
         System.out.print("\nSelect an option: ");
     }
 
@@ -110,8 +115,17 @@ public class WorkoutApp {
             case "6":
                 metricsUI.viewMetrics();
                 break;
+            case "7":
+                persistenceUI.saveState();
+                break;
+            case "8":
+                persistenceUI.loadState();
+                break;
+            case "9":
+                System.out.println("Thank you for using Workout Planner!");
+                return;
             default:
-                System.out.println("Invalid selection. Please choose between 1-7.");
+                System.out.println("Invalid selection. Please choose between 1-9.");
                 SharedUI.waitForEnter();
         }
     }
