@@ -3,6 +3,7 @@ package model.workout;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -35,7 +36,7 @@ public class WeeklySchedule implements Writable {
         }
     }
 
-    // MODIFIES: this
+    // MODIFIES: this, MuscleGroup, Equipment
     // EFFECTS: Assign the given workout or rest day to the specified day (0 = Monday, 6 = Sunday)
     //          Throw IllegalArgumentException if dayIndex is not in range [0,6]
     //          Throw IllegalArgumentException if workoutPlan is null
@@ -52,7 +53,7 @@ public class WeeklySchedule implements Writable {
         workoutPlan.activateMetrics(DAYS[dayIndex]);
     }
 
-    // MODIFIES: this
+    // MODIFIES: this, MuscleGroup, Equipment
     // EFFECTS: Remove the assigned workout or rest day for the given day, setting it to a rest day
     //          Throw IllegalArgumentException if dayIndex is not in range [0,6]
     //          A removed Workout subclass instance will have each of their Exercise metrics deactivated 
@@ -95,21 +96,130 @@ public class WeeklySchedule implements Writable {
         return summary.toString();
     }
 
-    // EFFECTS: Return a JSON representation of this WeeklySchedule containing
-    //          the complete state of the weekly schedule
     @Override
     public JSONObject toJson() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'toJson'");
+        JSONObject json = new JSONObject();
+        JSONArray scheduleArray = new JSONArray();
+
+        for (int i = 0; i < DAYS.length; i++) {
+            JSONObject dayJson = createDayJson(i);
+            scheduleArray.put(dayJson);
+        }
+        json.put("schedule", scheduleArray);
+        return json;
+    }
+
+    // EFFECTS: Create a JSON object for the given day index containing:
+    //          1. The day index (0-6)
+    //          2. The workout name (null if default rest day)
+    private JSONObject createDayJson(int dayIndex) {
+        JSONObject dayJson = new JSONObject();
+        WorkoutPlan plan = schedule[dayIndex];
+        
+        dayJson.put("day", dayIndex);
+        dayJson.put("workoutName", plan.getName());
+        
+        return dayJson;
+    }
+
+    @Override
+    public void fromJson(JSONObject json, Object data) throws JSONException {
+        validateDataAndInitialize(data);
+        WorkoutLibrary workoutLibrary = (WorkoutLibrary) data;
+
+        if (json == null || !json.has("schedule")) {
+            return;
+        }
+
+        JSONArray scheduleArray = json.getJSONArray("schedule");
+        reconstructSchedule(scheduleArray, workoutLibrary);
     }
 
     // MODIFIES: this
-    // EFFECTS: Reconstruct this WeeklySchedule's state from the provided JSON data
-    //          Reactivate all exercise metrics for assigned workouts
-    //          Throws JSONException if data is invalid or incomplete
-    @Override
-    public void fromJson(JSONObject json) throws JSONException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'fromJson'");
+    // EFFECTS: Validate data parameter and initialize schedule with default rest days
+    //          Throw IllegalArgumentException if data is not a WorkoutLibrary
+    private void validateDataAndInitialize(Object data) {
+        if (!(data instanceof WorkoutLibrary)) {
+            throw new IllegalArgumentException("WorkoutLibrary required for state reconstruction");
+        }
+
+        // Initialize all days as rest days
+        for (int i = 0; i < DAYS.length; i++) {
+            schedule[i] = new RestDay("Rest Day");
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Reconstruct schedule from JSON array using workouts from workoutLibrary
+    //          Maintain default rest days for invalid/missing entries
+    private void reconstructSchedule(JSONArray scheduleArray, WorkoutLibrary workoutLibrary) {
+        for (int i = 0; i < scheduleArray.length(); i++) {
+            try {
+                JSONObject dayJson = scheduleArray.getJSONObject(i);
+                reconstructDay(dayJson, workoutLibrary);
+            } catch (JSONException e) {
+                // Skip invalid entries (non-JSONObject elements)
+                continue;
+            }
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Add workout to schedule for the specified day if:
+    //          1. Day index is valid (0-6)
+    //          2. Workout name is not null
+    //          3. Workout exists in workoutLibrary
+    //          Otherwise, maintain default rest day
+    private void reconstructDay(JSONObject dayJson, WorkoutLibrary workoutLibrary) {
+        int day = getDayIndex(dayJson);
+        if (!isValidDayIndex(day)) {
+            return;
+        }
+
+        String workoutName = getWorkoutName(dayJson);
+        if (workoutName == null) {
+            return;
+        }
+
+        setWorkoutForDay(day, workoutName, workoutLibrary);
+    }
+
+    // EFFECTS: Extract and return day index from JSON, or -1 if invalid
+    private int getDayIndex(JSONObject dayJson) {
+        try {
+            return dayJson.getInt("day");
+        } catch (JSONException e) {
+            return -1;
+        }
+    }
+
+    // EFFECTS: Return true if day index is within valid range (0-6)
+    private boolean isValidDayIndex(int day) {
+        return day >= 0 && day < DAYS.length;
+    }
+
+    // EFFECTS: Extract and return workout name from JSON, or null if missing/invalid
+    private String getWorkoutName(JSONObject dayJson) {
+        try {
+            return dayJson.isNull("workoutName") ? null : dayJson.getString("workoutName");
+        } catch (JSONException e) {
+            return null;
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Set workout from workoutLibrary for the specified day
+    //          Maintain default rest day if workout not found
+    private void setWorkoutForDay(int day, String workoutName, WorkoutLibrary workoutLibrary) {
+        try {
+            WorkoutPlan workout = workoutLibrary.getWorkout(workoutName);
+            if (workout != null) {
+                setScheduleForDay(day, workout);
+            }
+        } catch (IllegalArgumentException e) {
+            // Keep default RestdDay if workout not found
+            // Already instantiated within `schedule`
+            // setScheduleForDay(day, new RestDay("Rest Day")) may be called, but will have no effects
+        }
     }
 }

@@ -1,4 +1,4 @@
-package persistence;
+package model.persistence;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -14,6 +14,8 @@ import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
+
+import persistence.JsonManager;
 
 /** 
  * This class tests whether JsonManager effectively reads, writes JSON

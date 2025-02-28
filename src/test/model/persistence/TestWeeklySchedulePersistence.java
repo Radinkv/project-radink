@@ -1,4 +1,4 @@
-package persistence;
+package model.persistence;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static utility.Utility.TEST_PRECISION;

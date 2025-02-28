@@ -56,6 +56,9 @@ public class TestExerciseAssociator {
         initializeMockData();
     }
 
+    // Testing ALL extensions of ExerciseAssociator within this program
+    // Allows for detecting incorrect ExerciseAssociator implementation and improperly overridden implementations
+
     // STRENGTH EQUIPMENT
     @Test
     void testBarbellAssociator() {
@@ -197,9 +200,6 @@ public class TestExerciseAssociator {
         mixedInfo.put("invalidKey", 156.7);
         mixedInfo.put("totalReps", 10.2);
         mixedInfo.put("wrongMetric", 267.8);
-
-        System.out.println("mixedInfo after initialization:");
-        mixedInfo.forEach((k, v) -> System.out.println(k + ": " + v));
     }
 
     private void testRegistrationHelper(ExerciseAssociator associator) {
@@ -386,14 +386,16 @@ public class TestExerciseAssociator {
         assertEquals(2e-20, metrics.get("totalDuration"), 1e-21);
 
         associator.clearExercises();
-    
-        // For simplicity of implementation, these cases are ALLOWED. 
-        // Different styles of 
+     
+        // Same Exercise name and/or context
+        // ONLY same name (same Exercise object; the program does not allow two Exercise objects 
+        // with the same name to be instantiated) under DIFFERENT context is allowed
         associator.clearExercises();
         assertTrue(associator.registerExercise("Collision", "Monday", strengthInfo1));
         assertFalse(associator.registerExercise("Collision", "Monday", strengthInfo2));
         assertTrue(associator.registerExercise("Collision", "Tuesday", strengthInfo2));
     
+        // For simplicity of implementation, these cases are ALLOWED.
         // empty string context
         associator.clearExercises();
         assertTrue(associator.registerExercise("Exercise", "", mixedInfo));

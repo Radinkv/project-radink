@@ -23,6 +23,9 @@ import java.util.Set;
  *       WeeklySchedule aggregates the Exercise's metrics because it indicates that this
  *       ExerciseAssociator instance is actively being used by the Exercise object (which is
  *       contained within the user's Workout in the schedule).
+ * 
+ *       The purpose of this association is to display active Workout and Exercise volume and duration 
+ *       metrics for Equipment and Muscle objects (which extend the ExerciseAssociator abstract class).
  */
 public abstract class ExerciseAssociator {
     private Map<String, Map<String, Double>> exerciseMetrics;

@@ -93,13 +93,7 @@ class TestExercise {
         assertEquals(chest, exercise.getMusclesTargeted());
 
         // For Defensive Copy/MuscleGroup Immutability Refactorization
-        assertTrue(chest.getMuscles().equals(exercise.getMusclesTargeted().getMuscles())); 
-
-        System.out.println(chest.getMuscles());
-        System.out.println(chest.getGroupMetrics());
-
-        System.out.println(chest.getMuscles());
-        System.out.println(chest.getGroupMetrics());
+        assertTrue(chest.getMuscles().equals(exercise.getMusclesTargeted().getMuscles()));
 
         exercise = new StrengthExercise(
             null, 1, 1, 1.0, 1.0, dumbbell, chest);

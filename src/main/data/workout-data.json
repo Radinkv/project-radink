@@ -1,0 +1,421 @@
+{
+    "exerciseLibrary": {
+      "exercises": [
+        {
+          "name": "Ab Rollers",
+          "type": "Strength",
+          "equipmentName": "Bodyweight",
+          "muscleGroupName": "Core",
+          "info": {
+            "sets": 4,
+            "reps": 8,
+            "timePerRep": 4.5,
+            "restTime": 2.5
+          }
+        },
+        {
+          "name": "Weighted Crunches",
+          "type": "Strength",
+          "equipmentName": "Bodyweight",
+          "muscleGroupName": "Core",
+          "info": {
+            "sets": 2,
+            "reps": 8,
+            "timePerRep": 4.0,
+            "restTime": 2.5
+          }
+        },
+        {
+          "name": "Weighted Leg Raises",
+          "type": "Strength",
+          "equipmentName": "Bodyweight",
+          "muscleGroupName": "Core",
+          "info": {
+            "sets": 2,
+            "reps": 8,
+            "timePerRep": 3.0,
+            "restTime": 2.5
+          }
+        },
+        {
+          "name": "Russian Twists",
+          "type": "Strength",
+          "equipmentName": "Dumbbell",
+          "muscleGroupName": "Core",
+          "info": {
+            "sets": 3,
+            "reps": 20,
+            "timePerRep": 1.5,
+            "restTime": 3.0
+          }
+        },
+        {
+          "name": "Cable Row",
+          "type": "Strength",
+          "equipmentName": "Cable",
+          "muscleGroupName": "Row Muscles",
+          "info": {
+            "sets": 3,
+            "reps": 8,
+            "timePerRep": 2.5,
+            "restTime": 1.5
+          }
+        },
+        {
+          "name": "Cable Lat PullDown",
+          "type": "Strength",
+          "equipmentName": "Cable",
+          "muscleGroupName": "Upper Back",
+          "info": {
+            "sets": 3,
+            "reps": 8,
+            "timePerRep": 2.5,
+            "restTime": 1.5
+          }
+        },
+        {
+          "name": "Cable Close-Grip Rows",
+          "type": "Strength",
+          "equipmentName": "Cable",
+          "muscleGroupName": "Row Muscles",
+          "info": {
+            "sets": 3,
+            "reps": 8,
+            "timePerRep": 2.5,
+            "restTime": 1.5
+          }
+        },
+        {
+          "name": "Wide-Grip Pull Ups",
+          "type": "Strength",
+          "equipmentName": "Bodyweight",
+          "muscleGroupName": "Upper Back",
+          "info": {
+            "sets": 4,
+            "reps": 6,
+            "timePerRep": 2.0,
+            "restTime": 3.0
+          }
+        },
+        {
+          "name": "Cable Hammer Curls",
+          "type": "Strength",
+          "equipmentName": "Cable",
+          "muscleGroupName": "Forearms",
+          "info": {
+            "sets": 4,
+            "reps": 8,
+            "timePerRep": 2.0,
+            "restTime": 2.0
+          }
+        },
+        {
+          "name": "Incline Chest Press",
+          "type": "Strength",
+          "equipmentName": "Machine",
+          "muscleGroupName": "Chest",
+          "info": {
+            "sets": 4,
+            "reps": 8,
+            "timePerRep": 2.0,
+            "restTime": 1.5
+          }
+        },
+        {
+          "name": "Flat Bench Press",
+          "type": "Strength",
+          "equipmentName": "Machine",
+          "muscleGroupName": "Bench Muscles",
+          "info": {
+            "sets": 4,
+            "reps": 8,
+            "timePerRep": 2.0,
+            "restTime": 1.5
+          }
+        },
+        {
+          "name": "Cable Chest Flys",
+          "type": "Strength",
+          "equipmentName": "Cable",
+          "muscleGroupName": "Chest",
+          "info": {
+            "sets": 3,
+            "reps": 8,
+            "timePerRep": 2.5,
+            "restTime": 2.5
+          }
+        },
+        {
+          "name": "Close Grip Curls",
+          "type": "Strength",
+          "equipmentName": "Cable",
+          "muscleGroupName": "Biceps",
+          "info": {
+            "sets": 4,
+            "reps": 8,
+            "timePerRep": 2.5,
+            "restTime": 2.0
+          }
+        },
+        {
+          "name": "Wide Grip Curls",
+          "type": "Strength",
+          "equipmentName": "Cable",
+          "muscleGroupName": "Biceps",
+          "info": {
+            "sets": 3,
+            "reps": 8,
+            "timePerRep": 2.5,
+            "restTime": 2.0
+          }
+        },
+        {
+          "name": "Reverse Grip Curls",
+          "type": "Strength",
+          "equipmentName": "Cable",
+          "muscleGroupName": "Forearms",
+          "info": {
+            "sets": 4,
+            "reps": 8,
+            "timePerRep": 2.5,
+            "restTime": 2.0
+          }
+        },
+        {
+          "name": "Basketball",
+          "type": "Endurance",
+          "equipmentName": "Bodyweight",
+          "muscleGroupName": "Lunge Muscles",
+          "info": {
+            "duration": 30.0
+          }
+        },
+        {
+          "name": "Barbell Shoulder Press",
+          "type": "Strength",
+          "equipmentName": "Barbell",
+          "muscleGroupName": "Overhead Press Muscles",
+          "info": {
+            "sets": 3,
+            "reps": 8,
+            "timePerRep": 2.0,
+            "restTime": 2.5
+          }
+        },
+        {
+          "name": "Dumbbell Shoulder Press",
+          "type": "Strength",
+          "equipmentName": "Dumbbell",
+          "muscleGroupName": "Overhead Press Muscles",
+          "info": {
+            "sets": 3,
+            "reps": 8,
+            "timePerRep": 2.0,
+            "restTime": 2.5
+          }
+        },
+        {
+          "name": "Reverse Grip Face Pulls",
+          "type": "Strength",
+          "equipmentName": "Cable",
+          "muscleGroupName": "Upper Back",
+          "info": {
+            "sets": 5,
+            "reps": 8,
+            "timePerRep": 2.0,
+            "restTime": 2.5
+          }
+        },
+        {
+          "name": "Narrow Grip Tricep Pushdown",
+          "type": "Strength",
+          "equipmentName": "Cable",
+          "muscleGroupName": "Triceps",
+          "info": {
+            "sets": 3,
+            "reps": 8,
+            "timePerRep": 2.5,
+            "restTime": 2.5
+          }
+        },
+        {
+          "name": "Wide Grip Tricep Pushdown",
+          "type": "Strength",
+          "equipmentName": "Cable",
+          "muscleGroupName": "Triceps",
+          "info": {
+            "sets": 3,
+            "reps": 8,
+            "timePerRep": 2.5,
+            "restTime": 2.5
+          }
+        },
+        {
+          "name": "Overhead Dumbbell Tricep Push",
+          "type": "Strength",
+          "equipmentName": "Dumbbell",
+          "muscleGroupName": "Triceps",
+          "info": {
+            "sets": 3,
+            "reps": 8,
+            "timePerRep": 2.5,
+            "restTime": 2.5
+          }
+        },
+        {
+          "name": "Deadlift",
+          "type": "Strength",
+          "equipmentName": "Barbell",
+          "muscleGroupName": "Deadlift Muscles",
+          "info": {
+            "sets": 3,
+            "reps": 8,
+            "timePerRep": 2.0,
+            "restTime": 4.0
+          }
+        },
+        {
+          "name": "Wide Stance Leg Press",
+          "type": "Strength",
+          "equipmentName": "Machine",
+          "muscleGroupName": "Squat Muscles",
+          "info": {
+            "sets": 3,
+            "reps": 10,
+            "timePerRep": 2.0,
+            "restTime": 3.0
+          }
+        },
+        {
+          "name": "Closed Stance Leg Press",
+          "type": "Strength",
+          "equipmentName": "Machine",
+          "muscleGroupName": "Squat Muscles",
+          "info": {
+            "sets": 3,
+            "reps": 10,
+            "timePerRep": 2.0,
+            "restTime": 3.0
+          }
+        },
+        {
+          "name": "Single-leg Leg Press",
+          "type": "Strength",
+          "equipmentName": "Machine",
+          "muscleGroupName": "Squat Muscles",
+          "info": {
+            "sets": 3,
+            "reps": 10,
+            "timePerRep": 2.0,
+            "restTime": 3.0
+          }
+        },
+        {
+          "name": "Hamstring Falls",
+          "type": "Strength",
+          "equipmentName": "Bodyweight",
+          "muscleGroupName": "Hamstrings",
+          "info": {
+            "sets": 6,
+            "reps": 9,
+            "timePerRep": 5.0,
+            "restTime": 2.0
+          }
+        },
+        {
+          "name": "Inward Calf Raises",
+          "type": "Strength",
+          "equipmentName": "Machine",
+          "muscleGroupName": "Calves",
+          "info": {
+            "sets": 3,
+            "reps": 8,
+            "timePerRep": 1.5,
+            "restTime": 1.5
+          }
+        },
+        {
+          "name": "Outward Calf Raises",
+          "type": "Strength",
+          "equipmentName": "Machine",
+          "muscleGroupName": "Calves",
+          "info": {
+            "sets": 3,
+            "reps": 8,
+            "timePerRep": 1.5,
+            "restTime": 1.5
+          }
+        }
+      ]
+    },
+    "workoutLibrary": {
+      "workouts": [
+        {
+          "name": "Abs",
+          "type": "Workout",
+          "exercises": ["Ab Rollers", "Weighted Crunches", "Weighted Leg Raises", "Russian Twists"]
+        },
+        {
+          "name": "Back and Forearms",
+          "type": "Workout",
+          "exercises": ["Cable Row", "Cable Lat PullDown", "Cable Close-Grip Rows", "Wide-Grip Pull Ups", "Cable Hammer Curls"]
+        },
+        {
+          "name": "Chest and Biceps",
+          "type": "Workout",
+          "exercises": ["Incline Chest Press", "Flat Bench Press", "Cable Chest Flys", "Close Grip Curls", "Wide Grip Curls", "Reverse Grip Curls"]
+        },
+        {
+          "name": "Shoulders and Triceps",
+          "type": "Workout",
+          "exercises": ["Basketball", "Barbell Shoulder Press", "Dumbbell Shoulder Press", "Reverse Grip Face Pulls", "Narrow Grip Tricep Pushdown", "Wide Grip Tricep Pushdown", "Overhead Dumbbell Tricep Push"]
+        },
+        {
+          "name": "Legs",
+          "type": "Workout",
+          "exercises": ["Deadlift", "Wide Stance Leg Press", "Closed Stance Leg Press", "Single-leg Leg Press"]
+        },
+        {
+          "name": "Hamstrings and Calves",
+          "type": "Workout",
+          "exercises": ["Hamstring Falls", "Inward Calf Raises", "Outward Calf Raises"]
+        },
+        {
+          "name": "Rest Day",
+          "type": "RestDay"
+        }
+      ]
+    },
+    "weeklySchedule": {
+      "schedule": [
+        {
+          "day": 0,
+          "workoutName": "Abs"
+        },
+        {
+          "day": 1,
+          "workoutName": "Back and Forearms"
+        },
+        {
+          "day": 2,
+          "workoutName": "Rest Day"
+        },
+        {
+          "day": 3,
+          "workoutName": "Chest and Biceps"
+        },
+        {
+          "day": 4,
+          "workoutName": "Shoulders and Triceps"
+        },
+        {
+          "day": 5,
+          "workoutName": "Legs"
+        },
+        {
+          "day": 6,
+          "workoutName": "Hamstrings and Calves"
+        }
+      ]
+    }
+  }

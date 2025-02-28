@@ -20,7 +20,7 @@ import org.json.JSONObject;
  * Mutability: Static
  */
 public class JsonManager {
-    private static final String DEFAULT_SAVE_PATH = "./data/workout-data.json";
+    private static final String DEFAULT_SAVE_PATH = "./src/main/data/workout-data.json";
 
     // EFFECTS: Throw AssertionError for instantiation avoidance (static utility class)
     public JsonManager() {
