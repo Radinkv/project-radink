@@ -14,6 +14,15 @@ import java.util.Set;
  *      2. Muscle (Muscle class instantiations)
  * 
  * PURPOSE: This abstraction allows tracking exercise volume and duration across different types of workouts.
+ * 
+ * NOTE: The relationship between containers of ExerciseAssociator (MuscleGroup, Exercise)
+ *       is an association relationship. ExerciseAssociator does NOT maintain model object references.
+ *       Instead, Exercises associate their metrics with ExerciseAssociator instances. This association
+ *       occurs under a specific context (day of the week in WeeklySchedule) IFF the Exercise
+ *       exists within a Workout that has been added to WeeklySchedule. In this scenario,
+ *       WeeklySchedule aggregates the Exercise's metrics because it indicates that this
+ *       ExerciseAssociator instance is actively being used by the Exercise object (which is
+ *       contained within the user's Workout in the schedule).
  */
 public abstract class ExerciseAssociator {
     private Map<String, Map<String, Double>> exerciseMetrics;
@@ -93,7 +102,7 @@ public abstract class ExerciseAssociator {
         return exerciseMetrics.size();
     }
 
-    // Helper method to create a map with all valid metrics initialized to zero
+    // EFFECTS: Create a map with all valid metrics initialized to zero
     public static Map<String, Double> createZeroValueMetricsMap() {
         Map<String, Double> metrics = new HashMap<String, Double>();
         for (String metricName : VALID_METRICS) {

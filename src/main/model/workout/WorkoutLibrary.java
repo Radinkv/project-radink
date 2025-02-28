@@ -5,9 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import model.exercise.Exercise;
+import model.exercise.ExerciseLibrary;
 import persistence.Writable;
 
 /**
@@ -55,24 +58,19 @@ public class WorkoutLibrary implements Writable {
     }
 
     // EFFECTS: Return the workout plan with the given name
-    //          Throw IllegalArgumentException if workoutName is null or does not exist
+    //          Throw IllegalArgumentException if workoutName is null
     public WorkoutPlan getWorkout(String workoutName) throws IllegalArgumentException {
         if (workoutName == null) {
             throw new IllegalArgumentException();
         }
 
         WorkoutPlan workoutPlan = library.get(workoutName);
-
-        if (workoutPlan == null) {
-            throw new IllegalArgumentException();
-        }
-
         return workoutPlan;
     }
 
     // EFFECTS: Return a list of all created and stored workout plans
     public List<WorkoutPlan> getAllWorkouts() {
-        ArrayList<WorkoutPlan> workouts = new ArrayList<WorkoutPlan>();
+        ArrayList<WorkoutPlan> workouts = new ArrayList<WorkoutPlan>(); // Defensive copy
         
         for (Map.Entry<String, WorkoutPlan> workoutPair : library.entrySet()) {
             workouts.add(workoutPair.getValue());
@@ -86,21 +84,126 @@ public class WorkoutLibrary implements Writable {
         return library.containsKey(workoutName);
     }
 
-    // EFFECTS: Return a JSON representation of this WorkoutLibrary containing
-    //          all workouts and their complete state
+    // EFFECTS: 
     @Override
     public JSONObject toJson() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'toJson'");
+        JSONObject json = new JSONObject();
+        JSONArray workoutsArray = new JSONArray();
+        
+        for (WorkoutPlan workoutPlan : library.values()) {
+            workoutsArray.put(createWorkoutJson(workoutPlan));
+        }
+        json.put("workouts", workoutsArray);
+        return json;
     }
-
-    // MODIFIES: this
-    // EFFECTS: Reconstruct this WorkoutLibrary's state from the provided JSON data
-    //          Throws JSONException if data is invalid or incomplete
+    
+    // HELPER: for toJson
+    // EFFECTS: Create a JSON object representing the given WorkoutPlan
+    //          If WorkoutPlan is a Workout, include exercise names
+    //          If WorkoutPlan is a RestDay, include only name and type
+    private JSONObject createWorkoutJson(WorkoutPlan workoutPlan) {
+        JSONObject workoutJson = new JSONObject();
+        workoutJson.put("name", workoutPlan.getName());
+        
+        // Workout in WorkoutLibrary is never null
+        if (workoutPlan instanceof RestDay) {
+            workoutJson.put("type", "RestDay");
+        } else {
+            workoutJson.put("type", "Workout");
+            workoutJson.put("exercises", createExerciseNamesArray((Workout) workoutPlan));
+        }
+        
+        return workoutJson;
+    }
+    
+    // HELPER: for createWorkoutJson
+    // EFFECTS: Create a JSON array of exercise names from the given Workout
+    private JSONArray createExerciseNamesArray(Workout workout) {
+        JSONArray exerciseNames = new JSONArray();
+        for (Exercise exercise : workout.getExercises()) {
+            exerciseNames.put(exercise.getName());
+        }
+        return exerciseNames;
+    }
+    
     @Override
-    public void fromJson(JSONObject json) throws JSONException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'fromJson'");
+    public void fromJson(JSONObject json, Object data) throws JSONException {
+        if (data == null || !(data instanceof ExerciseLibrary)) {
+            throw new IllegalArgumentException("ExerciseLibrary required for state reconstruction");
+        }
+        ExerciseLibrary exerciseLibrary = (ExerciseLibrary) data;
+        
+        // Clear library and reconstruct from loaded data
+        library.clear();
+        if (json == null || !json.has("workouts")) {
+            return; // Non-existent loading data
+        }
+    
+        JSONArray workoutsArray = json.getJSONArray("workouts");
+        reconstructWorkouts(workoutsArray, exerciseLibrary);
+    }
+    
+    
+    // MODIFIES: this
+    // EFFECTS: Reconstruct WorkoutPlan objects from JSON array and add to library
+    //          Skip invalid workout entries
+    private void reconstructWorkouts(JSONArray workoutsArray, ExerciseLibrary exerciseLibrary) {
+        for (int i = 0; i < workoutsArray.length(); i++) {
+            JSONObject workoutJson = workoutsArray.getJSONObject(i);
+            WorkoutPlan workoutPlan = createWorkoutPlan(workoutJson, exerciseLibrary);
+            if (workoutPlan != null) {
+                library.put(workoutPlan.getName(), workoutPlan);
+            }
+        }
+    }
+    
+    // HELPER: for reconstructWorkouts
+    // EFFECTS: Create a WorkoutPlan from JSON data
+    //          Return null if required fields are missing or type is invalid
+    private WorkoutPlan createWorkoutPlan(JSONObject workoutJson, ExerciseLibrary exerciseLibrary) {
+        String name = workoutJson.optString("name", null);
+        String type = workoutJson.optString("type", null);
+    
+        if (name == null || type == null) {
+            return null;
+        }
+    
+        if (type.equals("RestDay")) {
+            return new RestDay(name);
+        } else if (type.equals("Workout")) {
+            return createWorkout(name, workoutJson, exerciseLibrary);
+        }
+        
+        return null;
+    }
+    
+    // HELPER: for createWorkoutPlan
+    // EFFECTS: Create a Workout from JSON data and exercise library
+    //          Return a Workout with valid exercises from the exercise library
+    private Workout createWorkout(String name, JSONObject workoutJson, ExerciseLibrary exerciseLibrary) {
+        List<Exercise> exercises = new ArrayList<Exercise>();
+        
+        if (workoutJson.has("exercises")) {
+            JSONArray exerciseNames = workoutJson.getJSONArray("exercises");
+            exercises = reconstructExercises(exerciseNames, exerciseLibrary);
+        }
+        
+        return new Workout(name, exercises);
+    }
+    
+    // HELPER: for createWorkout
+    // EFFECTS: Create list of exercises from JSON array of exercise names
+    //          Only include exercises that exist in the exercise library
+    private List<Exercise> reconstructExercises(JSONArray exerciseNames, ExerciseLibrary exerciseLibrary) {
+        List<Exercise> exercises = new ArrayList<Exercise>();
+        
+        for (int i = 0; i < exerciseNames.length(); i++) {
+            String exerciseName = exerciseNames.getString(i);
+             // ExerciseLibrary's loadJson GUARANTEES no null Exercise objects
+            Exercise exercise = exerciseLibrary.getExercise(exerciseName);
+            exercises.add(exercise);
+        }
+        return exercises;
     }
     
 }
