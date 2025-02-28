@@ -63,24 +63,46 @@ class TestJsonManager {
             assertEquals("Utility class should not be instantiated", e.getMessage());
         }
     }
-
-
+    
+    // Don't delete the original file when testing the use-case method
     @Test
     void testSaveAndLoadWithDefaultPath() {
+        // Backup original file if it exists
+        File originalFile = new File("./src/main/data/workout-data.json");
+        File backupFile = new File("./src/main/data/workout-data.json.backup");
+        boolean originalExists = originalFile.exists();
+        
         try {
+            // Backup original if it exists
+            if (originalExists) {
+                Files.copy(originalFile.toPath(), backupFile.toPath(), 
+                          java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+            }
+            
+            // Perform test with non-test method
             JsonManager.saveData(mockData);
-            assertTrue(new File("./data/workout-data.json").exists());
-
+            assertTrue(originalFile.exists());
+    
             Map<String, JSONObject> loaded = JsonManager.loadData();
             assertFalse(loaded.isEmpty());
             assertTrue(loaded.containsKey("mockComponent"));
             assertEquals("value", loaded.get("mockComponent").getString("test"));
             assertEquals(42, loaded.get("mockComponent").getInt("number"));
-        } catch (JSONException e) {
-            fail("JSONException should not have been thrown: " + e.getMessage());
+        } catch (JSONException | IOException e) {
+            fail("Exception should not have been thrown: " + e.getMessage());
         } finally {
-            // Clean up the default path file
-            new File("./data/workout-data.json").delete();
+            // Restore original file or clean up
+            try {
+                if (originalExists) {
+                    Files.copy(backupFile.toPath(), originalFile.toPath(), 
+                              java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+                    backupFile.delete();
+                } else {
+                    originalFile.delete();
+                }
+            } catch (IOException e) {
+                System.err.println("Failed to restore original file: " + e.getMessage());
+            }
         }
     }
 
@@ -304,6 +326,7 @@ class TestJsonManager {
             fail("JSONException should not have been thrown: " + e.getMessage());
         }
     }
+    
 
     private void cleanupTestFiles() {
         // Delete file first then directory

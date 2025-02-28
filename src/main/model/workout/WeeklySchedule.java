@@ -30,10 +30,7 @@ public class WeeklySchedule implements Writable {
     // EFFECTS: Create a weekly schedule with a fixed array of 7 slots (one per day of the week)
     public WeeklySchedule() {
         schedule = new WorkoutPlan[7];
-        // Initialize with rest days
-        for (int i = 0; i < 7; i++) {
-            schedule[i] = new RestDay("Rest Day");
-        }
+        initializeSchedule();
     }
 
     // MODIFIES: this, MuscleGroup, Equipment
@@ -96,6 +93,15 @@ public class WeeklySchedule implements Writable {
         return summary.toString();
     }
 
+    // HELPER: for WeeklySchedule, fromJson
+    // EFFECTS: Initialize this WeeklySchedule with RestDays for each day in the schedule week
+    private void initializeSchedule() {
+        // Initialize with rest days
+        for (int i = 0; i < 7; i++) {
+            schedule[i] = new RestDay("Rest Day");
+        }
+    }
+
     @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
@@ -109,23 +115,37 @@ public class WeeklySchedule implements Writable {
         return json;
     }
 
+    // HELPER: for toJson
     // EFFECTS: Create a JSON object for the given day index containing:
     //          1. The day index (0-6)
-    //          2. The workout name (null if default rest day)
+    //          2. The workout name (null if default RestDay)
     private JSONObject createDayJson(int dayIndex) {
         JSONObject dayJson = new JSONObject();
         WorkoutPlan plan = schedule[dayIndex];
         
         dayJson.put("day", dayIndex);
-        dayJson.put("workoutName", plan.getName());
+        dayJson.put("workoutName", plan.getName()); // WorkoutPlan objects have unique names (WorkoutLibrary enforces)
         
         return dayJson;
     }
 
+    // REQUIRES: toJson's output is not modified to this program's persistence is not modified
+    // MODIFIES: this
+    // EFFECTS: Reoncstruct this WeeklySchedule using the WorkoutPlan name and the day index (0-6)
+    // NOTE: The REQUIRES clause is necessary for fromJson to function correctly. However,  
+    //       there is extensive error handling, exception throwing, and default value 
+    //       employing for missing or corrupted fields/data structures. Ultimately, even if 
+    //       the REQUIRES clause is not met, fromJson handles these issues with default or fallback
+    //       states without exposing errors or exceptions to the user interface.
+    //       Exceptions are handled at three levels: this, JsonManager, PersistenceUI
     @Override
     public void fromJson(JSONObject json, Object data) throws JSONException {
-        validateDataAndInitialize(data);
+        if (!(data instanceof WorkoutLibrary)) {
+            throw new IllegalArgumentException("WorkoutLibrary required for state reconstruction");
+        }
         WorkoutLibrary workoutLibrary = (WorkoutLibrary) data;
+        
+        initializeSchedule();
 
         if (json == null || !json.has("schedule")) {
             return;
@@ -135,23 +155,10 @@ public class WeeklySchedule implements Writable {
         reconstructSchedule(scheduleArray, workoutLibrary);
     }
 
-    // MODIFIES: this
-    // EFFECTS: Validate data parameter and initialize schedule with default rest days
-    //          Throw IllegalArgumentException if data is not a WorkoutLibrary
-    private void validateDataAndInitialize(Object data) {
-        if (!(data instanceof WorkoutLibrary)) {
-            throw new IllegalArgumentException("WorkoutLibrary required for state reconstruction");
-        }
-
-        // Initialize all days as rest days
-        for (int i = 0; i < DAYS.length; i++) {
-            schedule[i] = new RestDay("Rest Day");
-        }
-    }
-
+    // HELPER: for fromJson
     // MODIFIES: this
     // EFFECTS: Reconstruct schedule from JSON array using workouts from workoutLibrary
-    //          Maintain default rest days for invalid/missing entries
+    //          Maintain default rest days for invalid or missing entries
     private void reconstructSchedule(JSONArray scheduleArray, WorkoutLibrary workoutLibrary) {
         for (int i = 0; i < scheduleArray.length(); i++) {
             try {
@@ -164,6 +171,7 @@ public class WeeklySchedule implements Writable {
         }
     }
 
+    // HELPER: for reconstructSchedule
     // MODIFIES: this
     // EFFECTS: Add workout to schedule for the specified day if:
     //          1. Day index is valid (0-6)
@@ -184,6 +192,7 @@ public class WeeklySchedule implements Writable {
         setWorkoutForDay(day, workoutName, workoutLibrary);
     }
 
+    // HELPER: for reconstructDay
     // EFFECTS: Extract and return day index from JSON, or -1 if invalid
     private int getDayIndex(JSONObject dayJson) {
         try {
@@ -193,12 +202,14 @@ public class WeeklySchedule implements Writable {
         }
     }
 
+    // HELPER: for reconstructDay
     // EFFECTS: Return true if day index is within valid range (0-6)
     private boolean isValidDayIndex(int day) {
         return day >= 0 && day < DAYS.length;
     }
 
-    // EFFECTS: Extract and return workout name from JSON, or null if missing/invalid
+    // HELPER: for reconstructDay
+    // EFFECTS: Extract and return workout name from JSON, or null if missing or invalid
     private String getWorkoutName(JSONObject dayJson) {
         try {
             return dayJson.isNull("workoutName") ? null : dayJson.getString("workoutName");
@@ -207,6 +218,7 @@ public class WeeklySchedule implements Writable {
         }
     }
 
+    // HELPER: for reconstructDay
     // MODIFIES: this
     // EFFECTS: Set workout from workoutLibrary for the specified day
     //          Maintain default rest day if workout not found
@@ -219,7 +231,7 @@ public class WeeklySchedule implements Writable {
         } catch (IllegalArgumentException e) {
             // Keep default RestdDay if workout not found
             // Already instantiated within `schedule`
-            // setScheduleForDay(day, new RestDay("Rest Day")) may be called, but will have no effects
+            // setScheduleForDay(day, new RestDay("Rest Day")) may be called, but will have no relative side effects
         }
     }
 }

@@ -79,12 +79,17 @@ public class WorkoutLibrary implements Writable {
         return workouts;
     }
 
+    // HELPER: for addWorkout, removeWorkout
     // EFFECTS: Return true if an exercise with the given name exists in the library, false otherwise
     private boolean containsWorkout(String workoutName) {
         return library.containsKey(workoutName);
     }
 
-    // EFFECTS: 
+    // EFFECTS: Return a JSON representation of this WorkoutLibrary containing
+    //          all WorkoutPlan object names and their list of Exercises by name
+    // NOTE: This data is sufficient for full program state reconstruction
+    //       WorkoutLibrary ENFORCES WorkoutPlan objects never associate with null Exercises
+    //       ExerciseLibrary ENFORCES unique Exercise names for each Exercise 
     @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
@@ -101,6 +106,8 @@ public class WorkoutLibrary implements Writable {
     // EFFECTS: Create a JSON object representing the given WorkoutPlan
     //          If WorkoutPlan is a Workout, include exercise names
     //          If WorkoutPlan is a RestDay, include only name and type
+    //          UI removes all references to an Exercise object from each Workout in WorkoutLibrary
+    //          IFF the user deletes an exercise from ExerciseLibrary
     private JSONObject createWorkoutJson(WorkoutPlan workoutPlan) {
         JSONObject workoutJson = new JSONObject();
         workoutJson.put("name", workoutPlan.getName());
@@ -108,6 +115,7 @@ public class WorkoutLibrary implements Writable {
         // Workout in WorkoutLibrary is never null
         if (workoutPlan instanceof RestDay) {
             workoutJson.put("type", "RestDay");
+            // fromJson treats a type Workout without exercises as a RestDay (bug handling)
         } else {
             workoutJson.put("type", "Workout");
             workoutJson.put("exercises", createExerciseNamesArray((Workout) workoutPlan));
@@ -126,6 +134,16 @@ public class WorkoutLibrary implements Writable {
         return exerciseNames;
     }
     
+    // REQUIRES: toJson's output is not modified to this program's persistence is not modified
+    // MODIFIES: this
+    // EFFECTS: Reconstruct this WorkoutLibrary's state from the provided JSON data
+    //          Throw JSONException if data is invalid or incomplete
+    // NOTE: The REQUIRES clause is necessary for fromJson to function correctly. However,  
+    //       there is extensive error handling, exception throwing, and default value 
+    //       employing for missing or corrupted fields/data structures. Ultimately, even if 
+    //       the REQUIRES clause is not met, fromJson handles these issues with default or fallback
+    //       states without exposing errors or exceptions to the user interface.
+    //       Exceptions are handled at three levels: this, JsonManager, PersistenceUI
     @Override
     public void fromJson(JSONObject json, Object data) throws JSONException {
         if (data == null || !(data instanceof ExerciseLibrary)) {
@@ -143,7 +161,7 @@ public class WorkoutLibrary implements Writable {
         reconstructWorkouts(workoutsArray, exerciseLibrary);
     }
     
-    
+    // HELPER: for fromJson
     // MODIFIES: this
     // EFFECTS: Reconstruct WorkoutPlan objects from JSON array and add to library
     //          Skip invalid workout entries
@@ -199,7 +217,8 @@ public class WorkoutLibrary implements Writable {
         
         for (int i = 0; i < exerciseNames.length(); i++) {
             String exerciseName = exerciseNames.getString(i);
-             // ExerciseLibrary's loadJson GUARANTEES no null Exercise objects
+            // ExerciseLibrary's fromJson GUARANTEES no null Exercise objects during reconstruction
+            // The program at runtime does not allow for the user to create a null Exercise
             Exercise exercise = exerciseLibrary.getExercise(exerciseName);
             exercises.add(exercise);
         }

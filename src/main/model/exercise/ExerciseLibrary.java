@@ -120,14 +120,20 @@ public class ExerciseLibrary implements Writable {
         return json;
     }
 
+    // REQUIRES: toJson's output is not modified to this program's persistence is not modified
     // MODIFIES: this
     // EFFECTS: Reconstruct this ExerciseLibrary's state from the provided JSON data
     //          Throw JSONException if data is invalid or incomplete
+    // NOTE: The REQUIRES clause is necessary for fromJson to function correctly. However,  
+    //       there is extensive error handling, exception throwing, and default value 
+    //       employing for missing or corrupted fields/data structures. Ultimately, even if 
+    //       the REQUIRES clause is not met, fromJson handles these issues with default or fallback
+    //       states without exposing errors or exceptions to the user interface.
+    //       Exceptions are handled at three levels: this, JsonManager, PersistenceUI
     @Override
     public void fromJson(JSONObject json, Object data) throws IllegalArgumentException {
         if (!(data instanceof PredefinedData)) {
-            throw new IllegalArgumentException("ExerciseLibrary requires an instance" 
-                    + " of PredefinedData to reconstruct.");
+            throw new IllegalArgumentException("ExerciseLibrary requires PredefinedData to reconstruct.");
         } 
         
         if (json == null || !json.has("exercises")) {
@@ -167,6 +173,7 @@ public class ExerciseLibrary implements Writable {
         }
     }
 
+    // HELPER: for fromJson
     // EFFECTS: Create the exercise based on the given type
     //          Construct a default EnduranceExercise (least info attributes for an Exercise subclass)
     //          if type is not one of: "Strength", "Endurance", or "Interval"
