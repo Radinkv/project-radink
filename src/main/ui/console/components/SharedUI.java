@@ -1,4 +1,4 @@
-package ui.components;
+package ui.console.components;
 
 import java.util.ArrayList;
 import java.util.HashMap;

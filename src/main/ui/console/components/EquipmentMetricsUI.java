@@ -1,6 +1,6 @@
-package ui.components;
+package ui.console.components;
 
-import static ui.components.SharedUI.*;
+import static ui.console.components.SharedUI.*;
 
 import java.util.ArrayList;
 import java.util.List;

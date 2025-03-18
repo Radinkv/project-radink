@@ -1,11 +1,11 @@
-package ui.components;
+package ui.console.components;
 
 import model.workout.RestDay;
 import model.workout.Workout;
 import model.workout.WorkoutPlan;
-import ui.components.SharedUI.WeeklyStats;
+import ui.console.components.SharedUI.WeeklyStats;
 
-import static ui.components.SharedUI.*;
+import static ui.console.components.SharedUI.*;
 
 import java.util.List;
 

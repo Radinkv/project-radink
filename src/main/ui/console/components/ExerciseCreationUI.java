@@ -1,9 +1,11 @@
-package ui.components;
+package ui.console.components;
+
+import static ui.console.components.SharedUI.*;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import static ui.components.SharedUI.*;
+
 import model.equipment.Equipment;
 import model.exercise.EnduranceExercise;
 import model.exercise.Exercise;

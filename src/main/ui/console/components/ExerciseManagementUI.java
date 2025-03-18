@@ -1,6 +1,7 @@
-package ui.components;
+package ui.console.components;
 
-import static ui.components.SharedUI.*;
+import static ui.console.components.SharedUI.*;
+
 import java.util.List;
 import java.util.Map;
 import model.exercise.Exercise;

@@ -1,6 +1,6 @@
-package ui.components;
+package ui.console.components;
 
-import static ui.components.SharedUI.*;
+import static ui.console.components.SharedUI.*;
 
 /** This UI component manages metric viewing navigation based on Equipment or Muscle for the user.  */
 public class MetricsUI {

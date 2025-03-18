@@ -1,8 +1,8 @@
-package ui;
+package ui.console;
 
 import model.exercise.*;
 import model.workout.*;
-import ui.components.*;
+import ui.console.components.*;
 import utility.PredefinedData;
 
 import java.util.*;

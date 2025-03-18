@@ -87,7 +87,7 @@ public abstract class Exercise {
     public MuscleGroup getMusclesTargeted() {
         return musclesTargeted;
     }
-    
+
     public abstract double getDuration();
 
     public abstract Map<String, Double> getInfo();

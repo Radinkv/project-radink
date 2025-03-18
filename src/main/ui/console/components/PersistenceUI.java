@@ -1,12 +1,12 @@
-package ui.components;
+package ui.console.components;
+
+import static ui.console.components.SharedUI.*;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import static ui.components.SharedUI.*;
 
 import persistence.JsonManager;
 

@@ -1,8 +1,10 @@
-package ui.components;
+package ui.console.components;
+
+import static ui.console.components.SharedUI.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import static ui.components.SharedUI.*;
+
 import model.exercise.Exercise;
 import model.workout.Workout;
 import model.workout.WorkoutPlan;
