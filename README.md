@@ -36,3 +36,20 @@ I have been weightlifting for a few months and have been looking for a systemati
 #### Data Persistence (PHASE 2)
 - **Save** my entire workout profile (including exercises, workouts, and weekly schedule) to a file when I *choose* to do so, **so that** I can preserve my training progress and customizations.
 - **Load** my previously saved workout profile from a file when I *choose* to do so, **so that** I can continue working with and building my workout program from exactly where I left off.
+
+# Instructions for End User
+
+- You can generate the first required action related to the user story "adding multiple Exercises to a Workout" by clicking the "Add >" button in the Create Workout screen. This allows you to add selected exercises from your exercise library to your current workout.
+
+- You can generate the second required action related to the user story "adding multiple Exercises to a Workout" by either clicking the "< Remove" button to remove selected exercises from your workout, clicking the "Filter by Type" button to filter available exercises by their type (Strength, Endurance, or Interval), or clicking the "Sort by Name" button to alphabetically sort the selected exercises in your workout.
+
+- You can locate my visual component by launching the application and viewing the application splash screen. There should be an image that is displayed for a few seconds as the program initially becomes launched. 
+
+**ADDITIONAL OPTION** Creating a workout or viewing an existing workout's details. After creating a workout, a summary dialog will appear displaying a pie chart visualization of the exercise type distribution in your workout. In workout management, you can also click the "View with Chart" button to see this visualization for any workout. Additionally, pie charts available in the metrics section to view equipment and muscle usage analytics.
+
+- You can save the state of my application by clicking the "Save Program State" button in the main menu, or by clicking "Yes" when prompted to save upon exiting the application.
+
+- You can reload the state of my application from a previously saved state by clicking the "Load Program State" button in the main menu. This will restore all the previously saved exercises and workouts.
+
+
+Splash Screen Image Source: https://www.gokenko.com/articles/7-gym-logo-ideas-to-inspire-you-for-your-own 

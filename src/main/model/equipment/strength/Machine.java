@@ -20,6 +20,11 @@ public class Machine extends StrengthEquipment {
         super();
         name = "Machine";
     }
+    
+    // @Override
+    // public String getEquipmentType() {
+    //     return "equipmentType";
+    // }  
 
     // EFFECTS: Return 'Machine' as the equipment name of this equipment.
     @Override
