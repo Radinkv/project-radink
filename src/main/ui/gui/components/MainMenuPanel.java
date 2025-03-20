@@ -80,10 +80,8 @@ public class MainMenuPanel extends JPanel {
         return new String[] {
             "Create Exercise", 
             "Manage Exercises", 
-            // "Create Workout", 
-            // "Manage Workouts", 
-            // "Edit Weekly Schedule", 
-            // "View Metrics", 
+            "Create Workout", 
+            "Manage Workouts", 
             "Save Program State", 
             "Load Program State", 
             "Exit"
@@ -96,10 +94,8 @@ public class MainMenuPanel extends JPanel {
         return new String[] {
             "ExerciseCreation", 
             "ExerciseManagement", 
-            // "WorkoutCreation", 
-            // "WorkoutManagement", 
-            // "Schedule", 
-            // "Metrics", 
+            "WorkoutCreation", 
+            "WorkoutManagement", 
             "Save", 
             "Load", 
             "Exit"

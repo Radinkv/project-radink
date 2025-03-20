@@ -66,7 +66,7 @@ public class SplashScreenGui extends JDialog {
     private ImageIcon loadLogoImage() {
         try {
             // Try to load from resources
-            return new ImageIcon(getClass().getResource("workout_logo.png"));
+            return new ImageIcon(getClass().getResource("workout_logo.jpeg"));
         } catch (Exception e) {
             // If image not found, create a placeholder
             return createPlaceholderIcon();

@@ -39,6 +39,8 @@ public class WorkoutAppGUI extends JFrame {
     private MainMenuPanel mainMenuPanel;
     private ExerciseCreationPanel exerciseCreationPanel;
     private ExerciseManagementPanel exerciseManagementPanel;
+    private WorkoutCreationPanel workoutCreationPanel;
+    private WorkoutManagementPanel workoutManagementPanel;
     private PersistencePanel persistencePanel;
 
     public static void main(String[] args) {
@@ -120,6 +122,9 @@ public class WorkoutAppGUI extends JFrame {
         mainMenuPanel = new MainMenuPanel();
         exerciseCreationPanel = new ExerciseCreationPanel();
         exerciseManagementPanel = new ExerciseManagementPanel();
+        workoutCreationPanel = new WorkoutCreationPanel();
+        workoutManagementPanel = new WorkoutManagementPanel();
+        persistencePanel = new PersistencePanel();
     }
 
     // HELPER: for WorkoutAppGUI
@@ -144,6 +149,8 @@ public class WorkoutAppGUI extends JFrame {
         mainPanel.add(mainMenuPanel, "MainMenu");
         mainPanel.add(exerciseCreationPanel, "ExerciseCreation");
         mainPanel.add(exerciseManagementPanel, "ExerciseManagement");
+        mainPanel.add(workoutCreationPanel, "WorkoutCreation");
+        mainPanel.add(workoutManagementPanel, "WorkoutManagement");
     }
 
     // HELPER: for setupMainPanel
@@ -164,7 +171,7 @@ public class WorkoutAppGUI extends JFrame {
     // HELPER: for showSplashScreen
     // EFFECTS: Schedules the splash screen to close after a delay
     private void scheduleSplashScreenClose(SplashScreenGui splashScreen) {
-        Timer timer = new Timer(2500, e -> {
+        Timer timer = new Timer(2000, e -> {
             splashScreen.dispose();
             toFront();
         });
