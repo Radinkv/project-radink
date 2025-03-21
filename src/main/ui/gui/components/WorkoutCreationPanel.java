@@ -26,7 +26,10 @@ public class WorkoutCreationPanel extends JPanel {
     private JButton removeButton;
     private JButton createButton;
     private JButton backButton;
+
+    private JComboBox<String> exerciseTypeFilter;
     
+    private List<Exercise> allAvailableExercises;
     private List<Exercise> availableExercises;
     private List<Exercise> selectedExercises;
     
@@ -48,9 +51,10 @@ public class WorkoutCreationPanel extends JPanel {
     }
 
     // HELPER: for WorkoutCreationPanel
-    // EFFECTS: Initialize the exercise lists to store available and selected exercises
+    // EFFECTS: Initialize the exercise lists to store available, filtered and selected exercises
     //          Create lists for tracking both model objects and display strings
     private void initializeLists() {
+        allAvailableExercises = new ArrayList<Exercise>();
         availableExercises = new ArrayList<Exercise>();
         selectedExercises = new ArrayList<Exercise>();
         
@@ -148,15 +152,17 @@ public class WorkoutCreationPanel extends JPanel {
 
     // HELPER: for layoutComponents
     // EFFECTS: Create the panel for Exercise selection with available and selected Exercise lists
-    //          Return a panel with exercise selection interface including transfer buttons
+    //          Return a panel with exercise selection interface including filter controls and transfer buttons
     private JPanel createExerciseSelectionPanel() {
         JPanel panel = new JPanel(new BorderLayout());
         panel.setBackground(SharedGuiComponents.PRIMARY_COLOR);
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         
+        JPanel filterPanel = createFilterPanel();
         JPanel listsPanel = createListsPanel();
         JPanel transferButtonsPanel = createTransferButtonsPanel();
         
+        panel.add(filterPanel, BorderLayout.NORTH);
         panel.add(listsPanel, BorderLayout.CENTER);
         panel.add(transferButtonsPanel, BorderLayout.SOUTH);
         
@@ -226,6 +232,64 @@ public class WorkoutCreationPanel extends JPanel {
         return panel;
     }
 
+    // HELPER: for createExerciseSelectionPanel
+    // EFFECTS: Create a panel with a filter dropdown to allow filtering exercises by type
+    //          Return a panel containing the filter controls with consistent styling
+    private JPanel createFilterPanel() {
+        JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        panel.setBackground(SharedGuiComponents.PRIMARY_COLOR);
+        
+        String[] filterOptions = {"All Exercises", "Strength Exercise", "Endurance Exercise", "Interval Exercise"};
+        exerciseTypeFilter = new JComboBox<>(filterOptions);
+        exerciseTypeFilter.setSelectedIndex(0);
+        exerciseTypeFilter.addActionListener(e -> filterExercisesByType());
+        
+        panel.add(SharedGuiComponents.createStyledLabel("Filter by type:"));
+        panel.add(exerciseTypeFilter);
+        
+        return panel;
+    }
+
+    // HELPER: for exerciseTypeFilter's ActionListener and updateAvailableExercises
+    // EFFECTS: Filter the available exercises list based on the selected exercise type
+    //          Populate availableExercises and availableListModel with exercises matching the filter
+    //          If "All Exercises" is selected, include all exercises from allAvailableExercises
+    private void filterExercisesByType() {
+        String selectedFilter = (String) exerciseTypeFilter.getSelectedItem();
+        
+        availableListModel.clear();
+        availableExercises.clear();
+        
+        if (selectedFilter.equals("All Exercises")) {
+            addAllExercisesToAvailable();
+        } else {
+            addExercisesByTypeToAvailable(selectedFilter.split(" ")[0]);
+        }
+    }
+
+    // HELPER: for filterExercisesByType
+    // EFFECTS: Add all exercises from allAvailableExercises to the available exercises list
+    //          Populate both availableExercises collection and availableListModel
+    private void addAllExercisesToAvailable() {
+        for (Exercise exercise : allAvailableExercises) {
+            availableExercises.add(exercise);
+            availableListModel.addElement(exercise.getName());
+        }
+    }
+
+    // HELPER: for filterExercisesByType
+    // EFFECTS: Add only exercises of the specified type to the available exercises list
+    //          Filter exercises from allAvailableExercises based on their exercise type
+    //          Populate both availableExercises collection and availableListModel with matching exercises
+    private void addExercisesByTypeToAvailable(String exerciseType) {
+        for (Exercise exercise : allAvailableExercises) {
+            if (exercise.exerciseType().equals(exerciseType)) {
+                availableExercises.add(exercise);
+                availableListModel.addElement(exercise.getName());
+            }
+        }
+    }    
+
     // EFFECTS: Update the Exercise list when the panel becomes visible
     //          Load available exercises from ExerciseLibrary when panel is displayed
     @Override
@@ -246,8 +310,10 @@ public class WorkoutCreationPanel extends JPanel {
 
     // HELPER: for updateExerciseLists
     // EFFECTS: Update the available exercises list with references to exercises from the library
+    //          Store all exercises in allAvailableExercises and apply the current filter
     //          Navigate back to main menu if no exercises are available
     private void updateAvailableExercises() {
+        allAvailableExercises.clear();
         availableListModel.clear();
         availableExercises.clear();
         
@@ -261,9 +327,10 @@ public class WorkoutCreationPanel extends JPanel {
         }
         
         for (Exercise exercise : exercises.values()) {
-            availableExercises.add(exercise);
-            availableListModel.addElement(exercise.getName());
+            allAvailableExercises.add(exercise);
         }
+
+        filterExercisesByType();
     }
 
     // HELPER: for updateExerciseLists
@@ -285,12 +352,14 @@ public class WorkoutCreationPanel extends JPanel {
             if (index >= 0 && index < availableExercises.size()) {
                 Exercise exercise = availableExercises.get(index);
                 
+                // Can be done by object reference (no overridden equals) because no two Exercises have the same name
                 if (!selectedExercises.contains(exercise)) {
                     selectedExercises.add(exercise);
                     selectedListModel.addElement(exercise.getName());
                 }
             }
         }
+        // filterExercisesByType();
     }
 
     // HELPER: for createButtons (removeButton action)
@@ -307,6 +376,7 @@ public class WorkoutCreationPanel extends JPanel {
                 selectedListModel.remove(index);
             }
         }
+        // filterExercisesByType();
     }
     
     // HELPER: for createButtons (createButton action)
