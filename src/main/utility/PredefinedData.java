@@ -120,6 +120,7 @@ public class PredefinedData {
                             REAR_DELTOID, BICEP, BRACHIORADIALIS)));
 
     // EFFECTS: Returns an unmodifiable map containing all predefined MuscleGroup instances mapped by name
+    // @SupressWarnings("methodLength")
     public Map<String, Muscle> getAllMuscles() {
         Map<String, Muscle> muscles = new HashMap<String, Muscle>();
         // Basic muscles

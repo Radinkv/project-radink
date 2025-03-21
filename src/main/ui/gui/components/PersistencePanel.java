@@ -15,20 +15,20 @@ import java.util.Map;
  */
 public class PersistencePanel extends JPanel {
     
-    // EFFECTS: Instantiate this persistence panel
+    // EFFECTS: Instantiate this PersistencePanel
     public PersistencePanel() {
         setupPanel();
     }
 
     // HELPER: for PersistencePanel
-    // EFFECTS: Sets up the panel layout and background
+    // EFFECTS: Set up the panel layout and background for this component
     private void setupPanel() {
         setLayout(new BorderLayout());
         setBackground(SharedGuiComponents.PRIMARY_COLOR);
     }
 
-    // EFFECTS: Saves the current state of the application to file if user confirms
-    // the action, displays appropriate success or error messages
+    // EFFECTS: Save the current state of the application to file if user confirms
+    //          the action, displays appropriate success or error messages
     public void saveState() {
         boolean confirmed = showSaveConfirmationDialog();
         
@@ -38,7 +38,7 @@ public class PersistencePanel extends JPanel {
     }
     
     // HELPER: for saveState
-    // EFFECTS: Shows a confirmation dialog for saving and returns user's decision
+    // EFFECTS: Show a confirmation dialog for saving and returns user's decision
     private boolean showSaveConfirmationDialog() {
         return SharedGuiComponents.showConfirmation(
                 "Are you sure you want to save the current program state? "
@@ -46,7 +46,7 @@ public class PersistencePanel extends JPanel {
     }
     
     // HELPER: for saveState
-    // EFFECTS: Performs the actual save operation and shows result messages
+    // EFFECTS: Perform the model package save operation and show result messages
     private void performSaveOperation() {
         try {
             Map<String, JSONObject> components = collectComponentData();
@@ -58,7 +58,7 @@ public class PersistencePanel extends JPanel {
     }
     
     // HELPER: for performSaveOperation 
-    // EFFECTS: Collects JSON data from all application components and returns as a map
+    // EFFECTS: Collect JSON data from all application components and returns as a map
     private Map<String, JSONObject> collectComponentData() {
         Map<String, JSONObject> components = new HashMap<String, JSONObject>();
         components.put("exerciseLibrary", SharedGuiComponents.exerciseLibrary.toJson());
@@ -85,9 +85,15 @@ public class PersistencePanel extends JPanel {
                 + "This will replace all current data.");
     }
     
-    // MODIFIES: WorkoutLibrary, ExerciseLibrary, WeeklySchedule
     // HELPER: for loadState
-    // EFFECTS: Performs the actual load operation and shows result messages
+    // REQUIRES: exerciseLibrary, workoutLibrary, weeklySchedule, and predefinedData are not null 
+    //           (from SharedGuiComponents)
+    // MODIFIES: exerciseLibrary, workoutLibrary, weeklySchedule (this program) 
+    // EFFECTS: IF user confirms, load saved WorkoutApp state from file into exerciseLibrary, workoutLibrary,
+    //          and weeklySchedule in that order
+    //          If no saved state exists, prints appropriate message
+    //          If load fails, prints error message and leaves current state unchanged
+    //          If user cancels, prints cancellation message
     private void performLoadOperation() {
         try {
             Map<String, JSONObject> data = JsonManager.loadData();
@@ -105,9 +111,10 @@ public class PersistencePanel extends JPanel {
         }
     }
 
+    // HELPER: for performLoadOperation
     // MODIFIES: WorkoutLibrary, ExerciseLibrary, WeeklySchedule
     // HELPER: for performLoadOperation
-    // EFFECTS: Loads data in the correct order to maintain dependencies
+    // EFFECTS: Load data in the correct order to maintain dependencies
     private void loadDataInOrder(Map<String, JSONObject> data) {
         if (data.containsKey("exerciseLibrary")) {
             SharedGuiComponents.exerciseLibrary.fromJson(
@@ -129,12 +136,12 @@ public class PersistencePanel extends JPanel {
         }
     }
 
-    // EFFECTS: Prompts the user to save before exiting the application
+    // EFFECTS: Prompt the user to save before exiting the application
     public void promptSaveOnExit() {
         boolean wantToSave = SharedGuiComponents.showConfirmation(
                 "Would you like to save your progress before exiting?");
         if (wantToSave) {
-            saveState();
+            performSaveOperation();
         }
     }
 }

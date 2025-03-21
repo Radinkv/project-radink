@@ -62,22 +62,7 @@ public class PersistenceUI {
                     return;
                 }
     
-                // Load in correct order (ABSOLUTELY NECESSARY)
-                // Third dependent on second, second dependent on first
-                // Do not execute the next if the previous does not work
-                if (data.containsKey("exerciseLibrary")) {
-                    exerciseLibrary.fromJson(data.get("exerciseLibrary"), predefinedData);
-                    // System.out.println(exerciseLibrary.toJson());
-                    if (data.containsKey("workoutLibrary")) {
-                        workoutLibrary.fromJson(data.get("workoutLibrary"), exerciseLibrary);
-                        // System.out.println(workoutLibrary.toJson());
-                        if (data.containsKey("weeklySchedule")) {
-                            weeklySchedule.fromJson(data.get("weeklySchedule"), workoutLibrary);
-                            // System.out.println(weeklySchedule.toJson());
-                        }
-                    }
-                }
-
+                loadDataInOrder(data);
                 System.out.println("Program state loaded successfully!");
             } catch (JSONException | IllegalArgumentException e) {
                 System.out.println("Error loading program state: " + e.getMessage());
@@ -86,5 +71,26 @@ public class PersistenceUI {
             System.out.println("Load cancelled.");
         }
         SharedUI.waitForEnter();
+    }
+
+    // HELPER: for loadState
+    // EFFECTS: Peform the data load from JSON
+    private void loadDataInOrder(Map<String, JSONObject> data) {
+        // Load in correct order (ABSOLUTELY NECESSARY)
+        // Third dependent on second, second dependent on first
+        // Do not execute the next if the previous does not work
+        if (data.containsKey("exerciseLibrary")) {
+            exerciseLibrary.fromJson(data.get("exerciseLibrary"), predefinedData);
+            // System.out.println(exerciseLibrary.toJson());
+            if (data.containsKey("workoutLibrary")) {
+                workoutLibrary.fromJson(data.get("workoutLibrary"), exerciseLibrary);
+                // System.out.println(workoutLibrary.toJson());
+                if (data.containsKey("weeklySchedule")) {
+                    weeklySchedule.fromJson(data.get("weeklySchedule"), workoutLibrary);
+                    // System.out.println(weeklySchedule.toJson());
+                }
+            }
+        }
+
     }
 }

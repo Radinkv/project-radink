@@ -26,7 +26,7 @@ public class TestExerciseLibraryPersistence {
     @BeforeEach
     void runBefore() {
         predefinedData = new PredefinedData();
-        exerciseLibrary = new ExerciseLibrary(predefinedData);
+        exerciseLibrary = new ExerciseLibrary();
         setupExerciseJsonObjects();
     }
 
@@ -75,7 +75,7 @@ public class TestExerciseLibraryPersistence {
     @Test
     void testEmptyLibrary() {
         JSONObject json = exerciseLibrary.toJson();
-        ExerciseLibrary library = new ExerciseLibrary(predefinedData);
+        ExerciseLibrary library = new ExerciseLibrary();
         library.fromJson(json, predefinedData);
         assertTrue(library.getAllExercises().isEmpty());
     }
@@ -93,7 +93,7 @@ public class TestExerciseLibraryPersistence {
     @Test
     void testNullExerciseType() {
         // Note: The test constructor for EnduranceExercise(2) should now set a default duration.
-        ExerciseLibrary library = new ExerciseLibrary(predefinedData);
+        ExerciseLibrary library = new ExerciseLibrary();
         library.addExercise(new EnduranceExercise(2));
     
         JSONObject json = library.toJson();
@@ -115,7 +115,7 @@ public class TestExerciseLibraryPersistence {
         exerciseLibrary.addExercise(exercise);
 
         JSONObject json = exerciseLibrary.toJson();
-        ExerciseLibrary library = new ExerciseLibrary(predefinedData);
+        ExerciseLibrary library = new ExerciseLibrary();
         library.fromJson(json, predefinedData);
 
         Exercise loaded = library.getExercise("Test Exercise");
@@ -144,7 +144,7 @@ public class TestExerciseLibraryPersistence {
         exerciseLibrary.addExercise(intervalEx);
 
         JSONObject json = exerciseLibrary.toJson();
-        ExerciseLibrary library = new ExerciseLibrary(predefinedData);
+        ExerciseLibrary library = new ExerciseLibrary();
         library.fromJson(json, predefinedData);
 
         // Strength Exercise
@@ -318,7 +318,7 @@ public class TestExerciseLibraryPersistence {
         JSONObject json = exerciseLibrary.toJson();
 
         // Load onto another ExerciseLibrary
-        ExerciseLibrary newLibrary = new ExerciseLibrary(predefinedData);
+        ExerciseLibrary newLibrary = new ExerciseLibrary();
         newLibrary.fromJson(json, predefinedData);
         
         Exercise loaded = newLibrary.getExercise(testTypePrefix + " " + exercise.exerciseType());

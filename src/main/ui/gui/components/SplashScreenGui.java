@@ -19,7 +19,7 @@ public class SplashScreenGui extends JDialog {
     }
 
     // HELPER: for SplashScreenGui
-    // EFFECTS: Sets up the dialog properties for an undecorated modal window
+    // EFFECTS: Set up the dialog properties for an undecorated modal window
     private void setupDialog() {
         setUndecorated(true);
         setModal(false);
@@ -27,7 +27,7 @@ public class SplashScreenGui extends JDialog {
     }
 
     // HELPER: for SplashScreenGui
-    // EFFECTS: Sets up the content of the splash screen with logo and title
+    // EFFECTS: Set up the content of the splash screen with logo and title
     private void setupContent() {
         JPanel panel = createMainPanel();
         JLabel logoLabel = createLogoLabel();
@@ -40,7 +40,7 @@ public class SplashScreenGui extends JDialog {
     }
 
     // HELPER: for setupContent
-    // EFFECTS: Creates the main panel for the splash screen with background and border
+    // EFFECTS: Create the main panel for the splash screen with background and border
     private JPanel createMainPanel() {
         JPanel panel = new JPanel(new BorderLayout());
         panel.setBackground(SharedGuiComponents.PRIMARY_COLOR);
@@ -50,7 +50,7 @@ public class SplashScreenGui extends JDialog {
     }
 
     // HELPER: for setupContent
-    // EFFECTS: Creates the logo label with an image or placeholder if image not found
+    // EFFECTS: Create the logo label with an image or placeholder if image not found
     private JLabel createLogoLabel() {
         JLabel logoLabel = new JLabel();
         logoLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -62,11 +62,12 @@ public class SplashScreenGui extends JDialog {
     }
 
     // HELPER: for createLogoLabel
-    // EFFECTS: Loads the logo image from resources or creates a placeholder if not found
+    // EFFECTS: Load the logo image from resources or create a placeholder if not found
+    //          Return the resulting ImageIcon for display
     private ImageIcon loadLogoImage() {
         try {
             // Try to load from resources
-            return new ImageIcon(getClass().getResource("workout_logo.jpeg"));
+            return new ImageIcon(getClass().getResource("/images/workout_logo.jpeg"));
         } catch (Exception e) {
             // If image not found, create a placeholder
             return createPlaceholderIcon();
@@ -74,7 +75,8 @@ public class SplashScreenGui extends JDialog {
     }
 
     // HELPER: for loadLogoImage
-    // EFFECTS: Creates a placeholder icon with a colored circle and letter when the logo image is not available
+    // EFFECTS: Create a placeholder icon with a colored circle and letter when the logo image is not available
+    //          Return the generated placeholder icon
     private ImageIcon createPlaceholderIcon() {
         // Create a colored rectangle as placeholder
         BufferedImage img = new BufferedImage(200, 200, BufferedImage.TYPE_INT_ARGB);
@@ -96,7 +98,7 @@ public class SplashScreenGui extends JDialog {
     }
 
     // HELPER: for setupContent
-    // EFFECTS: Creates the title label for the application name with styling
+    // EFFECTS: Create the title label for the application name with styling
     private JLabel createTitleLabel() {
         JLabel titleLabel = new JLabel("Workout Planning System");
         titleLabel.setFont(new Font("Arial", Font.BOLD, 20));
@@ -107,7 +109,7 @@ public class SplashScreenGui extends JDialog {
     }
 
     // HELPER: for SplashScreenGui
-    // EFFECTS: Centers the dialog on the screen based on screen dimensions
+    // EFFECTS: Center the dialog on the screen based on screen dimensions
     private void centerOnScreen() {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         setLocation(

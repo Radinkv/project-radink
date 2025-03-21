@@ -22,7 +22,7 @@ public class ExerciseManagementPanel extends JPanel {
     private JButton deleteButton;
     private JButton backButton;
     
-    // EFFECTS: Instantiate this ExerciseManagementPanel.
+    // EFFECTS: Instantiate this ExerciseManagementPanel with complete UI for exercise management
     public ExerciseManagementPanel() {
         setupPanel();
         createComponents();
@@ -30,14 +30,15 @@ public class ExerciseManagementPanel extends JPanel {
     }
 
     // HELPER: for ExerciseManagementPanel
-    // EFFECTS: Set up the panel layout and background
+    // EFFECTS: Set up the panel layout and background with BorderLayout for organized section arrangement
     private void setupPanel() {
         setLayout(new BorderLayout());
         setBackground(SharedGuiComponents.PRIMARY_COLOR);
     }
 
     // HELPER: for ExerciseManagementPanel
-    // EFFECTS: Create all panel components including exercise list, details panel, and buttons
+    // EFFECTS: Create all panel components including exercise list, details panel, and action buttons
+    //          Prepare UI elements for user to select and manage exercises
     private void createComponents() {
         createExerciseList();
         createDetailsPanel();
@@ -45,7 +46,8 @@ public class ExerciseManagementPanel extends JPanel {
     }
 
     // HELPER: for createComponents
-    // EFFECTS: Create the exercise list component with styled appearance
+    // EFFECTS: Create the exercise list component with styled appearance and single selection mode
+    //          Set up list to display all available exercises from the library
     private void createExerciseList() {
         listModel = new DefaultListModel<>();
         exerciseList = new JList<>(listModel);
@@ -56,8 +58,8 @@ public class ExerciseManagementPanel extends JPanel {
     }
 
     // HELPER: for createComponents
-    // EFFECTS: Create the details panel for displaying exercise information
-    //          Initially show a placeholder message
+    // EFFECTS: Create the details panel for displaying exercise information with placeholder text
+    //          Prepare a blank panel that will later show detailed exercise properties
     private void createDetailsPanel() {
         detailsPanel = new JPanel();
         detailsPanel.setLayout(new BorderLayout());
@@ -73,7 +75,7 @@ public class ExerciseManagementPanel extends JPanel {
 
     // HELPER: for createComponents
     // EFFECTS: Create action buttons for viewing details, deletion, and navigation
-    //          Add action listeners to handle button clicks
+    //          Attach event handlers to respond to user clicks
     private void createButtons() {
         viewButton = SharedGuiComponents.createStyledButton("View Details");
         viewButton.addActionListener(e -> viewExerciseDetails());
@@ -88,6 +90,7 @@ public class ExerciseManagementPanel extends JPanel {
 
     // HELPER: for ExerciseManagementPanel
     // EFFECTS: Arrange components on the panel in a visually organized layout
+    //          Position title at top, exercise list to left, details panel in center, and buttons at bottom
     private void layoutComponents() {
         JLabel titleLabel = createTitleLabel();
         JPanel listPanel = createListPanel();
@@ -100,7 +103,8 @@ public class ExerciseManagementPanel extends JPanel {
     }
 
     // HELPER: for layoutComponents
-    // EFFECTS: Create and configure the title label for the panel
+    // EFFECTS: Create and configure the title label for the panel with proper styling
+    //          Return a JLabel with centered heading text
     private JLabel createTitleLabel() {
         JLabel titleLabel = SharedGuiComponents.createTitleLabel("Manage Exercises");
         titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -110,6 +114,7 @@ public class ExerciseManagementPanel extends JPanel {
 
     // HELPER: for layoutComponents
     // EFFECTS: Create the panel containing the exercise list with a scrollable view
+    //          Return a JPanel with labeled, scrollable list of available exercises
     private JPanel createListPanel() {
         JPanel panel = new JPanel(new BorderLayout());
         panel.setBackground(SharedGuiComponents.PRIMARY_COLOR);
@@ -130,6 +135,7 @@ public class ExerciseManagementPanel extends JPanel {
 
     // HELPER: for layoutComponents
     // EFFECTS: Create the panel containing action buttons with consistent spacing
+    //          Return a JPanel with horizontally arranged action buttons
     private JPanel createButtonPanel() {
         JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 20));
         panel.setBackground(SharedGuiComponents.PRIMARY_COLOR);
@@ -142,6 +148,7 @@ public class ExerciseManagementPanel extends JPanel {
     }
 
     // EFFECTS: Update the exercise list from the library when the panel becomes visible
+    //          Refresh display to reflect any changes in the exercise library
     @Override
     public void setVisible(boolean visible) {
         if (visible) {
@@ -152,6 +159,7 @@ public class ExerciseManagementPanel extends JPanel {
 
     // HELPER: for setVisible
     // EFFECTS: Update the exercise list with current exercises from the library
+    //          Populate the list view with all exercises from ExerciseLibrary
     private void updateExerciseList() {
         listModel.clear();
         Map<String, Exercise> exercises = SharedGuiComponents.exerciseLibrary.getAllExercises();
@@ -177,6 +185,7 @@ public class ExerciseManagementPanel extends JPanel {
 
     // HELPER: for viewExerciseDetails
     // EFFECTS: Create and display a panel with detailed information about the selected exercise
+    //          Update the details panel to show exercise-specific information
     private void displayExerciseDetails(Exercise exercise) {
         detailsPanel.removeAll();
         
@@ -189,6 +198,7 @@ public class ExerciseManagementPanel extends JPanel {
 
     // HELPER: for displayExerciseDetails
     // EFFECTS: Create a panel with exercise information including type-specific details
+    //          Return a JPanel containing all exercise properties in a formatted layout
     private JPanel createExerciseInfoPanel(Exercise exercise) {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
@@ -203,6 +213,7 @@ public class ExerciseManagementPanel extends JPanel {
 
     // HELPER: for createExerciseInfoPanel
     // EFFECTS: Add basic exercise information (name and type) to the panel
+    //          Display the common properties shared by all exercise types
     private void addBasicExerciseInfo(JPanel panel, Exercise exercise) {
         JLabel nameLabel = SharedGuiComponents.createTitleLabel("Exercise: " + exercise.getName());
         nameLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -217,8 +228,8 @@ public class ExerciseManagementPanel extends JPanel {
     }
 
     // HELPER: for createExerciseInfoPanel
-    // EFFECTS: Add exercise type-specific information to the panel
-    //          Display different information based on exercise type (strength, interval, endurance)
+    // EFFECTS: Add exercise type-specific information to the panel based on exercise type
+    //          Show different details for strength, endurance, or interval exercises
     private void addExerciseTypeSpecificInfo(JPanel panel, Exercise exercise) {
         Map<String, Double> info = exercise.getInfo();
         
@@ -244,6 +255,7 @@ public class ExerciseManagementPanel extends JPanel {
 
     // HELPER: for addExerciseTypeSpecificInfo
     // EFFECTS: Add strength exercise specific information to the panel
+    //          Display sets, reps, time per rep, and rest time for strength exercises
     private void addStrengthInfo(JPanel panel, Map<String, Double> info) {
         JLabel headerLabel = SharedGuiComponents.createStyledLabel("Training Details:");
         headerLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -266,6 +278,7 @@ public class ExerciseManagementPanel extends JPanel {
 
     // HELPER: for addExerciseTypeSpecificInfo
     // EFFECTS: Add interval exercise specific information to the panel
+    //          Display active time, rest time, and repetitions for interval exercises
     private void addIntervalInfo(JPanel panel, Map<String, Double> info) {
         JLabel headerLabel = SharedGuiComponents.createStyledLabel("Interval Details:");
         headerLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -282,6 +295,7 @@ public class ExerciseManagementPanel extends JPanel {
 
     // HELPER: for addExerciseTypeSpecificInfo
     // EFFECTS: Add endurance exercise specific information to the panel
+    //          Display duration for endurance exercises
     private void addEnduranceInfo(JPanel panel, Map<String, Double> info) {
         JLabel headerLabel = SharedGuiComponents.createStyledLabel("Endurance Details:");
         headerLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -294,6 +308,7 @@ public class ExerciseManagementPanel extends JPanel {
 
     // HELPER: for addStrengthInfo, addIntervalInfo, addEnduranceInfo
     // EFFECTS: Add a row with label and value to the panel with consistent formatting
+    //          Create a label-value pair for displaying exercise property information
     private void addInfoRow(JPanel panel, String label, String value) {
         JPanel rowPanel = new JPanel(new BorderLayout());
         rowPanel.setBackground(SharedGuiComponents.PRIMARY_COLOR);
@@ -335,7 +350,9 @@ public class ExerciseManagementPanel extends JPanel {
 
     // HELPER: for deleteExercise
     // MODIFIES: Workout instances
-    // EFFECTS: Remove the exercise from all workouts that contain it
+    // EFFECTS: Remove the exercise from all workouts that contain it to maintain data integrity
+    //          (Seamless cross-compatibility between console UI and GUI and persistence and usage)
+    //          Iterate through all workouts and remove any references to the deleted exercise
     private void removeExerciseFromWorkouts(String exerciseName) {
         List<WorkoutPlan> workouts = SharedGuiComponents.workoutLibrary.getAllWorkouts();
         
@@ -348,6 +365,7 @@ public class ExerciseManagementPanel extends JPanel {
 
     // HELPER: for deleteExercise
     // EFFECTS: Clear the details panel and show the default message
+    //          Reset the details view to its initial state after exercise deletion
     private void clearDetailsPanel() {
         detailsPanel.removeAll();
         

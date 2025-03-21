@@ -51,7 +51,7 @@ public class ExerciseCreationPanel extends JPanel {
     }
 
     // HELPER: for ExerciseCreationPanel
-    // EFFECTS: Sets up the panel with BorderLayout and background color
+    // EFFECTS: Set up the panel with BorderLayout and background color
     private void setupPanel() {
         setLayout(new BorderLayout());
         setBackground(SharedGuiComponents.PRIMARY_COLOR);
@@ -59,7 +59,7 @@ public class ExerciseCreationPanel extends JPanel {
 
     // HELPER: for ExerciseCreationPanel
     // EFFECTS: Initialize all UI components including fields, combo boxes, and buttons
-    //          Set up listeners for dynamic UI behavior
+    //          Set up listeners for dynamic UI behavior based on user selections
     private void setupComponents() {
         initializeBasicControls();
         setupComboBoxes();
@@ -72,6 +72,7 @@ public class ExerciseCreationPanel extends JPanel {
     
     // HELPER: for setupComponents
     // EFFECTS: Create and initialize the name field and exercise type combo box
+    //          Prepare the basic input controls for exercise creation
     private void initializeBasicControls() {
         nameField = new JTextField(20);
         
@@ -81,6 +82,7 @@ public class ExerciseCreationPanel extends JPanel {
     
     // HELPER: for setupComponents
     // EFFECTS: Create action buttons with appropriate listeners for form submission and navigation
+    //          Attach event handlers to respond to user clicks
     private void createActionButtons() {
         createButton = SharedGuiComponents.createStyledButton("Create Exercise");
         createButton.addActionListener(e -> createExercise());
@@ -92,6 +94,7 @@ public class ExerciseCreationPanel extends JPanel {
 
     // HELPER: for setupComponents
     // EFFECTS: Populate Equipment and MuscleGroup combo boxes using PredefinedData
+    //          Prepare selection controls for user to associate exercises with equipment and muscles
     private void setupComboBoxes() {
         equipmentCombo = createComboBox(SharedGuiComponents.predefinedData.getAllEquipment());
         muscleGroupCombo = createComboBox(SharedGuiComponents.predefinedData.getAllMuscleGroups());
@@ -100,14 +103,14 @@ public class ExerciseCreationPanel extends JPanel {
 
     // HELPER: for setupComboBoxes
     // EFFECTS: Initialize a JComboBox with names (Strings) from the given Map's keys
-    //          Ensures each key is directly corresponding to a value regardless of the datamap used
+    //          Return the created combobox populated with appropriate values
     private JComboBox<String> createComboBox(Map<String, ?> dataMap) {
         return new JComboBox<>(dataMap.keySet().toArray(new String[0]));
     }
 
 
     // HELPER: for setupComponents
-    // EFFECTS: Create separate panels for each exercise type and adds them to a card layout
+    // EFFECTS: Create separate panels for each exercise type and add them to a card layout
     //          Set the default visible panel to a StrengthExercise panel
     private void createExerciseDetailsPanels() {
         cardLayout = new CardLayout();
@@ -137,6 +140,7 @@ public class ExerciseCreationPanel extends JPanel {
 
     // HELPER: for setupTypeChangeListener
     // EFFECTS: Show the appropriate detail panel based on the selected exercise type
+    //          Switch between different input forms for different exercise types
     //          Do nothing if the selected type is not recognized
     private void updateExerciseTypePanel(String selected) {
         if (selected.equals("Strength Exercise")) {
@@ -148,7 +152,7 @@ public class ExerciseCreationPanel extends JPanel {
         }
     }
 
-    // HELPER: for ExerciseCreationPanel
+    // HELPER: for ExerciseCreationPanel constructor
     // EFFECTS: Arrange all components on this panel with title at the top, 
     //          form in the center, and buttons at the bottom
     private void layoutComponents() {
@@ -172,7 +176,7 @@ public class ExerciseCreationPanel extends JPanel {
 
     // HELPER: for layoutComponents
     // EFFECTS: Create a form panel that contains all input fields arranged in a grid
-    //          Includes fields for shared Exercise properties with a section for Exercise type-specific fields
+    //          Include fields for shared Exercise properties with a section for Exercise type-specific fields
     private JPanel createFormPanel() {
         JPanel panel = new JPanel(new GridBagLayout());
         panel.setBackground(SharedGuiComponents.PRIMARY_COLOR);
@@ -194,6 +198,7 @@ public class ExerciseCreationPanel extends JPanel {
 
     // HELPER: for createFormPanel
     // EFFECTS: Create standard grid constraints for consistent spacing and fill behavior
+    //          Return configured GridBagConstraints object ready for layout
     private GridBagConstraints createStandardGridBagConstraints() {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridwidth = 1;
@@ -270,7 +275,7 @@ public class ExerciseCreationPanel extends JPanel {
 
     // HELPER: for createStrengthPanel, createIntervalPanel
     // EFFECTS: Create a spinner for integer values with specified minimum, maximum, and step
-    //          Values outside the allowed range will be automatically adjusted to the nearest valid value
+    //          Return a JSpinner configured with appropriate number model and constraints
     private JSpinner createNumberSpinner(int value, int min, int max, int step) {
         SpinnerNumberModel model = new SpinnerNumberModel(value, min, max, step);
         return new JSpinner(model);
@@ -278,7 +283,7 @@ public class ExerciseCreationPanel extends JPanel {
 
     // HELPER: for createStrengthPanel, createEndurancePanel, createIntervalPanel
     // EFFECTS: Create a spinner for decimal values with specified minimum, maximum, and step
-    //          Values outside the allowed range will be automatically adjusted to the nearest valid value
+    //          Return a JSpinner configured with appropriate floating-point model and constraints
     private JSpinner createDecimalSpinner(double value, double min, double max, double step) {
         SpinnerNumberModel model = new SpinnerNumberModel(value, min, max, step);
         return new JSpinner(model);
@@ -413,6 +418,7 @@ public class ExerciseCreationPanel extends JPanel {
 
     // HELPER: for createExercise
     // EFFECTS: Clear all form fields and reset them to their default values
+    //          Prepare the form for creating another exercise
     private void resetForm() {
         nameField.setText("");
         exerciseTypeCombo.setSelectedIndex(0);

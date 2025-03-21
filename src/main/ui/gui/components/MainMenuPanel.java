@@ -13,7 +13,8 @@ import java.awt.event.ActionListener;
  */
 public class MainMenuPanel extends JPanel {
 
-    // EFFECTS: Construct this MainMenuPanel
+    // EFFECTS: Construct this MainMenuPanel with title and navigation buttons
+    //          Set up the layout, create title and button components
     public MainMenuPanel() {
         setupPanel();
         
@@ -26,13 +27,15 @@ public class MainMenuPanel extends JPanel {
 
     // HELPER: for MainMenuPanel
     // EFFECTS: Configure the panel with BorderLayout and set background color
+    //          Prepare the panel's basic display properties
     private void setupPanel() {
         setLayout(new BorderLayout());
         setBackground(SharedGuiComponents.PRIMARY_COLOR);
     }
 
     // HELPER: for MainMenuPanel
-    // EFFECTS: Creates a centered title label with padding and returns it
+    // EFFECTS: Create a centered title label with padding and return the label
+    //          Return a styled JLabel with the application title
     private JLabel createTitleLabel() {
         JLabel titleLabel = SharedGuiComponents.createTitleLabel("Workout Planning System");
         titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -41,7 +44,8 @@ public class MainMenuPanel extends JPanel {
     }
 
     // HELPER: for MainMenuPanel
-    // EFFECTS: Create and returns a panel containing vertically arranged navigation buttons
+    // EFFECTS: Create and return a panel containing navigation buttons arranged vertically
+    //          Return a JPanel with buttons for each application feature
     private JPanel createButtonPanel() {
         JPanel panel = new JPanel(new GridBagLayout());
         panel.setBackground(SharedGuiComponents.PRIMARY_COLOR);
@@ -53,7 +57,8 @@ public class MainMenuPanel extends JPanel {
     }
 
     // HELPER: for createButtonPanel
-    // EFFECTS: Returns GridBagConstraints configured for vertical button arrangement with spacing
+    // EFFECTS: Return GridBagConstraints configured for vertical button arrangement
+    //          Set up layout constraints for consistent button display
     private GridBagConstraints createButtonConstraints() {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridwidth = GridBagConstraints.REMAINDER;
@@ -63,7 +68,8 @@ public class MainMenuPanel extends JPanel {
     }
 
     // HELPER: for createButtonPanel
-    // EFFECTS: Create navigation buttons with labels and destinations and adds them to the panel
+    // EFFECTS: Create navigation buttons with labels and destinations and add them to the panel
+    //          Add all feature navigation buttons to the specified panel
     private void addMenuButtons(JPanel panel, GridBagConstraints gbc) {
         String[] buttonLabels = getButtonLabels();
         String[] destinations = getDestinations();
@@ -76,6 +82,7 @@ public class MainMenuPanel extends JPanel {
 
     // HELPER: for addMenuButtons
     // EFFECTS: Return an array of strings containing the text for each navigation button
+    //          Provide labels for all main menu options in the application
     private String[] getButtonLabels() {
         return new String[] {
             "Create Exercise", 
@@ -90,6 +97,7 @@ public class MainMenuPanel extends JPanel {
 
     // HELPER: for addMenuButtons
     // EFFECTS: Return an array of strings representing the navigation destinations for each button
+    //          Provide panel names or actions corresponding to each button
     private String[] getDestinations() {
         return new String[] {
             "ExerciseCreation", 
@@ -103,7 +111,8 @@ public class MainMenuPanel extends JPanel {
     }
 
     // HELPER: for addMenuButtons
-    // EFFECTS: Create and return a styled button with the given label and action listener for navigation
+    // EFFECTS: Create and return a styled button with the given label and action listener
+    //          Configure button appearance and attach appropriate navigation behavior
     private JButton createMenuButton(String label, String destination) {
         JButton button = SharedGuiComponents.createStyledButton(label);
         button.setPreferredSize(new Dimension(300, 40));
@@ -114,12 +123,13 @@ public class MainMenuPanel extends JPanel {
     }
 
     // HELPER: for createMenuButton
-    // EFFECTS: Return an ActionListener to either navigate to a specified panel, 
-    //          perform a save/load operation, or exit the application
+    // EFFECTS: Return an ActionListener that either navigates to a panel, performs a save/load operation,
+    //          or exits the application based on the specified destination
+    //          Map button clicks to appropriate application actions
     private ActionListener createButtonActionListener(String destination) {
         return e -> {
             if (destination.equals("Exit")) {
-                System.exit(0);
+                System.exit(0); // Exit without saving
             } else if (destination.equals("Save")) {
                 new PersistencePanel().saveState();
             } else if (destination.equals("Load")) {

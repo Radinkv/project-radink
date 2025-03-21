@@ -30,14 +30,10 @@ public class ExerciseLibrary implements Writable {
 
     Map<String, Exercise> library;
     
+    // EFFECTS: Construct this ExerciseLibrary with no Exercise objects in this library
+    // NOTE: ExerciseLibrary becomes fully constructed with Exercises (should the 
+    //       user choose to load their data) AFTER ExerciseLibrary is instantiated
     public ExerciseLibrary() {
-        library = new HashMap<String, Exercise>();
-    }
-
-    // ExerciseLibrary will move to this constructor
-    // It needs PredefinedData to reconstruct Exercise objects with the 
-    // Equipment and MuscleGroup instantiations of PredefinedData (shared within the program)
-    public ExerciseLibrary(PredefinedData predefinedData) {
         library = new HashMap<String, Exercise>();
     }
 

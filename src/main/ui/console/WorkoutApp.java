@@ -95,6 +95,7 @@ public class WorkoutApp {
 
     // REQUIRES: command is not null
     // EFFECTS: Process the user's command by invoking the corresponding UI component
+    // @SuppressWarnings("methodlength") 
     private void processCommand(String command) {
         switch (command) {
             case "1":

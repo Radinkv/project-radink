@@ -51,7 +51,8 @@ public class WorkoutAppGUI extends JFrame {
     }
 
     // HELPER: for main
-    // EFFECTS: Sets up the system look and feel
+    // EFFECTS: Configure the application to use the native look and feel of the 
+    //          operating system rather than Java's default cross-platform visual look
     private static void setupLookAndFeel() {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -61,7 +62,7 @@ public class WorkoutAppGUI extends JFrame {
     }
 
     // EFFECTS: Initialize the WorkoutAppGUI by setting up libraries, predefined data, schedule,
-    //          and all UI components, then display the application window
+    //          and all UI components; Then, display the application window
     public WorkoutAppGUI() {
         this.exerciseLibrary = new ExerciseLibrary();
         this.workoutLibrary = new WorkoutLibrary();
@@ -77,7 +78,7 @@ public class WorkoutAppGUI extends JFrame {
     }
 
     // HELPER: for WorkoutAppGUI
-    // EFFECTS: Sets up the main JFrame properties
+    // EFFECTS: Set up the main JFrame display properties for this application
     private void setupFrame() {
         setTitle("Workout Planning System");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -87,7 +88,7 @@ public class WorkoutAppGUI extends JFrame {
     }
 
     // HELPER: for setupFrame
-    // EFFECTS: Sets up window listener for exit confirmation
+    // EFFECTS: Set up window listener for exit confirmation
     private void setupWindowListener() {
         addWindowListener(new WindowAdapter() {
             @Override
@@ -98,14 +99,14 @@ public class WorkoutAppGUI extends JFrame {
     }
 
     // HELPER: for WorkoutAppGUI
-    // EFFECTS: Initializes all panel components for the application
+    // EFFECTS: Initialize all panel components for the application
     private void initializePanels() {
         initializeSharedComponents();
         createPanels();
     }
 
     // HELPER: for initializePanels
-    // EFFECTS: Initializes shared components used by all panels
+    // EFFECTS: Initialize shared model components used by all panels
     private void initializeSharedComponents() {
         SharedGuiComponents.initializeItems(
                 exerciseLibrary, 
@@ -117,7 +118,7 @@ public class WorkoutAppGUI extends JFrame {
     }
 
     // HELPER: for initializePanels
-    // EFFECTS: Creates all panel instances
+    // EFFECTS: Create all panel instances
     private void createPanels() {
         mainMenuPanel = new MainMenuPanel();
         exerciseCreationPanel = new ExerciseCreationPanel();
@@ -128,7 +129,7 @@ public class WorkoutAppGUI extends JFrame {
     }
 
     // HELPER: for WorkoutAppGUI
-    // EFFECTS: Sets up the main panel with card layout for navigation between different panels
+    // EFFECTS: Set up the main panel with card layout for navigation between different panels
     private void setupMainPanel() {
         createMainPanelWithCardLayout();
         addPanelsToMainPanel();
@@ -136,7 +137,7 @@ public class WorkoutAppGUI extends JFrame {
     }
 
     // HELPER: for setupMainPanel
-    // EFFECTS: Creates main panel with card layout
+    // EFFECTS: Create main panel with card layout
     private void createMainPanelWithCardLayout() {
         cardLayout = new CardLayout();
         mainPanel = new JPanel(cardLayout);
@@ -144,7 +145,8 @@ public class WorkoutAppGUI extends JFrame {
     }
 
     // HELPER: for setupMainPanel
-    // EFFECTS: Adds all panels to the main panel
+    // EFFECTS: Add all panels to the main panel
+    // NOTE: A panel is selected for user-interaction by name in the back-end (see navigateTo)
     private void addPanelsToMainPanel() {
         mainPanel.add(mainMenuPanel, "MainMenu");
         mainPanel.add(exerciseCreationPanel, "ExerciseCreation");
@@ -154,13 +156,13 @@ public class WorkoutAppGUI extends JFrame {
     }
 
     // HELPER: for setupMainPanel
-    // EFFECTS: Shows the initial panel (main menu)
+    // EFFECTS: Show the initial panel (main menu)
     private void showInitialPanel() {
         cardLayout.show(mainPanel, "MainMenu");
     }
 
     // HELPER: for WorkoutAppGUI
-    // EFFECTS: Displays a splash screen with the application logo when starting
+    // EFFECTS: Display a splash screen with an application logo (IMAGE) when starting
     private void showSplashScreen() {
         SplashScreenGui splashScreen = new SplashScreenGui();
         splashScreen.setVisible(true);
@@ -169,9 +171,9 @@ public class WorkoutAppGUI extends JFrame {
     }
 
     // HELPER: for showSplashScreen
-    // EFFECTS: Schedules the splash screen to close after a delay
+    // EFFECTS: Schedule the splash screen to close after a delay
     private void scheduleSplashScreenClose(SplashScreenGui splashScreen) {
-        Timer timer = new Timer(2000, e -> {
+        Timer timer = new Timer(2500, e -> {
             splashScreen.dispose();
             toFront();
         });
@@ -179,7 +181,7 @@ public class WorkoutAppGUI extends JFrame {
         timer.start();
     }
     
-    // EFFECTS: Navigates to the specified panel
+    // EFFECTS: Navigate to the specified panel by panelName
     public void navigateTo(String panelName) {
         cardLayout.show(mainPanel, panelName);
     }

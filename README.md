@@ -39,17 +39,24 @@ I have been weightlifting for a few months and have been looking for a systemati
 
 # Instructions for End User
 
-- You can generate the first required action related to the user story "adding multiple Exercises to a Workout" by clicking the "Add >" button in the Create Workout screen. This allows you to add selected exercises from your exercise library to your current workout.
+- You can generate the first required action related to the user story "adding multiple Exercises to a Workout" by selecting exercises from the "Available Exercises" list in the **Workout Creation panel** and clicking the **"Add >"** button. You can select a single exercise with a click or multiple exercises by holding CMD/CTRL + Click. When selecting multiple exercises using CMD/CTRL + Click, the exercises will be added to the 'Selected Exercises' list in the order they appear in the Available Exercises column, not in the order you select them. **(1.)**
 
-- You can generate the second required action related to the user story "adding multiple Exercises to a Workout" by either clicking the "< Remove" button to remove selected exercises from your workout, clicking the "Filter by Type" button to filter available exercises by their type (Strength, Endurance, or Interval), or clicking the "Sort by Name" button to alphabetically sort the selected exercises in your workout.
+- You can generate the second required action related to the user story "adding multiple Exercises to a Workout" by selecting exercises from the "Selected Exercises" list in the **Workout Creation panel** and clicking the **"< Remove"** button. This action allows you to refine your workout composition by removing exercises you no longer want included. As with adding, you can select multiple exercises to remove simultaneously by holding CMD/CTRL + Click.
+    ***Note**: You will need to first create Exercises using the Exercise Creation panel, or load a previous state (this project repository includes a previous state with multiple Exercise objects) to utilize this add/remove functionality.*
 
-- You can locate my visual component by launching the application and viewing the application splash screen. There should be an image that is displayed for a few seconds as the program initially becomes launched. 
+- You can locate my visual component when starting the application. A splash screen displaying the Workout Planning System logo will appear for approximately 2.5 seconds during launch. This splash screen provides a visual introduction to the application and establishes its identity. (If the logo file cannot be found, a blue circle with "W" will display instead, though this should NOT occur).
 
-**ADDITIONAL OPTION** Creating a workout or viewing an existing workout's details. After creating a workout, a summary dialog will appear displaying a pie chart visualization of the exercise type distribution in your workout. In workout management, you can also click the "View with Chart" button to see this visualization for any workout. Additionally, pie charts available in the metrics section to view equipment and muscle usage analytics.
+- You can save the state of my application by either:
+  1. Clicking the close (X) button on the application window, which will prompt "Would you like to save your progress before exiting?"—Select "Yes" to save.
+  2. Clicking the "Save Program State" button from the Main Menu, which will prompt "Are you sure you want to save the current program state? This will override any previous save."—Select "Yes" to confirm.
 
-- You can save the state of my application by clicking the "Save Program State" button in the main menu, or by clicking "Yes" when prompted to save upon exiting the application.
+  ***Note**: Clicking the "Exit" button on the Main Menu will exit without prompting to save.*
 
-- You can reload the state of my application from a previously saved state by clicking the "Load Program State" button in the main menu. This will restore all the previously saved exercises and workouts.
+- You can reload the state of my application by clicking the "Load Program State" button from the Main Menu. A confirmation dialog will ask "Are you sure you want to load the previous program state? This will replace all current data." Select "Yes" to load your previously saved exercises and workouts (no schedule for GUI).
 
+**(1.)** When you select exercises from the list, they will automatically be arranged in numerical order in the "Selected Exercises" panel, regardless of the order in which you select them.
+For example, if exercises are consecutively numbered 1-5 top-to-bottom, and say you select them in the order 1, 5, 4, 3, 2, they will appear as 1, 2, 3, 4, 5 in the Selected Exercises panel. Any additional exercises you select will be appended at the end of this ordered list. To customize ordering specifically, add exercises one-by-one as specified. This same numerical ordering applies when viewing exercises within a Workout, whether you are: Creating a new workout by selecting a name and exercises from the "Selected Exercises" panel, **OR** Viewing workout details after creation (by selecting a workout in the "Available Workouts" panel and clicking "View Details"). Further note that the GUI prevents duplicate exercises from being added to the same workout without displaying any error messages.
 
-Splash Screen Image Source: https://www.gokenko.com/articles/7-gym-logo-ideas-to-inspire-you-for-your-own 
+# Source Attribution
+
+Splash Screen Image Source: *https://www.gokenko.com/articles/7-gym-logo-ideas-to-inspire-you-for-your-own*
