@@ -241,7 +241,7 @@ public class ExerciseManagementPanel extends JPanel {
         // Display total duration first
         if (info.containsKey("totalDuration")) {
             addInfoRow(panel, "Total Duration", 
-                    SharedGuiComponents.formatDuration(Math.round(info.get("totalDuration"))));
+                    SharedGuiComponents.formatDuration(Math.round(info.get("totalDuration")), false));
         }
         
         if (info.containsKey("sets") && info.containsKey("reps")) {

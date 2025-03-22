@@ -99,17 +99,19 @@ public class SharedGuiComponents {
     // EFFECTS: Format duration in seconds to a human-readable string
     //          Return formatted duration string with appropriate time units
     //          Return "0 seconds" if seconds is 0
-    protected static String formatDuration(long seconds) {
+    //          If shortFormat, use short time labels
+    protected static String formatDuration(long seconds, boolean shortFormat) {
         if (seconds == 0) {
-            return "0 seconds";
+            return "0 sec" + conditionalExtension(shortFormat, "onds", "");
         }
-        return buildDurationString(seconds);
+        return buildDurationString(seconds, shortFormat);
     }
 
     // HELPER: for formatDuration
     // EFFECTS: Build a formatted duration string from seconds with appropriate time units
     //          Convert seconds to days, hours, minutes, and seconds for readable format
-    protected static String buildDurationString(long seconds) {
+    //          If shortFormat, use short time labels
+    protected static String buildDurationString(long seconds, boolean shortFormat) {
         long[] timeUnits = convertSecondsToTimeUnits(seconds);
         long days = timeUnits[0];
         long hours = timeUnits[1];
@@ -117,15 +119,21 @@ public class SharedGuiComponents {
         long secs = timeUnits[3];
     
         StringBuilder duration = new StringBuilder();
-        appendTimeUnit(duration, days, "day");
-        appendTimeUnit(duration, hours, "hour");
-        appendTimeUnit(duration, minutes, "minute");
+        appendTimeUnit(duration, days, "d" + conditionalExtension(shortFormat, "ay", ""));
+        appendTimeUnit(duration, hours, conditionalExtension(shortFormat, "hour", "h"));
+        appendTimeUnit(duration, minutes, "min" + conditionalExtension(shortFormat, "ute", ""));
         
         if (secs > 0 && duration.length() == 0) {
-            appendTimeUnit(duration, secs, "second");
+            appendTimeUnit(duration, secs, "sec" + conditionalExtension(shortFormat, "ond", ""));
         }
         
         return duration.toString().trim();
+    }
+
+    // EFFECTS: Return the first string parameter if the boolean is false,
+    //          otherwise return the second string parameter if true
+    private static String conditionalExtension(boolean b, String f, String t) {
+        return (!b ? f : t);
     }
 
     // HELPER: for buildDurationString
