@@ -14,10 +14,10 @@ import model.exercise.Exercise;
  *      1. WeeklySchedule to assign workouts to specific days
  *      2. WorkoutLibrary to store predefined workouts
  * 
- * PURPOSE: Defines a workout routine with a fixed order of exercises
- *          Ensures workout immutability once created
+ * PURPOSE: Defines a workout routine with a modifiable list of exercises
+ *          Allows adding and removing exercises after creation
  * 
- * MUTABILITY: Mutable (Immutable UNLESS an Exercise from ExerciseLibrary is deleted that is in this Workout)
+ * MUTABILITY: Mutable
  */
 public class Workout implements WorkoutPlan {
     private String workoutName;
@@ -88,6 +88,38 @@ public class Workout implements WorkoutPlan {
             }
         }
         exercises = updatedExercises;
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Add the given Exercise to this Workout
+    //          If exercise is null, throw IllegalArgumentException
+    //          If an exercise with the same name already exists, do nothing
+    public void addExercise(Exercise exercise) {
+        if (exercise == null) {
+            throw new IllegalArgumentException("Cannot add null exercise to workout.");
+        }
+        
+        for (Exercise e : exercises) {
+            if (e.getName().equals(exercise.getName())) {
+                return; // Exercise with same name exists
+            }
+        }
+        
+        exercises.add(exercise);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Set the exercises for this workout to the given list
+    //          If exercises is null or contains null elements, throw IllegalArgumentException
+    public void setExercises(List<Exercise> exercises) {
+        if (exercises == null) {
+            throw new IllegalArgumentException("Exercises list cannot be null.");
+        }
+        if (exercises.contains(null)) {
+            throw new IllegalArgumentException("Exercise list cannot contain null elements.");
+        }
+        
+        this.exercises = new ArrayList<Exercise>(exercises);
     }
 
     // EFFECTS: Calculate cumulative metrics across all exercises

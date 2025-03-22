@@ -94,12 +94,12 @@ public class TestWorkoutPlan {
         // null name
         assertThrows(IllegalArgumentException.class, () -> new RestDay(null));
         
-        // Verify rest day properties
+        // rest day properties
         assertTrue(validRest.getExercises().isEmpty());
         assertEquals(0.0, validRest.getDuration(), TEST_PRECISION);
         assertTrue(validRest.getWorkoutSummary().isEmpty());
         
-        // Verify metric operations have no effect
+        // metric operations have no effect
         validRest.activateMetrics(MONDAY_CONTEXT);
         validRest.deactivateMetrics(MONDAY_CONTEXT);
         assertTrue(validRest.getWorkoutSummary().isEmpty());
@@ -123,6 +123,192 @@ public class TestWorkoutPlan {
     }
 
     @Test
+    void testRemoveExerciseExisting() {
+        Workout workout = new Workout("Test Workout", multiExerciseList);
+        assertEquals(3, workout.getExercises().size());
+        
+        // Remove an existing exercise
+        workout.removeExercise("Running");
+        
+        // exercise was removed
+        List<Exercise> exercises = workout.getExercises();
+        assertEquals(2, exercises.size());
+        assertEquals("Bench Press", exercises.get(0).getName());
+        assertEquals("HIIT", exercises.get(1).getName());
+    }
+    
+    @Test
+    void testRemoveExerciseNonExisting() {
+        Workout workout = new Workout("Test Workout", multiExerciseList);
+        assertEquals(3, workout.getExercises().size());
+        
+        // remove a non-existing exercise
+        workout.removeExercise("Non-existing Exercise");
+        
+        // no changes
+        List<Exercise> exercises = workout.getExercises();
+        assertEquals(3, exercises.size());
+        assertEquals("Bench Press", exercises.get(0).getName());
+        assertEquals("Running", exercises.get(1).getName());
+        assertEquals("HIIT", exercises.get(2).getName());
+    }
+    
+    @Test
+    void testAddExerciseNew() {
+        Workout workout = new Workout("Test Workout", singleExerciseList);
+        assertEquals(1, workout.getExercises().size());
+        
+        // Add a new exercise
+        workout.addExercise(running);
+        
+        // exercise was added
+        List<Exercise> exercises = workout.getExercises();
+        assertEquals(2, exercises.size());
+        assertEquals("Bench Press", exercises.get(0).getName());
+        assertEquals("Running", exercises.get(1).getName());
+    }
+    
+    @Test
+    void testAddExerciseDuplicate() {
+        Workout workout = new Workout("Test Workout", singleExerciseList);
+        assertEquals(1, workout.getExercises().size());
+        
+        // add a duplicate exercise (same name)
+        StrengthExercise duplicateBenchPress = new StrengthExercise(
+                "Bench Press", 3, 10, 3.0, 1.5, dumbbell, chest);
+        workout.addExercise(duplicateBenchPress);
+        
+        // no changes (duplicate not added)
+        List<Exercise> exercises = workout.getExercises();
+        assertEquals(1, exercises.size());
+        assertEquals("Bench Press", exercises.get(0).getName());
+        // it's the original exercise (by checking reps)
+        StrengthExercise retrievedExercise = (StrengthExercise) exercises.get(0);
+        assertEquals(12, retrievedExercise.getInfo().get("reps"));
+    }
+    
+    @Test
+    void testAddExerciseNull() {
+        Workout workout = new Workout("Test Workout", singleExerciseList);
+        
+        // add a null exercise
+        try {
+            workout.addExercise(null);
+            fail("Expected IllegalArgumentException");
+        } catch (IllegalArgumentException e) {
+            // Expected exception
+        }
+        
+        // no changes
+        List<Exercise> exercises = workout.getExercises();
+        assertEquals(1, exercises.size());
+    }
+    
+    @Test
+    void testSetExercisesValid() {
+        Workout workout = new Workout("Test Workout", singleExerciseList);
+        assertEquals(1, workout.getExercises().size());
+        
+        // Set new exercises
+        workout.setExercises(multiExerciseList);
+        
+        // exercises were updated
+        List<Exercise> exercises = workout.getExercises();
+        assertEquals(3, exercises.size());
+        assertEquals("Bench Press", exercises.get(0).getName());
+        assertEquals("Running", exercises.get(1).getName());
+        assertEquals("HIIT", exercises.get(2).getName());
+    }
+    
+    @Test
+    void testSetExercisesEmpty() {
+        Workout workout = new Workout("Test Workout", multiExerciseList);
+        assertEquals(3, workout.getExercises().size());
+        
+        // Set empty exercise list
+        workout.setExercises(emptyExerciseList);
+        
+        // exercises were updated to empty
+        List<Exercise> exercises = workout.getExercises();
+        assertTrue(exercises.isEmpty());
+    }
+    
+    @Test
+    void testSetExercisesNull() {
+        Workout workout = new Workout("Test Workout", singleExerciseList);
+        
+        // set null exercise list
+        try {
+            workout.setExercises(null);
+            fail("Expected IllegalArgumentException");
+        } catch (IllegalArgumentException e) {
+            // Expected
+        }
+        
+        // no changes
+        List<Exercise> exercises = workout.getExercises();
+        assertEquals(1, exercises.size());
+        assertEquals(benchPress, exercises.get(0));
+
+    }
+
+    @Test
+    void testSetExercisesIncludesNull() {
+        List<Exercise> nullList = new ArrayList<Exercise>(singleExerciseList);
+        Workout workout = new Workout("Test Workout", singleExerciseList);
+        
+        // includes null in exercise list
+        try {
+            nullList.add(null);
+            workout.setExercises(nullList);
+        } catch (IllegalArgumentException e) {
+            // Expected
+        }
+
+        // no changes
+        List<Exercise> exercises = workout.getExercises();
+        assertEquals(1, exercises.size());
+        assertEquals(benchPress, exercises.get(0));
+    }
+    
+    @Test
+    void testComplexWorkoutModification() {
+        // Test a series of modifications to ensure consistency
+        Workout workout = new Workout("Complex Workout", multiExerciseList);
+        assertEquals(3, workout.getExercises().size());
+        
+        // Remove one exercise
+        workout.removeExercise("Running");
+        assertEquals(2, workout.getExercises().size());
+
+        Exercise extraExercise = new IntervalExercise("Push-ups", 10, 10, 30, bodyweight, chest);
+        
+        // Add a new exercise
+        workout.addExercise(extraExercise);
+        assertEquals(3, workout.getExercises().size());
+        
+        // add duplicate (should be ignored)
+        workout.addExercise(benchPress);
+        assertEquals(3, workout.getExercises().size());
+        
+        // final state
+        List<Exercise> exercises = workout.getExercises();
+        assertEquals("Bench Press", exercises.get(0).getName());
+        assertEquals("HIIT", exercises.get(1).getName());
+        assertEquals("Push-ups", exercises.get(2).getName());
+        
+        // Replace with a completely new set
+        List<Exercise> newList = new ArrayList<>();
+        newList.add(running);
+        workout.setExercises(newList);
+        
+        // final state after setExercises
+        exercises = workout.getExercises();
+        assertEquals(1, exercises.size());
+        assertEquals("Running", exercises.get(0).getName());
+    }
+
+    @Test
     void testWorkoutMetricActivationWithContext() {
         Workout workout = new Workout("Test", multiExerciseList);
 
@@ -130,13 +316,13 @@ public class TestWorkoutPlan {
         workout.activateMetrics(MONDAY_CONTEXT);
         workout.activateMetrics(WEDNESDAY_CONTEXT);
         
-        // Verify equipment registrations
+        // equipment registrations
         assertTrue(((ExerciseAssociator) dumbbell).containsExercise("Bench Press", MONDAY_CONTEXT));
         assertTrue(((ExerciseAssociator) dumbbell).containsExercise("Bench Press", WEDNESDAY_CONTEXT));
         assertTrue(((ExerciseAssociator) treadmill).containsExercise("Running", MONDAY_CONTEXT));
         assertTrue(((ExerciseAssociator) treadmill).containsExercise("Running", WEDNESDAY_CONTEXT));
         
-        // Verify muscle group metrics
+        // muscle group metrics
         Map<String, Double> chestMetrics = chest.getGroupMetrics();
         assertEquals(8.0, chestMetrics.get("totalSets"), TEST_PRECISION); // 4 sets * 2 contexts
         
@@ -155,11 +341,11 @@ public class TestWorkoutPlan {
         // Deactivate specific context
         workout.deactivateMetrics(MONDAY_CONTEXT);
         
-        // Verify Monday metrics removed but Wednesday remains
+        // Monday metrics removed but Wednesday remains
         assertFalse(((ExerciseAssociator) dumbbell).containsExercise("Bench Press", MONDAY_CONTEXT));
         assertTrue(((ExerciseAssociator) dumbbell).containsExercise("Bench Press", WEDNESDAY_CONTEXT));
         
-        // Verify correct metrics remain
+        // correct metrics remain
         Map<String, Double> chestMetrics = chest.getGroupMetrics();
         assertEquals(4.0, chestMetrics.get("totalSets"), TEST_PRECISION); // Only Wednesday's sets
         
@@ -177,14 +363,14 @@ public class TestWorkoutPlan {
         workout.activateMetrics(MONDAY_CONTEXT);
         workout.activateMetrics(WEDNESDAY_CONTEXT);
         
-        // Verify equipment metrics
+        // equipment metrics
         Map<String, Double> dumbbellMetrics = ((ExerciseAssociator) dumbbell).getAggregatedExerciseMetrics();
         assertEquals(8.0, dumbbellMetrics.get("totalSets"), TEST_PRECISION);
         
         Map<String, Double> treadmillMetrics = ((ExerciseAssociator) treadmill).getAggregatedExerciseMetrics();
         assertEquals(3600.0, treadmillMetrics.get("totalEnduranceDuration"), TEST_PRECISION);
         
-        // Verify muscle group metrics
+        // muscle group metrics
         Map<String, Double> chestMetrics = chest.getGroupMetrics();
         assertEquals(8.0, chestMetrics.get("totalSets"), TEST_PRECISION);
         
