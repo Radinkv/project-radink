@@ -235,7 +235,7 @@ public class WorkoutManagementPanel extends JPanel {
         nameLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
         
         JLabel durationLabel = SharedGuiComponents.createStyledLabel(
-                "Total Duration: " + SharedGuiComponents.formatDuration(Math.round(workout.getDuration())));
+                "Total Duration: " + SharedGuiComponents.formatDuration(Math.round(workout.getDuration()), false));
         durationLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
         
         panel.add(nameLabel);
