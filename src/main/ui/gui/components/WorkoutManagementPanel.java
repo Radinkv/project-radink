@@ -1,6 +1,7 @@
 package ui.gui.components;
 
 import model.exercise.Exercise;
+import model.workout.Workout;
 import model.workout.WorkoutPlan;
 import ui.gui.WorkoutAppGUI;
 
@@ -10,7 +11,7 @@ import java.util.List;
 
 /**
  * This panel manages existing workouts within WorkoutLibrary.
- * It allows users to view workout details and delete workouts.
+ * It allows users to view workout details, edit workout exercises, and delete workouts.
  */
 public class WorkoutManagementPanel extends JPanel {
     
@@ -18,6 +19,7 @@ public class WorkoutManagementPanel extends JPanel {
     private DefaultListModel<String> listModel;
     private JPanel detailsPanel;
     private JButton viewButton;
+    private JButton editButton; 
     private JButton deleteButton;
     private JButton backButton;
     
@@ -73,11 +75,14 @@ public class WorkoutManagementPanel extends JPanel {
     }
 
     // HELPER: for createComponents
-    // EFFECTS: Create action buttons for viewing details, deletion, and navigation
+    // EFFECTS: Create action buttons for viewing details, editing, deletion, and navigation
     //          Attach event handlers to respond to user clicks
     private void createButtons() {
         viewButton = SharedGuiComponents.createStyledButton("View Details");
         viewButton.addActionListener(e -> viewWorkoutDetails());
+        
+        editButton = SharedGuiComponents.createStyledButton("Edit Workout");
+        editButton.addActionListener(e -> editWorkout());
         
         deleteButton = SharedGuiComponents.createStyledButton("Delete Workout");
         deleteButton.addActionListener(e -> deleteWorkout());
@@ -140,6 +145,7 @@ public class WorkoutManagementPanel extends JPanel {
         panel.setBackground(SharedGuiComponents.PRIMARY_COLOR);
         
         panel.add(viewButton);
+        panel.add(editButton);
         panel.add(deleteButton);
         panel.add(backButton);
         
@@ -191,6 +197,34 @@ public class WorkoutManagementPanel extends JPanel {
         
         WorkoutPlan workout = SharedGuiComponents.workoutLibrary.getWorkout(selectedName);
         displayWorkoutDetails(workout);
+    }
+
+    // HELPER: for createButtons (editButton action)
+    // EFFECTS: Open the workout edit panel for the selected workout
+    //          Show error message if no workout is selected or if the selected workout is not editable
+    private void editWorkout() {
+        String selectedName = workoutList.getSelectedValue();
+        if (selectedName == null) {
+            SharedGuiComponents.showError("Please select a workout to edit.");
+            return;
+        }
+        
+        WorkoutPlan workoutPlan = SharedGuiComponents.workoutLibrary.getWorkout(selectedName);
+        
+        if (workoutPlan instanceof Workout) {
+            Workout workout = (Workout) workoutPlan;
+            
+            WorkoutAppGUI appGUI = (WorkoutAppGUI) SwingUtilities.getWindowAncestor(this);
+            WorkoutEditPanel editPanel = appGUI.getWorkoutEditPanel();
+            
+            // Initialize panel with workout BEFORE navigating
+            editPanel.initializeWithWorkout(workout);
+            
+            // Then navigate to it
+            appGUI.navigateTo("WorkoutEdit");
+        } else {
+            SharedGuiComponents.showError("This workout type cannot be edited.");
+        }
     }
 
     // HELPER: for viewWorkoutDetails
@@ -268,26 +302,37 @@ public class WorkoutManagementPanel extends JPanel {
     //          Display a message if the workout has no exercises
     //          Return a panel displaying all exercises contained in the workout
     private JPanel createExerciseListPanel(WorkoutPlan workout) {
-        JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        panel.setBackground(SharedGuiComponents.PRIMARY_COLOR);
+        JPanel contentPanel = new JPanel();
+        contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
+        contentPanel.setBackground(SharedGuiComponents.PRIMARY_COLOR);
         
         List<Exercise> exercises = workout.getExercises();
         
         if (exercises.isEmpty()) {
             JLabel emptyLabel = SharedGuiComponents.createStyledLabel("No exercises in this workout.");
             emptyLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
-            panel.add(emptyLabel);
+            contentPanel.add(emptyLabel);
         } else {
-            addExercisesToPanel(panel, exercises);
+            addExercisesToPanel(contentPanel, exercises);
         }
         
-        return panel;
+        // Workout Content (listed Exercises) is scrollable
+        JScrollPane scrollPane = new JScrollPane(contentPanel);
+        scrollPane.setBackground(SharedGuiComponents.PRIMARY_COLOR);
+        scrollPane.setBorder(BorderFactory.createEmptyBorder());
+        scrollPane.getVerticalScrollBar().setUnitIncrement(16); // Faster scrolling
+        
+        // Container panel to hold the scroll pane
+        JPanel containerPanel = new JPanel(new BorderLayout());
+        containerPanel.setBackground(SharedGuiComponents.PRIMARY_COLOR);
+        containerPanel.add(scrollPane, BorderLayout.CENTER);
+        
+        return containerPanel;
     }
 
     // HELPER: for createExerciseListPanel
     // EFFECTS: Add exercise items to the panel with consistent formatting
-    //          Display each exercise with index number and exercise type
+    //          Display each exercise with index number, name, duration and exercise type
     private void addExercisesToPanel(JPanel panel, List<Exercise> exercises) {
         for (int i = 0; i < exercises.size(); i++) {
             Exercise exercise = exercises.get(i);
@@ -300,8 +345,10 @@ public class WorkoutManagementPanel extends JPanel {
             JLabel indexLabel = SharedGuiComponents.createStyledLabel((i + 1) + ".");
             indexLabel.setPreferredSize(new Dimension(25, 20));
             
+            // Include formatted Exercise Duration
+            String durationText = SharedGuiComponents.formatDuration(Math.round(exercise.getDuration()), true);
             JLabel nameLabel = SharedGuiComponents.createStyledLabel(
-                    exercise.getName() + " (" + exercise.exerciseType() + ")");
+                    exercise.getName() + " (" + durationText + ", " + exercise.exerciseType() + ")");
             
             exercisePanel.add(indexLabel, BorderLayout.WEST);
             exercisePanel.add(nameLabel, BorderLayout.CENTER);

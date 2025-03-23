@@ -19,12 +19,12 @@ import java.awt.event.WindowEvent;
  * The Core Features Summarized:
  * 
  * Exercise creation and management - 
- * Workout planning and organization -
+ * Workout planning, editing and organization -
  * Weekly schedule management - 
  * Equipment usage metric analysis -
  * Muscle group usage metric analysis -
  * Muscle usage metric analysis -
- * Exercise training split metric analysis 
+ * Exercise training split metric analysis
  */
 public class WorkoutAppGUI extends JFrame {
 
@@ -41,6 +41,7 @@ public class WorkoutAppGUI extends JFrame {
     private ExerciseManagementPanel exerciseManagementPanel;
     private WorkoutCreationPanel workoutCreationPanel;
     private WorkoutManagementPanel workoutManagementPanel;
+    private WorkoutEditPanel workoutEditPanel;
     private PersistencePanel persistencePanel;
 
     public static void main(String[] args) {
@@ -125,6 +126,7 @@ public class WorkoutAppGUI extends JFrame {
         exerciseManagementPanel = new ExerciseManagementPanel();
         workoutCreationPanel = new WorkoutCreationPanel();
         workoutManagementPanel = new WorkoutManagementPanel();
+        workoutEditPanel = new WorkoutEditPanel();
         persistencePanel = new PersistencePanel();
     }
 
@@ -153,6 +155,7 @@ public class WorkoutAppGUI extends JFrame {
         mainPanel.add(exerciseManagementPanel, "ExerciseManagement");
         mainPanel.add(workoutCreationPanel, "WorkoutCreation");
         mainPanel.add(workoutManagementPanel, "WorkoutManagement");
+        mainPanel.add(workoutEditPanel, "WorkoutEdit");
     }
 
     // HELPER: for setupMainPanel
@@ -184,5 +187,13 @@ public class WorkoutAppGUI extends JFrame {
     // EFFECTS: Navigate to the specified panel by panelName
     public void navigateTo(String panelName) {
         cardLayout.show(mainPanel, panelName);
+    }
+
+    // EFFECTS: Return the workout edit panel to allow initialization with a workout
+    public WorkoutEditPanel getWorkoutEditPanel() {
+        // WorkoutManagementPanel must call a method on WorkoutEditPanel
+        // Or else, the Workout name cannot be displayed
+        // And, the Exercise objects in the workout cannot be displayed in the "Selected" panel
+        return workoutEditPanel; 
     }
 }
