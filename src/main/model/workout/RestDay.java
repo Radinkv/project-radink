@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 import model.exercise.Exercise;
+// import model.log.Event;
+// import model.log.EventLog;
 
 /**
  * REPRESENTS: a designated rest day in a weekly workout plan
@@ -28,6 +30,10 @@ public class RestDay implements WorkoutPlan {
             throw new IllegalArgumentException("Recovery note cannot be null");
         }
         this.recoveryNote = recoveryNote;
+        
+        // WeeklySchedule creates multiple RestDays, so we don't want to log each one 
+        // (becomes redundant and repetitive)
+        // EventLog.getInstance().logEvent(new Event("Rest Day created: " + recoveryNote));
     }
 
     // EFFECTS: Do nothing

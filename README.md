@@ -64,3 +64,88 @@ For example, if exercises are consecutively numbered 1-5 top-to-bottom, and say 
 # Source Attribution
 
 Splash Screen Image Source: *https://www.gokenko.com/articles/7-gym-logo-ideas-to-inspire-you-for-your-own*
+
+# Phase 4: Task 2
+
+```text
+Event Log:
+----------
+Thu Mar 27 17:35:58 PDT 2025
+WeeklySchedule initialized with default rest days
+----------
+Thu Mar 27 17:36:10 PDT 2025
+Exercise created: Exercise1 (Type: Strength)
+----------
+Thu Mar 27 17:36:10 PDT 2025
+Exercise 'Exercise1' added to ExerciseLibrary
+----------
+Thu Mar 27 17:36:17 PDT 2025
+Exercise created: Exercise2 (Type: Endurance)
+----------
+Thu Mar 27 17:36:17 PDT 2025
+Exercise 'Exercise2' added to ExerciseLibrary
+----------
+Thu Mar 27 17:36:27 PDT 2025
+Exercise created: Exercise3 (Type: Interval)
+----------
+Thu Mar 27 17:36:27 PDT 2025
+Exercise 'Exercise3' added to ExerciseLibrary
+----------
+Thu Mar 27 17:36:31 PDT 2025
+Exercise created: Exercise4 (Type: Strength)
+----------
+Thu Mar 27 17:36:31 PDT 2025
+Exercise 'Exercise4' added to ExerciseLibrary
+----------
+Thu Mar 27 17:36:41 PDT 2025
+Exercise 'Exercise2' removed from ExerciseLibrary
+----------
+Thu Mar 27 17:36:52 PDT 2025
+Workout created: Workout1 with 2 exercises
+----------
+Thu Mar 27 17:36:52 PDT 2025
+Workout 'Workout1' added to WorkoutLibrary
+----------
+Thu Mar 27 17:37:01 PDT 2025
+Workout 'Workout1' exercises updated to 3 exercises: Exercise1, Exercise4, Exercise3
+----------
+Thu Mar 27 17:37:15 PDT 2025
+Workout created: Workout2 with 1 exercises
+----------
+Thu Mar 27 17:37:15 PDT 2025
+Workout 'Workout2' added to WorkoutLibrary
+----------
+Thu Mar 27 17:37:23 PDT 2025
+Workout 'Workout2' removed from WorkoutLibrary
+----------
+Thu Mar 27 17:37:27 PDT 2025
+ExerciseLibrary serialized to JSON
+----------
+Thu Mar 27 17:37:27 PDT 2025
+WorkoutLibrary serialized to JSON
+----------
+Thu Mar 27 17:37:27 PDT 2025
+WeeklySchedule serialized to JSON
+----------
+Thu Mar 27 17:37:30 PDT 2025
+Exercise created: Exercise1 (Type: Strength)
+----------
+Thu Mar 27 17:37:30 PDT 2025
+Exercise created: Exercise3 (Type: Interval)
+----------
+Thu Mar 27 17:37:30 PDT 2025
+Exercise created: Exercise4 (Type: Strength)
+----------
+Thu Mar 27 17:37:30 PDT 2025
+ExerciseLibrary deserialized from JSON with 3 exercises
+----------
+Thu Mar 27 17:37:30 PDT 2025
+Workout created: Workout1 with 3 exercises
+----------
+Thu Mar 27 17:37:30 PDT 2025
+WorkoutLibrary deserialized from JSON with 1 workouts
+----------
+Thu Mar 27 17:37:30 PDT 2025
+WeeklySchedule deserialized from JSON
+----------
+```text

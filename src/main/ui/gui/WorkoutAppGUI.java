@@ -19,12 +19,7 @@ import java.awt.event.WindowEvent;
  * The Core Features Summarized:
  * 
  * Exercise creation and management - 
- * Workout planning, editing and organization -
- * Weekly schedule management - 
- * Equipment usage metric analysis -
- * Muscle group usage metric analysis -
- * Muscle usage metric analysis -
- * Exercise training split metric analysis
+ * Workout planning, editing and organization
  */
 public class WorkoutAppGUI extends JFrame {
 
@@ -89,12 +84,14 @@ public class WorkoutAppGUI extends JFrame {
     }
 
     // HELPER: for setupFrame
-    // EFFECTS: Set up window listener for exit confirmation
+    // EFFECTS: Set up window listener for exit confirmation and event log printing
     private void setupWindowListener() {
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent windowEvent) {
                 persistencePanel.promptSaveOnExit();
+                SharedGuiComponents.printEventLog();
+                System.exit(0);
             }
         });
     }

@@ -129,6 +129,7 @@ public class MainMenuPanel extends JPanel {
     private ActionListener createButtonActionListener(String destination) {
         return e -> {
             if (destination.equals("Exit")) {
+                SharedGuiComponents.printEventLog();
                 System.exit(0); // Exit without saving
             } else if (destination.equals("Save")) {
                 new PersistencePanel().saveState();

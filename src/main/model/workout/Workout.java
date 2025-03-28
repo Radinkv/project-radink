@@ -4,8 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import model.exercise.Exercise;
+import model.log.Event;
+import model.log.EventLog;
 
 /**
  * REPRESENTS: a structured sequence of exercises performed in a specific order
@@ -35,6 +36,9 @@ public class Workout implements WorkoutPlan {
         }
         this.workoutName = workoutName;
         this.exercises = new ArrayList<Exercise>(exercises); // Defensive copy
+    
+        EventLog.getInstance().logEvent(new Event("Workout created: " 
+                + workoutName + " with " + exercises.size() + " exercises"));
     }
 
     // MODIFIES: MuscleGroup, Equipment
@@ -88,6 +92,10 @@ public class Workout implements WorkoutPlan {
             }
         }
         exercises = updatedExercises;
+        
+        // Log exercise removal
+        EventLog.getInstance().logEvent(new Event("Exercise '" 
+                + exerciseName + "' removed from workout '" + workoutName + "'"));
     }
 
     // MODIFIES: this
@@ -106,6 +114,10 @@ public class Workout implements WorkoutPlan {
         }
         
         exercises.add(exercise);
+        
+        // Log exercise addition
+        EventLog.getInstance().logEvent(new Event("Exercise '" 
+                + exercise.getName() + "' added to workout '" + workoutName + "'"));
     }
 
     // MODIFIES: this
@@ -120,6 +132,19 @@ public class Workout implements WorkoutPlan {
         }
         
         this.exercises = new ArrayList<Exercise>(exercises);
+        
+        // Log exercise list modification with exercise names
+        // Demonstration of exercise name listing
+        // NOT included for load--- showcasing modifications and avoiding unwanted lengthy deserilization logs
+        StringBuilder exerciseNames = new StringBuilder();
+        for (int i = 0; i < exercises.size(); i++) {
+            exerciseNames.append(exercises.get(i).getName());
+            if (i < exercises.size() - 1) {
+                exerciseNames.append(", ");
+            }
+        }
+        EventLog.getInstance().logEvent(new Event("Workout '" + workoutName + "' exercises updated to " 
+                + exercises.size() + " exercises: " + exerciseNames));
     }
 
     // EFFECTS: Calculate cumulative metrics across all exercises

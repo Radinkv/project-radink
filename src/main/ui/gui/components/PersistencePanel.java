@@ -113,7 +113,6 @@ public class PersistencePanel extends JPanel {
 
     // HELPER: for performLoadOperation
     // MODIFIES: WorkoutLibrary, ExerciseLibrary, WeeklySchedule
-    // HELPER: for performLoadOperation
     // EFFECTS: Load data in the correct order to maintain dependencies
     private void loadDataInOrder(Map<String, JSONObject> data) {
         if (data.containsKey("exerciseLibrary")) {

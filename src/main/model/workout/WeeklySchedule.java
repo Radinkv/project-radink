@@ -7,6 +7,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import model.log.Event;
+import model.log.EventLog;
 import persistence.Writable;
 
 /**
@@ -31,6 +33,7 @@ public class WeeklySchedule implements Writable {
     public WeeklySchedule() {
         schedule = new WorkoutPlan[7];
         initializeSchedule();
+        EventLog.getInstance().logEvent(new Event("WeeklySchedule initialized with default rest days"));
     }
 
     // MODIFIES: this, MuscleGroup, Equipment
@@ -60,6 +63,9 @@ public class WeeklySchedule implements Writable {
         }
         schedule[dayIndex].deactivateMetrics(DAYS[dayIndex]);
         schedule[dayIndex] = new RestDay("Rest Day");
+        
+        // Log schedule clearing--- ONLY used when a WorkoutPlan is deleted from WorkoutLibrary in the GUI
+        EventLog.getInstance().logEvent(new Event("Schedule cleared for " + DAYS[dayIndex] + " (set to Rest Day)"));
     }
 
     // EFFECTS: Return list of all workouts and rest days assigned to each day of the week
@@ -112,6 +118,7 @@ public class WeeklySchedule implements Writable {
             scheduleArray.put(dayJson);
         }
         json.put("schedule", scheduleArray);
+        EventLog.getInstance().logEvent(new Event("WeeklySchedule serialized to JSON"));
         return json;
     }
 
@@ -153,6 +160,7 @@ public class WeeklySchedule implements Writable {
 
         JSONArray scheduleArray = json.getJSONArray("schedule");
         reconstructSchedule(scheduleArray, workoutLibrary);
+        EventLog.getInstance().logEvent(new Event("WeeklySchedule deserialized from JSON"));
     }
 
     // HELPER: for fromJson

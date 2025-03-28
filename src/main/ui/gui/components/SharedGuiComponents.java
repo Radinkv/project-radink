@@ -3,6 +3,8 @@ package ui.gui.components;
 import model.exercise.ExerciseLibrary;
 import model.workout.WeeklySchedule;
 import model.workout.WorkoutLibrary;
+import model.log.Event;
+import model.log.EventLog;
 import utility.PredefinedData;
 
 import javax.swing.*;
@@ -191,5 +193,15 @@ public class SharedGuiComponents {
         int result = JOptionPane.showConfirmDialog(mainFrame, message, "Confirm", 
                 JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         return result == JOptionPane.YES_OPTION;
+    }
+
+    // EFFECTS: Print the event log to the console with proper formatting
+    public static void printEventLog() {
+        System.out.println("\nEvent Log:");
+        System.out.println("----------");
+        for (Event event : EventLog.getInstance()) {
+            System.out.println(event.toString());
+            System.out.println("----------");
+        }
     }
 }

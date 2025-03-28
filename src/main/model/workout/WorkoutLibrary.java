@@ -11,6 +11,8 @@ import org.json.JSONObject;
 
 import model.exercise.Exercise;
 import model.exercise.ExerciseLibrary;
+import model.log.Event;
+import model.log.EventLog;
 import persistence.Writable;
 
 /**
@@ -42,6 +44,8 @@ public class WorkoutLibrary implements Writable {
             throw new IllegalArgumentException();
         } else {
             library.put(workoutPlan.getName(), workoutPlan);
+            EventLog.getInstance().logEvent(new Event("Workout '" 
+                    + workoutPlan.getName() + "' added to WorkoutLibrary"));
         }
     }
 
@@ -54,6 +58,7 @@ public class WorkoutLibrary implements Writable {
             throw new IllegalArgumentException();
         } else {
             library.remove(workoutName);
+            EventLog.getInstance().logEvent(new Event("Workout '" + workoutName + "' removed from WorkoutLibrary"));
         }
     }
 
@@ -99,6 +104,7 @@ public class WorkoutLibrary implements Writable {
             workoutsArray.put(createWorkoutJson(workoutPlan));
         }
         json.put("workouts", workoutsArray);
+        EventLog.getInstance().logEvent(new Event("WorkoutLibrary serialized to JSON"));
         return json;
     }
     
@@ -159,6 +165,8 @@ public class WorkoutLibrary implements Writable {
     
         JSONArray workoutsArray = json.getJSONArray("workouts");
         reconstructWorkouts(workoutsArray, exerciseLibrary);
+        EventLog.getInstance().logEvent(new Event("WorkoutLibrary deserialized from JSON with " 
+                + library.size() + " workouts"));
     }
     
     // HELPER: for fromJson

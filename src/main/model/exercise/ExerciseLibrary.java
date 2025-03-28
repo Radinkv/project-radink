@@ -9,6 +9,8 @@ import org.json.JSONObject;
 
 import model.equipment.Equipment;
 import model.muscle.MuscleGroup;
+import model.log.Event;
+import model.log.EventLog;
 import persistence.Writable;
 import utility.PredefinedData;
 
@@ -45,6 +47,8 @@ public class ExerciseLibrary implements Writable {
             return false;
         } else {
             library.put(exercise.getName(), exercise);
+            EventLog.getInstance().logEvent(new Event("Exercise '" 
+                    + exercise.getName() + "' added to ExerciseLibrary"));
             return true;
         }
     }
@@ -55,6 +59,7 @@ public class ExerciseLibrary implements Writable {
     public boolean removeExercise(String exerciseName) {
         if (containsExercise(exerciseName)) {
             library.remove(exerciseName);
+            EventLog.getInstance().logEvent(new Event("Exercise '" + exerciseName + "' removed from ExerciseLibrary"));
             return true;
         }
         return false;
@@ -113,6 +118,7 @@ public class ExerciseLibrary implements Writable {
             exercisesJson.put(exerciseJson);
         }
         json.put("exercises", exercisesJson);
+        EventLog.getInstance().logEvent(new Event("ExerciseLibrary serialized to JSON"));
         return json;
     }
 
@@ -167,6 +173,8 @@ public class ExerciseLibrary implements Writable {
 
             library.put(exercise.getName(), exercise);
         }
+        EventLog.getInstance().logEvent(new Event("ExerciseLibrary deserialized from JSON with " 
+                + library.size() + " exercises"));
     }
 
     // HELPER: for fromJson

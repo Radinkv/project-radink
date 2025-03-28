@@ -421,6 +421,41 @@
         },
         {
             "exercises": [
+                "Reverse Grip Curls",
+                "Ab Rollers",
+                "Inward Calf Raises",
+                "Weighted Crunches",
+                "Cable Lat PullDown",
+                "Cable Chest Flys",
+                "Barbell Shoulder Press",
+                "Basketball",
+                "Outward Calf Raises",
+                "Deadlift",
+                "Overhead Dumbbell Tricep Push",
+                "Wide Grip Curls",
+                "Wide Grip Tricep Pushdown",
+                "Narrow Grip Tricep Pushdown",
+                "Hamstring Falls",
+                "Close Grip Curls",
+                "Reverse Grip Face Pulls",
+                "Incline Chest Press",
+                "Weighted Leg Raises",
+                "Wide-Grip Pull Ups",
+                "Cable Hammer Curls",
+                "Flat Bench Press",
+                "Wide Stance Leg Press",
+                "Closed Stance Leg Press",
+                "Single-leg Leg Press",
+                "Russian Twists",
+                "Dumbbell Shoulder Press",
+                "Cable Close-Grip Rows",
+                "Cable Row"
+            ],
+            "name": "TestWorkout",
+            "type": "Workout"
+        },
+        {
+            "exercises": [
                 "Deadlift",
                 "Wide Stance Leg Press",
                 "Closed Stance Leg Press",
@@ -491,19 +526,6 @@
         {
             "exercises": ["Overhead Dumbbell Tricep Push"],
             "name": "Third Test Workout with PHASE III GUI",
-            "type": "Workout"
-        },
-        {
-            "exercises": [
-                "Overhead Dumbbell Tricep Push",
-                "Ab Rollers",
-                "Cable Hammer Curls",
-                "Cable Row",
-                "Inward Calf Raises",
-                "Wide Grip Tricep Pushdown",
-                "Barbell Shoulder Press"
-            ],
-            "name": "PhaseIII Second Workout Test",
             "type": "Workout"
         }
     ]}

@@ -6,6 +6,8 @@ import java.util.Map;
 import model.association.ExerciseAssociator;
 import model.equipment.Equipment;
 import model.muscle.MuscleGroup;
+import model.log.Event;
+import model.log.EventLog;
 
 /**
  * REPRESENTS: an abstract base class for different types of exercises
@@ -35,6 +37,7 @@ public abstract class Exercise {
         this.name = (name != null && !name.trim().isEmpty()) ? name : "Unnamed Exercise";
         this.requiredEquipment = equipmentUsed;
         this.musclesTargeted = musclesTargeted;
+        EventLog.getInstance().logEvent(new Event("Exercise created: " + this.name + " (Type: " + this.type + ")"));
     }
     
     // MODIFIES: MuscleGroup, Equipment
