@@ -150,6 +150,178 @@ WeeklySchedule deserialized from JSON
 ----------
 ```
 
+Another Example (Abundant Deleting)
+
+```text
+Event Log:
+----------
+Thu Mar 27 22:01:58 PDT 2025
+WeeklySchedule initialized with default rest days
+----------
+Thu Mar 27 22:02:08 PDT 2025
+Exercise created: Ab Rollers (Type: Strength)
+----------
+Thu Mar 27 22:02:08 PDT 2025
+Exercise created: Inward Calf Raises (Type: Strength)
+----------
+Thu Mar 27 22:02:08 PDT 2025
+Exercise created: Weighted Crunches (Type: Strength)
+----------
+Thu Mar 27 22:02:08 PDT 2025
+Exercise created: Cable Lat PullDown (Type: Strength)
+----------
+Thu Mar 27 22:02:08 PDT 2025
+Exercise created: Cable Chest Flys (Type: Strength)
+----------
+Thu Mar 27 22:02:08 PDT 2025
+Exercise created: Barbell Shoulder Press (Type: Strength)
+----------
+Thu Mar 27 22:02:08 PDT 2025
+Exercise created: Basketball (Type: Endurance)
+----------
+Thu Mar 27 22:02:08 PDT 2025
+Exercise created: Outward Calf Raises (Type: Strength)
+----------
+Thu Mar 27 22:02:08 PDT 2025
+Exercise created: Reverse Grip Curls (Type: Strength)
+----------
+Thu Mar 27 22:02:08 PDT 2025
+Exercise created: Deadlift (Type: Strength)
+----------
+Thu Mar 27 22:02:08 PDT 2025
+Exercise created: Overhead Dumbbell Tricep Push (Type: Strength)
+----------
+Thu Mar 27 22:02:08 PDT 2025
+Exercise created: Wide Grip Curls (Type: Strength)
+----------
+Thu Mar 27 22:02:08 PDT 2025
+Exercise created: Wide Grip Tricep Pushdown (Type: Strength)
+----------
+Thu Mar 27 22:02:08 PDT 2025
+Exercise created: Narrow Grip Tricep Pushdown (Type: Strength)
+----------
+Thu Mar 27 22:02:08 PDT 2025
+Exercise created: Hamstring Falls (Type: Strength)
+----------
+Thu Mar 27 22:02:08 PDT 2025
+Exercise created: Close Grip Curls (Type: Strength)
+----------
+Thu Mar 27 22:02:08 PDT 2025
+Exercise created: Reverse Grip Face Pulls (Type: Strength)
+----------
+Thu Mar 27 22:02:08 PDT 2025
+Exercise created: Incline Chest Press (Type: Strength)
+----------
+Thu Mar 27 22:02:08 PDT 2025
+Exercise created: Weighted Leg Raises (Type: Strength)
+----------
+Thu Mar 27 22:02:08 PDT 2025
+Exercise created: Wide-Grip Pull Ups (Type: Strength)
+----------
+Thu Mar 27 22:02:08 PDT 2025
+Exercise created: Cable Hammer Curls (Type: Strength)
+----------
+Thu Mar 27 22:02:08 PDT 2025
+Exercise created: Flat Bench Press (Type: Strength)
+----------
+Thu Mar 27 22:02:08 PDT 2025
+Exercise created: Wide Stance Leg Press (Type: Strength)
+----------
+Thu Mar 27 22:02:08 PDT 2025
+Exercise created: Closed Stance Leg Press (Type: Strength)
+----------
+Thu Mar 27 22:02:08 PDT 2025
+Exercise created: Single-leg Leg Press (Type: Strength)
+----------
+Thu Mar 27 22:02:08 PDT 2025
+Exercise created: Russian Twists (Type: Strength)
+----------
+Thu Mar 27 22:02:08 PDT 2025
+Exercise created: Dumbbell Shoulder Press (Type: Strength)
+----------
+Thu Mar 27 22:02:08 PDT 2025
+Exercise created: Cable Close-Grip Rows (Type: Strength)
+----------
+Thu Mar 27 22:02:08 PDT 2025
+Exercise created: Cable Row (Type: Strength)
+----------
+Thu Mar 27 22:02:08 PDT 2025
+ExerciseLibrary deserialized from JSON with 29 exercises
+----------
+Thu Mar 27 22:02:08 PDT 2025
+Workout created: TestWorkoutForPhaseIII with 7 exercises
+----------
+Thu Mar 27 22:02:08 PDT 2025
+Workout created: TestWorkout with 29 exercises
+----------
+Thu Mar 27 22:02:08 PDT 2025
+Workout created: Legs with 4 exercises
+----------
+Thu Mar 27 22:02:08 PDT 2025
+Workout created: Abs with 4 exercises
+----------
+Thu Mar 27 22:02:08 PDT 2025
+Workout created: Chest and Biceps with 6 exercises
+----------
+Thu Mar 27 22:02:08 PDT 2025
+Workout created: Shoulders and Triceps with 7 exercises
+----------
+Thu Mar 27 22:02:08 PDT 2025
+Workout created: Hamstrings and Calves with 3 exercises
+----------
+Thu Mar 27 22:02:08 PDT 2025
+Workout created: Back and Forearms with 5 exercises
+----------
+Thu Mar 27 22:02:08 PDT 2025
+Workout created: Third Test Workout with PHASE III GUI with 1 exercises
+----------
+Thu Mar 27 22:02:08 PDT 2025
+WorkoutLibrary deserialized from JSON with 10 workouts
+----------
+Thu Mar 27 22:02:08 PDT 2025
+WeeklySchedule deserialized from JSON
+----------
+Thu Mar 27 22:02:18 PDT 2025
+Schedule cleared for Wednesday (set to Rest Day)
+----------
+Thu Mar 27 22:02:18 PDT 2025
+Workout 'Rest Day' removed from WorkoutLibrary
+----------
+Thu Mar 27 22:02:46 PDT 2025
+Workout 'Third Test Workout with PHASE III GUI' removed from WorkoutLibrary
+----------
+Thu Mar 27 22:03:03 PDT 2025
+Workout 'TestWorkout' removed from WorkoutLibrary
+----------
+Thu Mar 27 22:03:13 PDT 2025
+Workout 'TestWorkoutForPhaseIII' exercises updated to 8 exercises: Inward Calf Raises, Cable Lat PullDown, Barbell Shoulder Press, Outward Calf Raises, Deadlift, Wide Grip Tricep Pushdown, Hamstring Falls, Basketball
+----------
+Thu Mar 27 22:03:21 PDT 2025
+Exercise 'Cable Row' removed from workout 'TestWorkoutForPhaseIII'
+----------
+Thu Mar 27 22:03:21 PDT 2025
+Exercise 'Cable Row' removed from workout 'Legs'
+----------
+Thu Mar 27 22:03:21 PDT 2025
+Exercise 'Cable Row' removed from workout 'Abs'
+----------
+Thu Mar 27 22:03:21 PDT 2025
+Exercise 'Cable Row' removed from workout 'Chest and Biceps'
+----------
+Thu Mar 27 22:03:21 PDT 2025
+Exercise 'Cable Row' removed from workout 'Shoulders and Triceps'
+----------
+Thu Mar 27 22:03:21 PDT 2025
+Exercise 'Cable Row' removed from workout 'Hamstrings and Calves'
+----------
+Thu Mar 27 22:03:21 PDT 2025
+Exercise 'Cable Row' removed from workout 'Back and Forearms'
+----------
+Thu Mar 27 22:03:21 PDT 2025
+Exercise 'Cable Row' removed from ExerciseLibrary
+----------
+```
+
 # Phase 4: Task 3
 
 After I reviewed my UML class diagram, I noticed a handful of design choices I made for this program that aren't visibly represented in the diagram, which reveals hidden coupling to improve upon in my implementation. Most noticeably, RestDay implements WorkoutPlan but violates the Liskov Substitution Principle by which it returns empty ArrayLists for getExercises() and zero for getDuration(). This forced me to write UI code that checks if a WorkoutPlan is a Workout or RestDay, which defeats polymorphism. While the UML shows the inheritance structure, it fails to capture this behavioral incompatibility. I would refactor this issue by creating separate interfaces: an ExerciseContainer for Workout, and a ScheduleItem interface for both classes. Furthermore, my ExerciseAssociator class currently implements an Observer pattern informally, where Equipment and Muscle track metrics from associated exercises through manual registerExercise() method calls. Similarly, this important relationship is completely absent from the UML diagram. To improve upon this design choice, I would make Exercise a proper Subject with notify methods and have Equipment and Muscle implement an Observer interface, which would allow them to automatically update when metrics change, which also would make this pattern explicit in both code and my UML diagram. Finally, the dependency between WorkoutLibrary and WeeklySchedule, and Exercise to ExerciseLibrary and Workout is invisible in the UML diagram. When I remove a Workout from WorkoutLibrary in my UI, I must manually check if it exists in WeeklySchedule. Similarly, when I remove an Exercise from ExerciseLibrary, I must manually check if it exists in any Workout in WorkoutLibrary. If I were to apply the Observer pattern here, it would trigger automatic updates between these components without manual dependency checks and would clarify this relationship in the UML diagram design.
